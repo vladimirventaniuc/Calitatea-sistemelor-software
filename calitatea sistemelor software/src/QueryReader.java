@@ -66,6 +66,15 @@ public class QueryReader {
                     String whereClause = command.split("where")[1].replace(" ","");
                     table.deleteRecord(database.getDatabaseName(), tableName, whereClause);
                 }
+//                UPDATE table_name
+//                SET column1 = value1, column2 = value2, ...
+//                WHERE condition;
+                if(splited.length>5 && splited[0].equals("update") && command.contains("set")&&command.contains("where")){
+                    String tableName = splited[1];
+                    String whereClause = command.split("where")[1].replace(" ","");
+                    String fieldsToBeChanged = command.split("set")[1].split("where")[0].replace(" ","");
+                    table.updateRecord(database.getDatabaseName(), tableName, fieldsToBeChanged, whereClause);
+                }
             }
 
         }

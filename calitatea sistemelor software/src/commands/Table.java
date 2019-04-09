@@ -98,6 +98,5 @@ public class Table {
         } catch (ParserConfigurationException e) {
             e.printStackTrace();
         }
-
     }
 }

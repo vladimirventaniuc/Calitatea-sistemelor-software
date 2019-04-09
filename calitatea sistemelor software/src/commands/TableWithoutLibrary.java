@@ -3,6 +3,7 @@ package commands;
 import org.w3c.dom.Element;
 
 import java.io.*;
+import java.lang.reflect.Array;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -157,68 +158,11 @@ public class TableWithoutLibrary {
     }
 
     public boolean deleteRecord(String databaseName, String tableName, String whereClause) {
-        ArrayList<ArrayList<Condition>> conditions = resolveConditions(whereClause);
-        ArrayList<Entry> entryesToBeDeleted = new ArrayList<>();
-        HashMap<String, String> fields = new HashMap<>();
-        int line = 0;
-        try {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(
-                    new FileInputStream(projectPath + databaseName + "/" + tableName + ".xml"), "utf-8"));
-
-            while (!reader.readLine().contains("Fields")) {
-                line++;
-            }
-            reader.readLine();
-            line++;
-            String field;
-            while (!(field = reader.readLine()).contains("/Fields")) {
-                line++;
-                String[] splited = field.split(">");
-                String fieldName = splited[0].replace(" ", "").replace("<", "");
-                String type = splited[1].split("<")[0].replace(" ", "");
-                fields.put(fieldName, type);
-            }
-            // insert verification of fields
-            line++;
-            reader.readLine();
-            line++;
-            String currentEntry;
-            String lastEntry = "";
-            while (!(currentEntry = reader.readLine()).contains("Entryes")) {
-                line++;
-                if (currentEntry.contains("id")) {
-                    int firstLine = line;
-                    HashMap<String, String> fieldsAndValues = new HashMap<>();
-                    String id = currentEntry.replaceAll("\\D+", "");
-                    fieldsAndValues.put("id", id);
-                    int remainingLinesFromEntity = fields.size();
-                    while(remainingLinesFromEntity!=0){
-                        remainingLinesFromEntity--;
-                        currentEntry = reader.readLine();
-                        line++;
-                        String[] splited = currentEntry.split(">");
-                        String fieldName = splited[0].replace(" ", "").replace("<", "");
-                        String value = splited[1].split("<")[0].replace(" ", "");
-                        fieldsAndValues.put(fieldName, value);
-                    }
-                    if(checkEntityAgainsConditions(fieldsAndValues,conditions)){
-                        Entry entry = new Entry(fieldsAndValues, firstLine);
-                        entryesToBeDeleted.add(entry);
-                    }
-                }
-            }
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        ArrayList<Entry> entryesToBeDeleted = entryesToBeDeletedOrUpdated(databaseName, tableName, whereClause);
         Path path = Paths.get(projectPath + databaseName + "/" + tableName + ".xml");
-        List<String> lines = null;
+
         try {
-            lines = Files.readAllLines(path, StandardCharsets.UTF_8);
+            List<String> lines  = Files.readAllLines(path, StandardCharsets.UTF_8);
             int deletedLines=0;
             for(Entry entry : entryesToBeDeleted){
                 for(int i=0; i<entry.size;i++){
@@ -234,7 +178,59 @@ public class TableWithoutLibrary {
 
         return true;
     }
+    public boolean updateRecord(String databaseName, String tableName,String fieldsToBeChanged, String whereClause){
+        ArrayList<Entry> entryesToBeUpdated = entryesToBeDeletedOrUpdated(databaseName, tableName, whereClause);
+        ArrayList<Entry> newEntryes = updateEntryes(entryesToBeUpdated, fieldsToBeChanged);
+        Path path = Paths.get(projectPath + databaseName + "/" + tableName + ".xml");
+        try {
+            List<String> lines  = Files.readAllLines(path, StandardCharsets.UTF_8);
+            for(int ind=0; ind<entryesToBeUpdated.size();ind++){
+                Entry entry = entryesToBeUpdated.get(ind);
+                Entry newEntry = newEntryes.get(ind);
+                for(int i=1; i<entry.size-1;i++){
+                    String lineContent = lines.get(entry.line+i);
+                    String fieldName = lineContent.split(">")[0].replace(" ","").replace("<","");
+                    lineContent = lineContent.replace(entry.fieldsAndValues.get(fieldName),newEntry.fieldsAndValues.get(fieldName));
+                    lines.set(entry.line+i, lineContent);
+                }
+            }
+            Files.write(path, lines, StandardCharsets.UTF_8);
 
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return true;
+    }
+    public ArrayList<Entry>  updateEntryes(ArrayList<Entry> entryesToBeUpdated, String fieldsToBeChanged){
+        ArrayList<Entry> newEntryes = cloneEntryes(entryesToBeUpdated);
+        String[] fieldsWithValues = fieldsToBeChanged.split(",");
+        for(Entry entry : newEntryes) {
+            for (String fieldAndValue : fieldsWithValues) {
+                String[] splitByEqual = fieldAndValue.split("=");
+                String field = splitByEqual[0];
+                String value = splitByEqual[1];
+                if(entry.fieldsAndValues.containsKey(field)){
+                    entry.fieldsAndValues.put(field, value);
+                }else{
+                    //TO DO -> Throw error, show message, etc.
+                }
+            }
+        }
+        return newEntryes;
+    }
+    private ArrayList<Entry> cloneEntryes(ArrayList<Entry> entryes){
+        ArrayList<Entry> newEntryes = new ArrayList<>();
+        for(Entry entry : entryes){
+            HashMap<String, String> fields = new HashMap<>();
+            for(Map.Entry<String, String> ent : entry.fieldsAndValues.entrySet()){
+                fields.put(ent.getKey(), ent.getValue());
+            }
+            int line = entry.line;
+            newEntryes.add(new Entry(fields, line));
+        }
+        return newEntryes;
+    }
     public ArrayList<ArrayList<Condition>> resolveConditions(String whereClause) {
         ArrayList<ArrayList<Condition>> conditions = new ArrayList<>();
         String[] andConditions = whereClause.split("and");
@@ -285,6 +281,68 @@ public class TableWithoutLibrary {
             }
         }
         return true;
+    }
+    private ArrayList<Entry> entryesToBeDeletedOrUpdated(String databaseName, String tableName, String whereClause){
+        int line = 0;
+        ArrayList<ArrayList<Condition>> conditions = resolveConditions(whereClause);
+        ArrayList<Entry> entryesToBeDeletedOrUpdated = new ArrayList<>();
+        HashMap<String, String> fields = new HashMap<>();
+
+        try {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(
+                    new FileInputStream(projectPath + databaseName + "/" + tableName + ".xml"), "utf-8"));
+
+            while (!reader.readLine().contains("Fields")) {
+                line++;
+            }
+            reader.readLine();
+            line++;
+            String field;
+            while (!(field = reader.readLine()).contains("/Fields")) {
+                line++;
+                String[] splited = field.split(">");
+                String fieldName = splited[0].replace(" ", "").replace("<", "");
+                String type = splited[1].split("<")[0].replace(" ", "");
+                fields.put(fieldName, type);
+            }
+            // insert verification of fields
+            line++;
+            reader.readLine();
+            line++;
+            String currentEntry;
+            String lastEntry = "";
+            while (!(currentEntry = reader.readLine()).contains("Entryes")) {
+                line++;
+                if (currentEntry.contains("id")) {
+                    int firstLine = line;
+                    HashMap<String, String> fieldsAndValues = new HashMap<>();
+                    String id = currentEntry.replaceAll("\\D+", "");
+                    fieldsAndValues.put("id", id);
+                    int remainingLinesFromEntity = fields.size();
+                    while(remainingLinesFromEntity!=0){
+                        remainingLinesFromEntity--;
+                        currentEntry = reader.readLine();
+                        line++;
+                        String[] splited = currentEntry.split(">");
+                        String fieldName = splited[0].replace(" ", "").replace("<", "");
+                        String value = splited[1].split("<")[0].replace(" ", "");
+                        fieldsAndValues.put(fieldName, value);
+                    }
+                    if(checkEntityAgainsConditions(fieldsAndValues,conditions)){
+                        Entry entry = new Entry(fieldsAndValues, firstLine);
+                        entryesToBeDeletedOrUpdated.add(entry);
+                    }
+                }
+            }
+
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return entryesToBeDeletedOrUpdated;
     }
 }
 
