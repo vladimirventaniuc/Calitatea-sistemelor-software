@@ -6,6 +6,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.stream.Collectors;
@@ -40,7 +41,7 @@ public class QueryReader {
             }
             if (database.getDatabaseName() != null) {
                 if (splited.length > 2 && splited[0].equals("create") && splited[1].equals("table")) {
-                    String[] queryDivider = command.split("\\(");
+                    String[] queryDivider = command.toLowerCase().split("\\(");
                     String[] firstHalf = queryDivider[0].split(" ");
                     String tableName = firstHalf[firstHalf.length - 1].replace(" ", "");
                     HashMap<String, String> fields = new HashMap<>();
@@ -59,6 +60,11 @@ public class QueryReader {
                             .map (elem -> elem.replace(" ","").replace(")",""))
                             .collect(Collectors.toList());
                     table.insertRecord(database.getDatabaseName(), tableName, values);
+                }
+                if(splited.length>4 && splited[0].equals("delete") && splited[1].equals("from") && splited[3].equals("where")){
+                    String tableName = splited[2];
+                    String whereClause = command.split("where")[1].replace(" ","");
+                    table.deleteRecord(database.getDatabaseName(), tableName, whereClause);
                 }
             }
 
