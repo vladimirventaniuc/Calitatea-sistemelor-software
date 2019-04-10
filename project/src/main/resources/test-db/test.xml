@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<TableInfo>
+    <Name> test </Name>
+    <NumberOfFields> 2 </NumberOfFields>
+    <Fields> 
+        <lastName> string </lastName>
+        <name> String </name>
+    </Fields>
+    <Entryes>
+    </Entryes>
+</TableInfo>
