@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package qssproject;
+package com.faculty.qss.project.gui;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
