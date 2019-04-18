@@ -140,7 +140,14 @@ public class WelcomePanel extends javax.swing.JPanel {
             topFrame.pack();
             topFrame.setVisible(true);
         }else if(isFriendlyModeSelected){
-
+            this.setVisible(false);
+            
+            JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+            
+            UserFriendlyModePanel userfriendlyPanel = new UserFriendlyModePanel();
+            topFrame.add(userfriendlyPanel);
+            topFrame.pack();
+            topFrame.setVisible(true);
         }
     }//GEN-LAST:event_buttonNextInteractionModeActionPerformed
 
