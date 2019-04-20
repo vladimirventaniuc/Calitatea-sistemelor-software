@@ -1,4 +1,4 @@
-package commands.Interfaces;
+package com.faculty.qss.project.commands.Interfaces;
 
 import java.util.List;
 

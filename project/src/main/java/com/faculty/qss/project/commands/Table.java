@@ -1,4 +1,4 @@
-package commands;
+package com.faculty.qss.project.commands;
 
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;

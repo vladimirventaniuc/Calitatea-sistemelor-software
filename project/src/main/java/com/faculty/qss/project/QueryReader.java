@@ -1,9 +1,9 @@
 package com.faculty.qss.project;
 
-import commands.Implementation.DatabaseImpl;
-import commands.Implementation.TableImpl;
-import commands.Database;
-import commands.TableWithoutLibrary;
+import com.faculty.qss.project.commands.Implementation.DatabaseImpl;
+import com.faculty.qss.project.commands.Implementation.TableImpl;
+import com.faculty.qss.project.commands.Database;
+import com.faculty.qss.project.commands.TableWithoutLibrary;
 
 import java.io.BufferedReader;
 import java.io.IOException;

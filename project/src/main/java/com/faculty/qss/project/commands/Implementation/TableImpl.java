@@ -1,4 +1,4 @@
-package commands.Implementation;
+package com.faculty.qss.project.commands.Implementation;
 
 import commands.Interfaces.Table;
 

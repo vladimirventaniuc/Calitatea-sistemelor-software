@@ -1,4 +1,4 @@
-package commands;
+package com.faculty.qss.project.commands;
 
 import java.io.File;
 import java.io.IOException;

@@ -1,6 +1,4 @@
-package commands.Implementation;
-
-import commands.Interfaces.Database;
+package com.faculty.qss.project.commands.Implementation;
 
 import java.io.File;
 import java.io.IOException;
@@ -10,6 +8,8 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+
+import commands.Interfaces.Database;
 
 public class DatabaseImpl implements Database {
     private String projectPath = Paths.get("").toAbsolutePath().toString() + "\\src\\resources\\";
