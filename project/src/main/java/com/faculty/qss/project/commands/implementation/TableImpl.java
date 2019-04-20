@@ -1,6 +1,6 @@
 package com.faculty.qss.project.commands.Implementation;
 
-import commands.Interfaces.Table;
+import com.faculty.qss.project.commands.Interfaces.Table;
 
 import java.io.*;
 import java.nio.file.Paths;

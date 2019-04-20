@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-import commands.Interfaces.Database;
+import com.faculty.qss.project.commands.Interfaces.Database;
 
 public class DatabaseImpl implements Database {
     private String projectPath = Paths.get("").toAbsolutePath().toString() + "\\src\\resources\\";

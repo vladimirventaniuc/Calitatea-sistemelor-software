@@ -45,10 +45,12 @@ public class UpdateRecordPanel extends javax.swing.JPanel {
         textFieldValue = new javax.swing.JTextField();
         labelConditionWhere2 = new javax.swing.JLabel();
         labelObservation = new javax.swing.JLabel();
+        buttonClearData = new javax.swing.JButton();
+        buttonExecuteCommand = new javax.swing.JButton();
 
-        setPreferredSize(new java.awt.Dimension(469, 324));
+        setPreferredSize(new java.awt.Dimension(469, 369));
         setRequestFocusEnabled(false);
-        setSize(new java.awt.Dimension(469, 324));
+        setSize(new java.awt.Dimension(469, 369));
 
         labelSelectTableName1.setText("<html>Select the table</html>");
 
@@ -82,6 +84,26 @@ public class UpdateRecordPanel extends javax.swing.JPanel {
 
         labelObservation.setFont(new java.awt.Font("Lucida Grande", 0, 10)); // NOI18N
         labelObservation.setText("* For no conditions leave free");
+
+        buttonClearData.setForeground(new java.awt.Color(153, 153, 0));
+        buttonClearData.setText("Clear");
+        buttonClearData.setMaximumSize(new java.awt.Dimension(68, 27));
+        buttonClearData.setMinimumSize(new java.awt.Dimension(68, 27));
+        buttonClearData.setPreferredSize(new java.awt.Dimension(68, 27));
+        buttonClearData.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonClearDataActionPerformed(evt);
+            }
+        });
+
+        buttonExecuteCommand.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
+        buttonExecuteCommand.setForeground(new java.awt.Color(0, 102, 0));
+        buttonExecuteCommand.setText("Execute");
+        buttonExecuteCommand.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonExecuteCommandActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -125,7 +147,12 @@ public class UpdateRecordPanel extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(textFieldValue)
-                            .addComponent(jTextField2))))
+                            .addComponent(jTextField2)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(buttonClearData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(buttonExecuteCommand)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -156,16 +183,30 @@ public class UpdateRecordPanel extends javax.swing.JPanel {
                     .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
                 .addComponent(labelObservation)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(buttonExecuteCommand)
+                    .addComponent(buttonClearData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(8, 8, 8))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void buttonClearDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonClearDataActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_buttonClearDataActionPerformed
+
+    private void buttonExecuteCommandActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonExecuteCommandActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_buttonExecuteCommandActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton buttonClearData;
+    private javax.swing.JButton buttonExecuteCommand;
     private javax.swing.JComboBox<String> comboBoxColumn;
     private javax.swing.JComboBox<String> comboBoxDatabaseNames;
     private javax.swing.JComboBox<String> comboBoxOperator;
