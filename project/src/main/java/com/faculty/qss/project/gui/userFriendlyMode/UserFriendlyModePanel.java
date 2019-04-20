@@ -7,17 +7,31 @@ package com.faculty.qss.project.gui.userFriendlyMode;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.util.List;
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import com.faculty.qss.project.gui.WelcomePanel;
+import com.faculty.qss.project.gui.userFriendlyMode.alterTable.AlterTablePanel;
 
 /**
  *
  * @author admin
  */
 public class UserFriendlyModePanel extends javax.swing.JPanel {
+
+    private boolean isButtonCreateDatabaseSelected = false;
+    private boolean isButtonDeleteDatabaseSelected = false;
+    private boolean isButtonCreateTableSelected = false;
+    private boolean isButtonDeleteTableSelected = false;
+    private boolean isButtonInsertRecordSelected = false;
+    private boolean isButtonDeleteRecordSelected = false;
+    private boolean isButtonUpdateRecordSelected = false;
+    private boolean isButtonSelectRecordSelected = false;
+    private boolean isButtonChangeTableNameSelected = false;
+    private boolean isButtonAddColumnSelected = false;
+    private boolean isButtonDeleteColumnSelected = false;
+    private boolean isButtonChangeColumnNameSelected = false;
 
     /**
      * Creates new form UserFriendlyModePanel
@@ -234,6 +248,8 @@ public class UserFriendlyModePanel extends javax.swing.JPanel {
 
         panelContent.setBackground(new java.awt.Color(255, 255, 225));
         panelContent.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        panelContent.setPreferredSize(new java.awt.Dimension(469, 324));
+        panelContent.setSize(new java.awt.Dimension(469, 324));
 
         javax.swing.GroupLayout panelContentLayout = new javax.swing.GroupLayout(panelContent);
         panelContent.setLayout(panelContentLayout);
@@ -294,13 +310,34 @@ public class UserFriendlyModePanel extends javax.swing.JPanel {
 
     private void buttonDeleteDatabaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonDeleteDatabaseActionPerformed
         // TODO add your handling code here:
+        makeFalseButtons();
+        isButtonDeleteDatabaseSelected = true;
+
+        unsetBorderForMenuButtons();
+        buttonDeleteDatabase.setBorder(BorderFactory.createLineBorder(Color.BLUE, 2));
+
+        panelContent.removeAll();
+        panelContent.revalidate();
+        panelContent.repaint();
+
+        DeleteDatabasePanel deleteDatabasePanel = new DeleteDatabasePanel();
+        panelContent.add(deleteDatabasePanel);
+
+        panelContent.setVisible(true);
     }//GEN-LAST:event_buttonDeleteDatabaseActionPerformed
 
     private void buttonCreateDatabaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCreateDatabaseActionPerformed
         // TODO add your handling code here: 
-        unsetBorderForButtons();
+        makeFalseButtons();
+        isButtonCreateDatabaseSelected = true;
+
+        unsetBorderForMenuButtons();
         buttonCreateDatabase.setBorder(BorderFactory.createLineBorder(Color.BLUE, 2));
-        
+
+        panelContent.removeAll();
+        panelContent.revalidate();
+        panelContent.repaint();
+
         CreateDatabasePanel createDatabasePanel = new CreateDatabasePanel();
         panelContent.add(createDatabasePanel);
 
@@ -309,14 +346,56 @@ public class UserFriendlyModePanel extends javax.swing.JPanel {
 
     private void buttonCreateTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCreateTableActionPerformed
         // TODO add your handling code here:
+        makeFalseButtons();
+        isButtonCreateTableSelected = true;
+
+        unsetBorderForMenuButtons();
+        buttonCreateTable.setBorder(BorderFactory.createLineBorder(Color.BLUE, 2));
+
+        panelContent.removeAll();
+        panelContent.revalidate();
+        panelContent.repaint();
+
+        CreateTablePanel createTablePanel = new CreateTablePanel();
+        panelContent.add(createTablePanel);
+
+        panelContent.setVisible(true);
     }//GEN-LAST:event_buttonCreateTableActionPerformed
 
     private void buttonDeleteTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonDeleteTableActionPerformed
         // TODO add your handling code here:
+        makeFalseButtons();
+        isButtonDeleteTableSelected = true;
+
+        unsetBorderForMenuButtons();
+        buttonDeleteTable.setBorder(BorderFactory.createLineBorder(Color.BLUE, 2));
+
+        panelContent.removeAll();
+        panelContent.revalidate();
+        panelContent.repaint();
+
+        DeleteTablePanel deleteTablePanel = new DeleteTablePanel();
+        panelContent.add(deleteTablePanel);
+
+        panelContent.setVisible(true);
     }//GEN-LAST:event_buttonDeleteTableActionPerformed
 
     private void buttonInsertRecordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonInsertRecordActionPerformed
         // TODO add your handling code here:
+        makeFalseButtons();
+        isButtonInsertRecordSelected = true;
+
+        unsetBorderForMenuButtons();
+        buttonInsertRecord.setBorder(BorderFactory.createLineBorder(Color.BLUE, 2));
+
+        panelContent.removeAll();
+        panelContent.revalidate();
+        panelContent.repaint();
+
+        InsertRecordPanel insertRecordPanel = new InsertRecordPanel();
+        panelContent.add(insertRecordPanel);
+
+        panelContent.setVisible(true);
     }//GEN-LAST:event_buttonInsertRecordActionPerformed
 
     private void buttonBackToWelcomePageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonBackToWelcomePageActionPerformed
@@ -329,19 +408,71 @@ public class UserFriendlyModePanel extends javax.swing.JPanel {
     }//GEN-LAST:event_buttonBackToWelcomePageActionPerformed
 
     private void buttonAlterTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAlterTableActionPerformed
-        // TODO add your handling code here:
+        unsetBorderForMenuButtons();
+        buttonAlterTable.setBorder(BorderFactory.createLineBorder(Color.BLUE, 2));
+
+        panelContent.removeAll();
+        panelContent.revalidate();
+        panelContent.repaint();
+
+        AlterTablePanel alterTablePanel = new AlterTablePanel();
+        panelContent.add(alterTablePanel);
+
+        panelContent.setVisible(true);
     }//GEN-LAST:event_buttonAlterTableActionPerformed
 
     private void buttonUpdateRecordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonUpdateRecordActionPerformed
         // TODO add your handling code here:
+        makeFalseButtons();
+        isButtonUpdateRecordSelected = true;
+
+        unsetBorderForMenuButtons();
+        buttonUpdateRecord.setBorder(BorderFactory.createLineBorder(Color.BLUE, 2));
+
+        panelContent.removeAll();
+        panelContent.revalidate();
+        panelContent.repaint();
+
+        UpdateRecordPanel updateRecordPanel = new UpdateRecordPanel();
+        panelContent.add(updateRecordPanel);
+
+        panelContent.setVisible(true);
     }//GEN-LAST:event_buttonUpdateRecordActionPerformed
 
     private void buttonDeleteRecordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonDeleteRecordActionPerformed
         // TODO add your handling code here:
+        makeFalseButtons();
+        isButtonDeleteRecordSelected = true;
+
+        unsetBorderForMenuButtons();
+        buttonDeleteRecord.setBorder(BorderFactory.createLineBorder(Color.BLUE, 2));
+
+        panelContent.removeAll();
+        panelContent.revalidate();
+        panelContent.repaint();
+
+        DeleteRecordPanel deleteRecordPanel = new DeleteRecordPanel();
+        panelContent.add(deleteRecordPanel);
+
+        panelContent.setVisible(true);
     }//GEN-LAST:event_buttonDeleteRecordActionPerformed
 
     private void buttonSelectRecordsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSelectRecordsActionPerformed
         // TODO add your handling code here:
+        makeFalseButtons();
+        isButtonSelectRecordSelected = true;
+
+        unsetBorderForMenuButtons();
+        buttonSelectRecords.setBorder(BorderFactory.createLineBorder(Color.BLUE, 2));
+
+        panelContent.removeAll();
+        panelContent.revalidate();
+        panelContent.repaint();
+
+        SelectRecordPanel selectRecordPanel = new SelectRecordPanel();
+        panelContent.add(selectRecordPanel);
+
+        panelContent.setVisible(true);
     }//GEN-LAST:event_buttonSelectRecordsActionPerformed
 
     private void buttonClearDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonClearDataActionPerformed
@@ -371,12 +502,31 @@ public class UserFriendlyModePanel extends javax.swing.JPanel {
     private javax.swing.JScrollPane scollPanelMenu;
     // End of variables declaration//GEN-END:variables
 
-    private void unsetBorderForButtons() {
-       Component[] panelMenuComponents = panelMenu.getComponents();
-       for( int i = 0;  i < panelMenuComponents.length; i++){
-           if( panelMenuComponents[i].getName().startsWith("button") ){
-           
-       }
-       }
+    private void unsetBorderForMenuButtons() {
+        Component[] panelMenuComponents = panelMenu.getComponents();
+        for (int i = 0; i < panelMenuComponents.length; i++) {
+            if (panelMenuComponents[i] instanceof javax.swing.JButton) {
+                JButton button = (JButton) panelMenuComponents[i];
+                button.setBorder(BorderFactory.createEtchedBorder());
+
+                panelMenuComponents[i] = button;
+            }
+        }
     }
+
+    private void makeFalseButtons() {
+        isButtonCreateDatabaseSelected = false;
+        isButtonDeleteDatabaseSelected = false;
+        isButtonCreateTableSelected = false;
+        isButtonDeleteTableSelected = false;
+        isButtonInsertRecordSelected = false;
+        isButtonDeleteRecordSelected = false;
+        isButtonUpdateRecordSelected = false;
+        isButtonSelectRecordSelected = false;
+        isButtonChangeTableNameSelected = false;
+        isButtonAddColumnSelected = false;
+        isButtonDeleteColumnSelected = false;
+        isButtonChangeColumnNameSelected = false;
+    }
+
 }

@@ -31,8 +31,6 @@ public class AddNewColumnPanel extends javax.swing.JPanel {
         labelSelectTableName1 = new javax.swing.JLabel();
         comboBoxDatabaseNames = new javax.swing.JComboBox<>();
         comboBoxTableNames = new javax.swing.JComboBox<>();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        textAreaOutput = new javax.swing.JTextArea();
         labelEnterColumnNamesAndTypes = new javax.swing.JLabel();
         scrollPaneColumns = new javax.swing.JScrollPane();
         panelColumns = new javax.swing.JPanel();
@@ -44,6 +42,9 @@ public class AddNewColumnPanel extends javax.swing.JPanel {
         comboBoxColumnType2 = new javax.swing.JComboBox<>();
         textFieldColumnName3 = new javax.swing.JTextField();
         comboBoxColumnType3 = new javax.swing.JComboBox<>();
+
+        setPreferredSize(new java.awt.Dimension(462, 159));
+        setSize(new java.awt.Dimension(462, 159));
 
         labelSelectDatabaseName.setText("<html>Select the database</html>");
 
@@ -57,10 +58,6 @@ public class AddNewColumnPanel extends javax.swing.JPanel {
         });
 
         comboBoxTableNames.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        textAreaOutput.setColumns(20);
-        textAreaOutput.setRows(5);
-        jScrollPane1.setViewportView(textAreaOutput);
 
         labelEnterColumnNamesAndTypes.setText("<html>Enter column names <br>and types</html>");
 
@@ -110,15 +107,15 @@ public class AddNewColumnPanel extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(comboBoxColumnType, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(panelColumnsLayout.createSequentialGroup()
-                        .addComponent(textFieldColumnName1, javax.swing.GroupLayout.DEFAULT_SIZE, 98, Short.MAX_VALUE)
+                        .addComponent(textFieldColumnName1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(comboBoxColumnType1, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(panelColumnsLayout.createSequentialGroup()
-                        .addComponent(textFieldColumnName2, javax.swing.GroupLayout.DEFAULT_SIZE, 98, Short.MAX_VALUE)
+                        .addComponent(textFieldColumnName2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(comboBoxColumnType2, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(panelColumnsLayout.createSequentialGroup()
-                        .addComponent(textFieldColumnName3, javax.swing.GroupLayout.DEFAULT_SIZE, 98, Short.MAX_VALUE)
+                        .addComponent(textFieldColumnName3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(comboBoxColumnType3, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
@@ -154,20 +151,19 @@ public class AddNewColumnPanel extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(labelEnterColumnNamesAndTypes, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(scrollPaneColumns, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(scrollPaneColumns, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(labelSelectDatabaseName)
-                            .addComponent(labelSelectTableName1))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(comboBoxTableNames, 0, 252, Short.MAX_VALUE)
-                            .addComponent(comboBoxDatabaseNames, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap())
+                            .addComponent(labelSelectTableName1, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(labelSelectDatabaseName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(31, 31, 31)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(comboBoxTableNames, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(comboBoxDatabaseNames, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -182,10 +178,12 @@ public class AddNewColumnPanel extends javax.swing.JPanel {
                     .addComponent(comboBoxTableNames, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(labelEnterColumnNamesAndTypes, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(scrollPaneColumns, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(labelEnterColumnNamesAndTypes, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(23, 23, 23))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(scrollPaneColumns, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -217,13 +215,11 @@ public class AddNewColumnPanel extends javax.swing.JPanel {
     private javax.swing.JComboBox<String> comboBoxColumnType3;
     private javax.swing.JComboBox<String> comboBoxDatabaseNames;
     private javax.swing.JComboBox<String> comboBoxTableNames;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel labelEnterColumnNamesAndTypes;
     private javax.swing.JLabel labelSelectDatabaseName;
     private javax.swing.JLabel labelSelectTableName1;
     private javax.swing.JPanel panelColumns;
     private javax.swing.JScrollPane scrollPaneColumns;
-    private javax.swing.JTextArea textAreaOutput;
     private javax.swing.JTextField textFieldColumnName;
     private javax.swing.JTextField textFieldColumnName1;
     private javax.swing.JTextField textFieldColumnName2;

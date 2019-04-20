@@ -29,9 +29,11 @@ public class MainFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Data Tools");
+        setMaximumSize(new java.awt.Dimension(600, 400));
         setMinimumSize(new java.awt.Dimension(600, 400));
         setName("mainFrame"); // NOI18N
         setPreferredSize(new java.awt.Dimension(600, 400));
+        setResizable(false);
         setSize(new java.awt.Dimension(600, 400));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());

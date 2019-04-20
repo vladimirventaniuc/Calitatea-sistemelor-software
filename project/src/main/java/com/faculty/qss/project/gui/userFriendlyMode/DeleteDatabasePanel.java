@@ -32,6 +32,9 @@ public class DeleteDatabasePanel extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         textAreaOutput = new javax.swing.JTextArea();
 
+        setPreferredSize(new java.awt.Dimension(469, 324));
+        setSize(new java.awt.Dimension(469, 324));
+
         labelSelectDatabaseName.setText("<html>Select database name <br>you want to be deleted</html>");
 
         comboBoxDatabaseNames.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
@@ -44,17 +47,15 @@ public class DeleteDatabasePanel extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(19, 19, 19)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1)
-                        .addContainerGap())
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(labelSelectDatabaseName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(34, 34, 34)
-                        .addComponent(comboBoxDatabaseNames, 0, 210, Short.MAX_VALUE)
-                        .addGap(25, 25, 25))))
+                        .addComponent(comboBoxDatabaseNames, 0, 210, Short.MAX_VALUE)))
+                .addGap(25, 25, 25))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

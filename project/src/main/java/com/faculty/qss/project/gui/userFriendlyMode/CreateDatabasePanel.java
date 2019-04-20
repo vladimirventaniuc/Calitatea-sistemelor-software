@@ -32,6 +32,9 @@ public class CreateDatabasePanel extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         textAreaOutput = new javax.swing.JTextArea();
 
+        setPreferredSize(new java.awt.Dimension(469, 324));
+        setSize(new java.awt.Dimension(469, 324));
+
         labelEnterDatabaseName.setText("<html>Enter the name <br>of the new database</html>");
 
         textAreaOutput.setColumns(20);
@@ -59,8 +62,9 @@ public class CreateDatabasePanel extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(labelEnterDatabaseName)
                     .addComponent(textFieldDatabaseName))
-                .addGap(173, 173, 173)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(167, 167, 167)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 

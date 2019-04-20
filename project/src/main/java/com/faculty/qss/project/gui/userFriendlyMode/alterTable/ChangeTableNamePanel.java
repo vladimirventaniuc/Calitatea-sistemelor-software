@@ -31,10 +31,11 @@ public class ChangeTableNamePanel extends javax.swing.JPanel {
         comboBoxDatabaseNames = new javax.swing.JComboBox<>();
         labelSelectTableName1 = new javax.swing.JLabel();
         comboBoxTableNames = new javax.swing.JComboBox<>();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        textAreaOutput = new javax.swing.JTextArea();
         labelEnterNewTableName = new javax.swing.JLabel();
         textFieldNewTableName = new javax.swing.JTextField();
+
+        setPreferredSize(new java.awt.Dimension(462, 159));
+        setSize(new java.awt.Dimension(462, 159));
 
         labelSelectDatabaseName.setText("<html>Select the database</html>");
 
@@ -43,10 +44,6 @@ public class ChangeTableNamePanel extends javax.swing.JPanel {
         labelSelectTableName1.setText("<html>Select the table</html>");
 
         comboBoxTableNames.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        textAreaOutput.setColumns(20);
-        textAreaOutput.setRows(5);
-        jScrollPane1.setViewportView(textAreaOutput);
 
         labelEnterNewTableName.setText("<html>Type the new <br>name for table</html>");
 
@@ -58,19 +55,18 @@ public class ChangeTableNamePanel extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(labelSelectDatabaseName, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
+                        .addComponent(labelSelectDatabaseName, javax.swing.GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(comboBoxDatabaseNames, 0, 230, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(comboBoxDatabaseNames, 0, 262, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(labelSelectTableName1, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
+                            .addComponent(labelSelectTableName1, javax.swing.GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(labelEnterNewTableName)
                                 .addGap(16, 16, 16)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(comboBoxTableNames, 0, 230, Short.MAX_VALUE)
+                            .addComponent(comboBoxTableNames, 0, 262, Short.MAX_VALUE)
                             .addComponent(textFieldNewTableName))))
                 .addGap(22, 22, 22))
         );
@@ -85,12 +81,11 @@ public class ChangeTableNamePanel extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelSelectTableName1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(comboBoxTableNames, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(labelEnterNewTableName, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
-                    .addComponent(textFieldNewTableName))
-                .addGap(73, 73, 73)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(labelEnterNewTableName, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(textFieldNewTableName, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -98,11 +93,9 @@ public class ChangeTableNamePanel extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> comboBoxDatabaseNames;
     private javax.swing.JComboBox<String> comboBoxTableNames;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel labelEnterNewTableName;
     private javax.swing.JLabel labelSelectDatabaseName;
     private javax.swing.JLabel labelSelectTableName1;
-    private javax.swing.JTextArea textAreaOutput;
     private javax.swing.JTextField textFieldNewTableName;
     // End of variables declaration//GEN-END:variables
 }
