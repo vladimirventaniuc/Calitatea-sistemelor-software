@@ -1,3 +1,5 @@
+import commands.Implementation.DatabaseImpl;
+import commands.Implementation.TableImpl;
 import commands.Table;
 import commands.Database;
 import commands.TableWithoutLibrary;
@@ -18,6 +20,24 @@ public class QueryReader {
     public void readQuery() throws IOException {
         TableWithoutLibrary table = new TableWithoutLibrary();
         Database database = new Database();
+        DatabaseImpl database2 = new DatabaseImpl();
+        TableImpl table1 = new TableImpl();
+        database2.createDatabase("adevarat");
+        database2.createDatabase("adevarat2");
+        database.deleteDatabase("adevarat2");
+
+        String p = "C:\\Users\\vlad\\Desktop\\test\\";
+        try {
+            database2.getAllDabaseNames();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            database2.getAllTableNamesForDb("test");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        table1.getTableSchemaForDbAndTable("test","testtable");
         while (true) {
             BufferedReader reader =
                     new BufferedReader(new InputStreamReader(System.in));
@@ -40,6 +60,9 @@ public class QueryReader {
                 database.deleteDatabase(splited[2]);
             }
             if (database.getDatabaseName() != null) {
+                if(splited.length>3 && splited[0].equals("download")&& splited[2].equals("as") && splited[4].equals("to")){
+                    table.downloadTable(database.getDatabaseName(),splited[1],splited[3],p);
+                }
                 if (splited.length > 2 && splited[0].equals("create") && splited[1].equals("table")) {
                     String[] queryDivider = command.toLowerCase().split("\\(");
                     String[] firstHalf = queryDivider[0].split(" ");
