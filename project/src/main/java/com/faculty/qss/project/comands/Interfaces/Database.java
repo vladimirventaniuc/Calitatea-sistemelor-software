@@ -11,4 +11,5 @@ public interface Database {
 
     String deleteDatabase(String dbNameToDel);
 
+    Boolean checkIfDatabaseExists(String dbName);
 }

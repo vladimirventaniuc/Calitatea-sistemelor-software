@@ -13,7 +13,7 @@ import java.util.Comparator;
 import java.util.List;
 
 public class DatabaseImpl implements Database {
-    private String projectPath = Paths.get("").toAbsolutePath().toString() + "\\src\\resources\\";
+    private String projectPath = Paths.get("").toAbsolutePath().toString() + "\\src\\main\\resources\\";
     private final String databaseSuccessfullyCreated = "Database successfully created";
     private final String databaseAlreadyExists = "Database already exists";
     private final String databaseSuccessFullyDeleted = "Database has been successfully deleted";
@@ -46,10 +46,19 @@ public class DatabaseImpl implements Database {
                     .map(Path::toFile)
                     .forEach(File::delete);
         } catch (IOException e) {
-            e.printStackTrace();
-            return databaseSuccessFullyDeleted;
+            return dropDatabaseError;
         }
-        return dropDatabaseError;
+        return databaseSuccessFullyDeleted;
+    }
+
+    @Override
+    public Boolean checkIfDatabaseExists(String dbName) {
+        try {
+             getDatabasesOrTables(projectPath + dbName);
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
     }
 
     private List<String> getDatabasesOrTables(String path) throws Exception {
