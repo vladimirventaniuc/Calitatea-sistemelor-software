@@ -29,10 +29,10 @@ public class TableImpl implements Table {
     private final String changeTableNamenameIsAlreadyUsed = "File already exists";
     private final String changeTableNameError = "Table was not successfully renamed";
     private final String numberOfParametersIsNotEqual = "Incorrect number of arguments";
-    private final String ENTRYES_SUCCESSFULLY_INSERTED = "Entryes successfully inserted";
-    private final String DELETE_SUCCESFULLY = "[number] entryes deleted";
-    private final String DELETE_ERROR = "Could not delete entryes";
-    private final String SUCCESSFULLY_UPDATED = "[number] entryes modified";
+    private final String ENTRYES_SUCCESSFULLY_INSERTED = "Entries successfully inserted";
+    private final String DELETE_SUCCESFULLY = "[number] entries deleted";
+    private final String DELETE_ERROR = "Could not delete entries";
+    private final String SUCCESSFULLY_UPDATED = "[number] entries modified";
     private final String INVALID_FIELD = "Field [field] does not exist in the database";
 
     @Override

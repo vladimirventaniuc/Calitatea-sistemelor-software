@@ -18,10 +18,6 @@
             <id> 2 </id>
             <age> 31 </age>
         </Entry>
-        <Entry id="3">
-            <name> test </name>
-            <id> 3 </id>
-            <age> 15 </age>
         </Entry>
         <Entry id="4">
             <name> simona </name>

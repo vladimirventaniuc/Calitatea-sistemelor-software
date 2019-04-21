@@ -373,7 +373,7 @@ public class UserFriendlyModePanel extends javax.swing.JPanel {
         panelContent.revalidate();
         panelContent.repaint();
 
-        UpdateRecordPanel updateRecordPanel = new UpdateRecordPanel();
+        UpdateRecordPanel updateRecordPanel  = new UpdateRecordPanel();
         panelContent.add(updateRecordPanel);
 
         panelContent.setVisible(true);
