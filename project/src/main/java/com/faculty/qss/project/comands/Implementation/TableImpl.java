@@ -273,7 +273,7 @@ public class TableImpl implements Table {
             e.printStackTrace();
         }
 
-        return SUCCESSFULLY_UPDATED.replace("[number", Integer.toString(entryesToBeUpdated.size()));
+        return SUCCESSFULLY_UPDATED.replace("[number]", Integer.toString(entryesToBeUpdated.size()));
     }
 
     @Override
