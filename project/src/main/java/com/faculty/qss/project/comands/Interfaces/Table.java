@@ -20,4 +20,5 @@ public interface Table {
 
     List<String> selectRecords(String dbName, String tableName, String fieldsToBeDisplayed, String whereClause);
 
+    String downloadTable(String databaseName, String tableName, String fileFormat, String destinationPath);
 }

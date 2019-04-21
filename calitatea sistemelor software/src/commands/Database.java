@@ -5,7 +5,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 
 public class Database {
     private String name;
@@ -45,24 +47,30 @@ public class Database {
     }
 
     public void showDatabases() {
-        printFiles(projectPath);
+        List<String> databases = getDatabasesOrTables(projectPath);
     }
 
     public void showTablesFromDatabase(String databaseName) {
-        printFiles(projectPath + databaseName);
+       List<String> tables = getDatabasesOrTables(projectPath + databaseName);
     }
 
-    private void printFiles(String path) {
+    private List<String> getDatabasesOrTables(String path) {
         File folder = new File(path);
         File[] listOfFiles = folder.listFiles();
-
+        List<String> result = new ArrayList<>();
         for (int i = 0; i < listOfFiles.length; i++) {
             if (listOfFiles[i].isFile()) {
-                System.out.println("Table: " + listOfFiles[i].getName().replace(".xml", ""));
+                result.add(listOfFiles[i].getName().replace(".xml", ""));
             } else if (listOfFiles[i].isDirectory()) {
-                System.out.println("Database " + listOfFiles[i].getName());
+                result.add(listOfFiles[i].getName());
             }
         }
-        System.out.println();
+        return result;
+    }
+    public List<String> getAllDabaseNames(){
+        return getDatabasesOrTables(projectPath);
+    }
+    public List<String> getAllTableNamesForDb(String dbName){
+        return getDatabasesOrTables(projectPath + dbName);
     }
 }

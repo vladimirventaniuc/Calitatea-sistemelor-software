@@ -5,6 +5,8 @@
  */
 package com.faculty.qss.project.gui;
 
+import com.faculty.qss.project.CommandLine;
+
 /**
  *
  * @author admin
@@ -76,7 +78,8 @@ public class MainFrame extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
+        CommandLine commandLine = new CommandLine();
+        commandLine.start();
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
