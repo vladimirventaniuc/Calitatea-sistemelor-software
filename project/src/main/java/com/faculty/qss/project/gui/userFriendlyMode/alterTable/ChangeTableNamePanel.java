@@ -5,6 +5,14 @@
  */
 package com.faculty.qss.project.gui.userFriendlyMode.alterTable;
 
+import com.faculty.qss.project.comands.Implementation.DatabaseImpl;
+import com.faculty.qss.project.comands.Implementation.TableImpl;
+import com.faculty.qss.project.comands.Interfaces.Database;
+import com.faculty.qss.project.comands.Interfaces.Table;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.DefaultComboBoxModel;
+
 /**
  *
  * @author ecami
@@ -35,7 +43,7 @@ public class ChangeTableNamePanel extends javax.swing.JPanel {
         textFieldNewTableName = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         textAreaOutput = new javax.swing.JTextArea();
-        buttonClearData3 = new javax.swing.JButton();
+        buttonClearData = new javax.swing.JButton();
         buttonExecuteCommand = new javax.swing.JButton();
 
         setPreferredSize(new java.awt.Dimension(462, 293));
@@ -43,11 +51,21 @@ public class ChangeTableNamePanel extends javax.swing.JPanel {
 
         labelSelectDatabaseName.setText("<html>Select the database</html>");
 
-        comboBoxDatabaseNames.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboBoxDatabaseNames.setModel(new javax.swing.DefaultComboBoxModel<>(getAllDatabaseNames()));
+        comboBoxDatabaseNames.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                itemStateChangeActionPerformedForDatabase(evt);
+            }
+        });
 
         labelSelectTableName1.setText("<html>Select the table</html>");
 
-        comboBoxTableNames.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboBoxTableNames.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "" }));
+        comboBoxTableNames.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                itemStateChangedActionPerformedForTable(evt);
+            }
+        });
 
         labelEnterNewTableName.setText("<html>Type the new <br>name for table</html>");
 
@@ -55,14 +73,14 @@ public class ChangeTableNamePanel extends javax.swing.JPanel {
         textAreaOutput.setRows(5);
         jScrollPane1.setViewportView(textAreaOutput);
 
-        buttonClearData3.setForeground(new java.awt.Color(153, 153, 0));
-        buttonClearData3.setText("Clear");
-        buttonClearData3.setMaximumSize(new java.awt.Dimension(68, 27));
-        buttonClearData3.setMinimumSize(new java.awt.Dimension(68, 27));
-        buttonClearData3.setPreferredSize(new java.awt.Dimension(68, 27));
-        buttonClearData3.addActionListener(new java.awt.event.ActionListener() {
+        buttonClearData.setForeground(new java.awt.Color(153, 153, 0));
+        buttonClearData.setText("Clear");
+        buttonClearData.setMaximumSize(new java.awt.Dimension(68, 27));
+        buttonClearData.setMinimumSize(new java.awt.Dimension(68, 27));
+        buttonClearData.setPreferredSize(new java.awt.Dimension(68, 27));
+        buttonClearData.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonClearData3ActionPerformed(evt);
+                buttonClearDataActionPerformed(evt);
             }
         });
 
@@ -84,28 +102,24 @@ public class ChangeTableNamePanel extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(labelSelectTableName1)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(labelSelectDatabaseName)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(comboBoxDatabaseNames, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(labelSelectTableName1)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(labelEnterNewTableName)
-                                        .addGap(16, 16, 16)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(comboBoxTableNames, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(textFieldNewTableName))))
+                                .addComponent(labelEnterNewTableName)
+                                .addGap(16, 16, 16))
+                            .addComponent(labelSelectDatabaseName))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(comboBoxDatabaseNames, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(comboBoxTableNames, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(textFieldNewTableName))
                         .addGap(22, 22, 22))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(buttonClearData3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(buttonClearData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(buttonExecuteCommand))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 450, Short.MAX_VALUE))
+                            .addComponent(jScrollPane1))
                         .addContainerGap())))
         );
         layout.setVerticalGroup(
@@ -124,26 +138,61 @@ public class ChangeTableNamePanel extends javax.swing.JPanel {
                     .addComponent(labelEnterNewTableName, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(textFieldNewTableName, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(39, 39, 39)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 77, Short.MAX_VALUE)
+                .addComponent(jScrollPane1)
                 .addGap(12, 12, 12)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(buttonExecuteCommand)
-                    .addComponent(buttonClearData3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(buttonClearData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void buttonClearData3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonClearData3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_buttonClearData3ActionPerformed
+    private void buttonClearDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonClearDataActionPerformed
+        comboBoxDatabaseNames.setSelectedIndex(0);
+        comboBoxTableNames.setModel(new DefaultComboBoxModel<>(new String[]{}));
+        textFieldNewTableName.setText("");
+        textAreaOutput.setText("");
+    }//GEN-LAST:event_buttonClearDataActionPerformed
 
     private void buttonExecuteCommandActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonExecuteCommandActionPerformed
-        // TODO add your handling code here:
+        String dbName = comboBoxDatabaseNames.getSelectedItem().toString().trim();
+        
+        if(dbName.equals("Choose database...")){
+            textAreaOutput.setText("Choose a database from list");
+        }else{
+            String tableName = comboBoxTableNames.getSelectedItem().toString().trim();
+            if (tableName.equals("Choose table...")){
+                textAreaOutput.setText("\nChoose a table from list");
+            }else{
+                String newTableName = textFieldNewTableName.getText();
+                if((newTableName.trim()).length() == 0){
+                    textAreaOutput.setText("\nType the new table name before executing");
+                }else{
+                    Table table = new TableImpl();
+                    String result = table.changeTableName(dbName, tableName, newTableName);
+                    textAreaOutput.setText(result);
+                }
+            }
+        }
     }//GEN-LAST:event_buttonExecuteCommandActionPerformed
+
+    private void itemStateChangeActionPerformedForDatabase(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_itemStateChangeActionPerformedForDatabase
+        String dbName = (String) comboBoxDatabaseNames.getSelectedItem();
+        if (!dbName.equals("Choose database...")) {
+            comboBoxTableNames.setModel(new DefaultComboBoxModel<>(getAllTableNamesForDb(dbName)));
+        } else {
+            comboBoxTableNames.setModel(new DefaultComboBoxModel<>(new String[]{}));
+            textFieldNewTableName.setText("");
+        }
+    }//GEN-LAST:event_itemStateChangeActionPerformedForDatabase
+
+    private void itemStateChangedActionPerformedForTable(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_itemStateChangedActionPerformedForTable
+        textFieldNewTableName.setText("");
+    }//GEN-LAST:event_itemStateChangedActionPerformedForTable
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton buttonClearData3;
+    private javax.swing.JButton buttonClearData;
     private javax.swing.JButton buttonExecuteCommand;
     private javax.swing.JComboBox<String> comboBoxDatabaseNames;
     private javax.swing.JComboBox<String> comboBoxTableNames;
@@ -154,4 +203,61 @@ public class ChangeTableNamePanel extends javax.swing.JPanel {
     private javax.swing.JTextArea textAreaOutput;
     private javax.swing.JTextField textFieldNewTableName;
     // End of variables declaration//GEN-END:variables
+
+    private String[] getAllDatabaseNames() {
+        Database database = new DatabaseImpl();
+        List<String> dbNames;
+        try {
+            dbNames = database.getAllDabaseNames();
+            if (dbNames.get(0).equals(".DS_Store")) {
+                dbNames.remove(0);
+            }
+            dbNames.add(0, "Choose database...");
+        } catch (Exception e) {
+            dbNames = new ArrayList<String>();
+            dbNames.add(0, "Choose database...");
+        }
+        String[] temp = dbNames.toArray(new String[dbNames.size()]);
+        return temp;
+    }
+
+    public String[] getAllTableNamesForDb(String dbName) {
+        Database database = new DatabaseImpl();
+        List<String> tableNames = new ArrayList<String>();
+        try {
+            tableNames = database.getAllTableNamesForDb(dbName);
+            if (tableNames.get(0).equals(".DS_Store")) {
+                tableNames.remove(0);
+            }
+            tableNames.add(0, "Choose table...");
+        } catch (Exception ex) {
+            tableNames = new ArrayList<String>();
+            tableNames.add(0, "Choose table...");
+        }
+        String[] temp = tableNames.toArray(new String[tableNames.size()]);
+        return temp;
+    }
+
+    private String[] getTableSchemaForDbAndTable(String dbName, String tableName) {
+        Table table = new TableImpl();
+        List<String> columnNames = table.getTableSchemaForDbAndTable(dbName, tableName);
+        List<String> tempCols = new ArrayList<String>();
+        for (String column : columnNames) {
+            tempCols.add(column.split("=")[0].trim());
+        }
+        tempCols.add(0, "Choose...");
+        String[] temp = tempCols.toArray(new String[tempCols.size()]);
+        return temp;
+    }
+    
+    private String[] getTableSchemaForDbAndTableWithoutChoose(String dbName, String tableName) {
+        Table table = new TableImpl();
+        List<String> columnNames = table.getTableSchemaForDbAndTable(dbName, tableName);
+        List<String> tempCols = new ArrayList<String>();
+        for (String column : columnNames) {
+            tempCols.add(column.split("=")[0].trim());
+        }
+        String[] temp = tempCols.toArray(new String[tempCols.size()]);
+        return temp;
+    }
 }

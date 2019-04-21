@@ -10,14 +10,11 @@ import com.faculty.qss.project.comands.Implementation.TableImpl;
 import com.faculty.qss.project.comands.Interfaces.Database;
 import com.faculty.qss.project.comands.Interfaces.Table;
 import java.awt.Component;
+import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.ParallelGroup;
-import javax.swing.GroupLayout.SequentialGroup;
 import javax.swing.JCheckBox;
-import javax.swing.JPanel;
 
 /**
  *
@@ -66,7 +63,6 @@ public class SelectRecordPanel extends javax.swing.JPanel {
         labelSelectColumns = new javax.swing.JLabel();
         scrollPanelColumnsSelected = new javax.swing.JScrollPane();
         panelColumnsSelected = new javax.swing.JPanel();
-        jCheckBox1 = new javax.swing.JCheckBox();
 
         setPreferredSize(new java.awt.Dimension(469, 369));
         setRequestFocusEnabled(false);
@@ -115,6 +111,11 @@ public class SelectRecordPanel extends javax.swing.JPanel {
                 comboBoxTableNamesitemStateChangedActionPerformedForTable(evt);
             }
         });
+        comboBoxTableNames.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                customActionMouseClicked(evt);
+            }
+        });
 
         labelValue.setText("Value");
 
@@ -126,6 +127,11 @@ public class SelectRecordPanel extends javax.swing.JPanel {
         comboBoxDatabaseNames.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 comboBoxDatabaseNamesitemStateChangeActionPerformedForDatabase(evt);
+            }
+        });
+        comboBoxDatabaseNames.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                customActionMouseClicked(evt);
             }
         });
 
@@ -142,25 +148,20 @@ public class SelectRecordPanel extends javax.swing.JPanel {
 
         labelSelectColumns.setText("<html>Select columns <br>to be dysplayed</html>");
 
-        scrollPanelColumnsSelected.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-        scrollPanelColumnsSelected.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+        scrollPanelColumnsSelected.setMinimumSize(new java.awt.Dimension(344, 38));
+        scrollPanelColumnsSelected.setSize(new java.awt.Dimension(344, 38));
 
-        jCheckBox1.setText("jCheckBox1");
+        panelColumnsSelected.setSize(new java.awt.Dimension(344, 38));
 
         javax.swing.GroupLayout panelColumnsSelectedLayout = new javax.swing.GroupLayout(panelColumnsSelected);
         panelColumnsSelected.setLayout(panelColumnsSelectedLayout);
         panelColumnsSelectedLayout.setHorizontalGroup(
             panelColumnsSelectedLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelColumnsSelectedLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jCheckBox1)
-                .addContainerGap(351, Short.MAX_VALUE))
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         panelColumnsSelectedLayout.setVerticalGroup(
             panelColumnsSelectedLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelColumnsSelectedLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jCheckBox1))
+            .addGap(0, 0, Short.MAX_VALUE)
         );
 
         scrollPanelColumnsSelected.setViewportView(panelColumnsSelected);
@@ -226,8 +227,8 @@ public class SelectRecordPanel extends javax.swing.JPanel {
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(labelSelectColumns, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(12, 12, 12)
-                        .addComponent(scrollPanelColumnsSelected, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(scrollPanelColumnsSelected, javax.swing.GroupLayout.PREFERRED_SIZE, 348, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(118, 118, 118))
         );
         layout.setVerticalGroup(
@@ -336,12 +337,27 @@ public class SelectRecordPanel extends javax.swing.JPanel {
                 } else if (isCondition2Selected && !whereCondition2.contains("Choose..")) {
                     bigWhereCondition = whereCondition2;
                 }
-                //TO DO: Has to be changed
-                String selectedColumns =  "*";
-                System.out.println("|" + bigWhereCondition + "|");
+                String selectedColumns = "";
+                Component components[] =  panelColumnsSelected.getComponents();
+                for(int i  =0; i < components.length; i++){
+                    if( components[i] instanceof JCheckBox){
+                        JCheckBox checkBox = (JCheckBox) components[i];
+                        if( checkBox.isSelected())
+                        selectedColumns += checkBox.getText() + ",";
+                    }
+                }
+                
+                if(selectedColumns.length() == 0 ){
+                    selectedColumns = "*";
+                }else{
+                    selectedColumns = selectedColumns.substring(0, selectedColumns.length() - 1);
+                }
                 Table table = new TableImpl();
                 List<String> result = table.selectRecords(dbName, tableName, selectedColumns, bigWhereCondition);
-                textAreaOutput.setText(result.toString());
+                textAreaOutput.setText("");
+                for (String res : result) {
+                    textAreaOutput.append(res + "\n");
+                }
             }
         }
     }//GEN-LAST:event_buttonExecuteCommandActionPerformed
@@ -354,16 +370,42 @@ public class SelectRecordPanel extends javax.swing.JPanel {
             String[] tblSchema = getTableSchemaForDbAndTable(dbName, tableName);
             comboBoxColumn1.setModel(new DefaultComboBoxModel<>(tblSchema));
             comboBoxColumn2.setModel(new DefaultComboBoxModel<>(tblSchema));
-            
-            scrollPanelColumnsSelected.removeAll();
-            
-            JPanel panel = createPanelForCheckBoxes(tblSchema);
-            scrollPanelColumnsSelected.setViewportView(panel);
+
+            panelColumnsSelected.setLayout(new GridLayout(0, 2, 10, 10));
+            panelColumnsSelected.revalidate();
+            panelColumnsSelected.repaint();
+            boolean founded;
+            for (int i = 1; i < tblSchema.length; i++) {
+                founded = false;
+//                System.out.println("--->" + tblSchema[i]);
+                for (String col : columnNames) {
+//                    System.out.println("=> " + tblSchema[i] + "-" + col + "|" + col.equals(tblSchema[i]));
+                    if (col.equals(tblSchema[i])) {
+                        founded = true;
+                        break;
+                    }
+                }
+                if (founded == false) {
+                    JCheckBox cb = new JCheckBox(tblSchema[i]);
+                    panelColumnsSelected.add(cb);
+                    columnNames.add(tblSchema[i]);
+                }
+            }
+
+            panelColumnsSelected.revalidate();
+            panelColumnsSelected.repaint();
+            scrollPanelColumnsSelected.setViewportView(panelColumnsSelected);
         } else {
             comboBoxColumn1.setModel(new DefaultComboBoxModel<>(new String[]{}));
             comboBoxColumn2.setModel(new DefaultComboBoxModel<>(new String[]{}));
             textFieldValue1.setText("");
             textFieldValue2.setText("");
+
+            panelColumnsSelected.removeAll();
+            panelColumnsSelected.setLayout(new GridLayout(0, 2, 10, 10));
+            panelColumnsSelected.revalidate();
+            panelColumnsSelected.repaint();
+            scrollPanelColumnsSelected.setViewportView(panelColumnsSelected);
         }
     }//GEN-LAST:event_comboBoxTableNamesitemStateChangedActionPerformedForTable
 
@@ -380,6 +422,11 @@ public class SelectRecordPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_comboBoxDatabaseNamesitemStateChangeActionPerformedForDatabase
 
+    private void customActionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_customActionMouseClicked
+        columnNames = null;
+        columnNames = new ArrayList<String>();
+    }//GEN-LAST:event_customActionMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonClearData;
@@ -391,7 +438,6 @@ public class SelectRecordPanel extends javax.swing.JPanel {
     private javax.swing.JComboBox<String> comboBoxOperator1;
     private javax.swing.JComboBox<String> comboBoxOperator2;
     private javax.swing.JComboBox<String> comboBoxTableNames;
-    private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel labelColumn;
@@ -409,6 +455,8 @@ public class SelectRecordPanel extends javax.swing.JPanel {
     private javax.swing.JTextField textFieldValue1;
     private javax.swing.JTextField textFieldValue2;
     // End of variables declaration//GEN-END:variables
+
+    List<String> columnNames = new ArrayList<String>();
 
     private String[] getAllDatabaseNames() {
         Database database = new DatabaseImpl();
@@ -455,30 +503,15 @@ public class SelectRecordPanel extends javax.swing.JPanel {
         String[] temp = tempCols.toArray(new String[tempCols.size()]);
         return temp;
     }
-    
-    private void addNewCheckBox(JCheckBox checkBox, ParallelGroup parallel1, ParallelGroup parallel2, GroupLayout layout) {
-        parallel1.addGroup(layout.createSequentialGroup().
-            addComponent(checkBox));
-        parallel2.addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup().
-            addComponent(checkBox));
-    }
-    
-    private JPanel createPanelForCheckBoxes(String columnNames[]) {
-        javax.swing.GroupLayout panelColumnsSelectedLayout = new javax.swing.GroupLayout(panelColumnsSelected);
-        panelColumnsSelected.setLayout(panelColumnsSelectedLayout);
-        ParallelGroup parallel1 = panelColumnsSelectedLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 463, Short.MAX_VALUE);
-        panelColumnsSelectedLayout.setHorizontalGroup(parallel1);
-        
-        ParallelGroup parallel2 = panelColumnsSelectedLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 23, Short.MAX_VALUE);
-        panelColumnsSelectedLayout.setVerticalGroup(parallel2);
-        for (int i = 1; i < columnNames.length; i++) {
-            JCheckBox checkBox = new JCheckBox();
-            checkBox.setText(columnNames[i]);
-            addNewCheckBox(checkBox, parallel1, parallel2, panelColumnsSelectedLayout);
-        }
-        return panelColumnsSelected;
-    }
 
+    private String[] getTableSchemaForDbAndTableWithoutChoose(String dbName, String tableName) {
+        Table table = new TableImpl();
+        List<String> columnNames = table.getTableSchemaForDbAndTable(dbName, tableName);
+        List<String> tempCols = new ArrayList<String>();
+        for (String column : columnNames) {
+            tempCols.add(column.split("=")[0].trim());
+        }
+        String[] temp = tempCols.toArray(new String[tempCols.size()]);
+        return temp;
+    }
 }

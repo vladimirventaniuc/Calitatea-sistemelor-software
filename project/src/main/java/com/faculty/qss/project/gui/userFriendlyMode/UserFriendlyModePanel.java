@@ -13,6 +13,7 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import com.faculty.qss.project.gui.WelcomePanel;
 import com.faculty.qss.project.gui.userFriendlyMode.alterTable.AlterTablePanel;
+import com.faculty.qss.project.gui.userFriendlyMode.alterTable.TestPanel;
 
 /**
  *
