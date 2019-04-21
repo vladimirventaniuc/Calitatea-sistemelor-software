@@ -5,6 +5,15 @@
  */
 package com.faculty.qss.project.gui.userFriendlyMode;
 
+import com.faculty.qss.project.comands.Implementation.DatabaseImpl;
+import com.faculty.qss.project.comands.Implementation.TableImpl;
+import com.faculty.qss.project.comands.Interfaces.Database;
+import com.faculty.qss.project.comands.Interfaces.Table;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.table.TableModel;
+
 /**
  *
  * @author echilaboc
@@ -32,7 +41,7 @@ public class InsertRecordPanel extends javax.swing.JPanel {
         labelSelectDatabaseName = new javax.swing.JLabel();
         comboBoxDatabaseNames = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tableInsert = new javax.swing.JTable();
         jScrollPane2 = new javax.swing.JScrollPane();
         textAreaOutput = new javax.swing.JTextArea();
         buttonClearData = new javax.swing.JButton();
@@ -43,25 +52,52 @@ public class InsertRecordPanel extends javax.swing.JPanel {
 
         labelSelectTableName1.setText("<html>Select the table</html>");
 
-        comboBoxTableNames.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboBoxTableNames.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {}));
+        comboBoxTableNames.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                itemStateChangedActionPerformedForTable(evt);
+            }
+        });
 
         labelSelectDatabaseName.setText("<html>Select the database</html>");
 
-        comboBoxDatabaseNames.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboBoxDatabaseNames.setModel(new javax.swing.DefaultComboBoxModel<>(getAllDatabaseNames()));
+        comboBoxDatabaseNames.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                itemStateChangeActionPerformedForDatabase(evt);
+            }
+        });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tableInsert.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
                 {null, null, null, null},
                 {null, null, null, null},
                 {null, null, null, null},
                 {null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "", "", "", ""
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tableInsert);
 
+        textAreaOutput.setEditable(false);
         textAreaOutput.setColumns(20);
         textAreaOutput.setRows(5);
         jScrollPane2.setViewportView(textAreaOutput);
@@ -134,12 +170,179 @@ public class InsertRecordPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void buttonClearDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonClearDataActionPerformed
-        // TODO add your handling code here:
+        comboBoxDatabaseNames.setSelectedIndex(0);
+        comboBoxTableNames.setModel(new DefaultComboBoxModel<>(new String[]{}));
+        
+        tableInsert.setModel(new javax.swing.table.DefaultTableModel(
+                new Object[][]{
+                    {null, null, null, null},
+                    {null, null, null, null},
+                    {null, null, null, null},
+                    {null, null, null, null},
+                    {null, null, null, null},
+                    {null, null, null, null},
+                    {null, null, null, null},
+                    {null, null, null, null},
+                    {null, null, null, null},
+                    {null, null, null, null},
+                    {null, null, null, null},
+                    {null, null, null, null},
+                    {null, null, null, null},
+                    {null, null, null, null},
+                    {null, null, null, null},
+                    {null, null, null, null},
+                    {null, null, null, null},
+                    {null, null, null, null},
+                    {null, null, null, null},
+                    {null, null, null, null}
+                },
+                new String[]{
+                    "", "", "", ""
+                }
+        ));
+        jScrollPane1.setViewportView(tableInsert);
+        
+        textAreaOutput.setText("");
     }//GEN-LAST:event_buttonClearDataActionPerformed
 
     private void buttonExecuteCommandActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonExecuteCommandActionPerformed
-        // TODO add your handling code here:
+        String dbName = comboBoxDatabaseNames.getSelectedItem().toString().trim();
+        String tableName;
+        try {
+            tableName = comboBoxTableNames.getSelectedItem().toString().trim();
+        } catch (Exception e) {
+            tableName = "";
+        }
+
+        if (dbName.contains("Choose database...")) {
+            textAreaOutput.setText("You have to select a database name from list");
+        } else if (tableName.contains("Choose table...")) {
+            textAreaOutput.setText("You have to select a table name from list");
+        } else {
+            String[] columnNames = getTableSchemaForDbAndTable(dbName, tableName);
+
+            String result = "";
+            Table table = new TableImpl();
+            TableModel tableRecs = tableInsert.getModel();
+            for (int row = 0; row < 20; row++) {
+                List<String> values = new ArrayList<String>();
+                int nonNullVals = 0;
+                for (int col = 0; col < columnNames.length; col++) {
+                    System.out.println(tableRecs.getValueAt(row, col));
+                    values.add((String) tableRecs.getValueAt(row, col));
+                    if (tableRecs.getValueAt(row, col) != null) {
+                        nonNullVals++;
+                    }
+                }
+                if (nonNullVals != 0) {
+                    result += row + ". " + table.insertRecords(dbName, tableName, values) + "\n";
+                }
+            }
+            textAreaOutput.setText(result);
+        }
     }//GEN-LAST:event_buttonExecuteCommandActionPerformed
+
+    private void itemStateChangeActionPerformedForDatabase(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_itemStateChangeActionPerformedForDatabase
+        String dbName = (String) comboBoxDatabaseNames.getSelectedItem();
+        if (!dbName.equals("Choose database...")) {
+            comboBoxTableNames.setModel(new DefaultComboBoxModel<>(getAllTableNamesForDb(dbName)));
+        } else {
+            comboBoxTableNames.setModel(new DefaultComboBoxModel<>(new String[]{}));
+
+            tableInsert.setModel(new javax.swing.table.DefaultTableModel(
+                    new Object[][]{
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null}
+                    },
+                    new String[]{
+                        "", "", "", ""
+                    }
+            ));
+            jScrollPane1.setViewportView(tableInsert);
+        }
+    }//GEN-LAST:event_itemStateChangeActionPerformedForDatabase
+
+    private void itemStateChangedActionPerformedForTable(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_itemStateChangedActionPerformedForTable
+        String dbName = (String) comboBoxDatabaseNames.getSelectedItem();
+        String tableName = (String) comboBoxTableNames.getSelectedItem();
+
+        if (!tableName.equals("Choose table...")) {
+            tableInsert.setModel(new javax.swing.table.DefaultTableModel(
+                    new Object[][]{
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null}
+                    },
+                    getTableSchemaForDbAndTable(dbName, tableName)
+            ));
+
+            jScrollPane1.setViewportView(tableInsert);
+        } else {
+            tableInsert.setModel(new javax.swing.table.DefaultTableModel(
+                    new Object[][]{
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null}
+                    },
+                    new String[]{
+                        "", "", "", ""
+                    }
+            ));
+            jScrollPane1.setViewportView(tableInsert);
+        }
+    }//GEN-LAST:event_itemStateChangedActionPerformedForTable
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -149,9 +352,50 @@ public class InsertRecordPanel extends javax.swing.JPanel {
     private javax.swing.JComboBox<String> comboBoxTableNames;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
     private javax.swing.JLabel labelSelectDatabaseName;
     private javax.swing.JLabel labelSelectTableName1;
+    private javax.swing.JTable tableInsert;
     private javax.swing.JTextArea textAreaOutput;
     // End of variables declaration//GEN-END:variables
+
+    private String[] getAllDatabaseNames() {
+        Database database = new DatabaseImpl();
+        List<String> dbNames;
+        try {
+            dbNames = database.getAllDabaseNames();
+            if (dbNames.get(0).equals(".DS_Store")) {
+                dbNames.remove(0);
+            }
+            dbNames.add(0, "Choose database...");
+        } catch (Exception e) {
+            dbNames = new ArrayList<String>();
+            dbNames.add(0, "Choose database...");
+        }
+        String[] temp = dbNames.toArray(new String[dbNames.size()]);
+        return temp;
+    }
+
+    public String[] getAllTableNamesForDb(String dbName) {
+        Database database = new DatabaseImpl();
+        List<String> tableNames = new ArrayList<String>();
+        try {
+            tableNames = database.getAllTableNamesForDb(dbName);
+            if (tableNames.get(0).equals(".DS_Store")) {
+                tableNames.remove(0);
+            }
+            tableNames.add(0, "Choose table...");
+        } catch (Exception ex) {
+            tableNames = new ArrayList<String>();
+            tableNames.add(0, "Choose table...");
+        }
+        String[] temp = tableNames.toArray(new String[tableNames.size()]);
+        return temp;
+    }
+
+    private String[] getTableSchemaForDbAndTable(String dbName, String tableName) {
+        Table table = new TableImpl();
+        List<String> columnNames = table.getTableSchemaForDbAndTable(dbName, tableName);
+        String[] temp = columnNames.toArray(new String[columnNames.size()]);
+        return temp;
+    }
 }

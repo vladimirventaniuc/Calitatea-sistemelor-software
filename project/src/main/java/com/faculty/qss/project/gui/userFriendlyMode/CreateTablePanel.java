@@ -373,6 +373,7 @@ public class CreateTablePanel extends javax.swing.JPanel {
             dbNames.add(0, "Choose database...");
         } catch (Exception e) {
             dbNames = new ArrayList<String>();
+            dbNames.add(0, "Choose database...");
         }
         String[] temp = dbNames.toArray(new String[dbNames.size()]);
         return temp;

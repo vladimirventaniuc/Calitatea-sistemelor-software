@@ -5,6 +5,14 @@
  */
 package com.faculty.qss.project.gui.userFriendlyMode;
 
+import com.faculty.qss.project.comands.Implementation.DatabaseImpl;
+import com.faculty.qss.project.comands.Implementation.TableImpl;
+import com.faculty.qss.project.comands.Interfaces.Database;
+import com.faculty.qss.project.comands.Interfaces.Table;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.DefaultComboBoxModel;
+
 /**
  *
  * @author echilaboc
@@ -42,15 +50,21 @@ public class DeleteTablePanel extends javax.swing.JPanel {
 
         labelSelectTableName1.setText("<html>Select the table</html>");
 
-        comboBoxTableNames.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboBoxTableNames.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {}));
 
+        textAreaOutput.setEditable(false);
         textAreaOutput.setColumns(20);
         textAreaOutput.setRows(5);
         jScrollPane1.setViewportView(textAreaOutput);
 
         labelSelectDatabaseName.setText("<html>Select the database</html>");
 
-        comboBoxDatabaseNames.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboBoxDatabaseNames.setModel(new javax.swing.DefaultComboBoxModel<>(getAllDatabaseNames()));
+        comboBoxDatabaseNames.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                itemStateChangeActionPerformed(evt);
+            }
+        });
 
         buttonExecuteCommand.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
         buttonExecuteCommand.setForeground(new java.awt.Color(0, 102, 0));
@@ -117,12 +131,39 @@ public class DeleteTablePanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void buttonClearDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonClearDataActionPerformed
-        // TODO add your handling code here:
+        comboBoxDatabaseNames.setSelectedIndex(0);
+        comboBoxTableNames.setModel(new DefaultComboBoxModel<>(new String[]{}));
+        textAreaOutput.setText("");
     }//GEN-LAST:event_buttonClearDataActionPerformed
 
     private void buttonExecuteCommandActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonExecuteCommandActionPerformed
-        // TODO add your handling code here:
+        String dbName = comboBoxDatabaseNames.getSelectedItem().toString().trim();
+        String tableName;
+        try{
+            tableName = comboBoxTableNames.getSelectedItem().toString().trim();
+        }catch(Exception e){
+            tableName = "";
+        }
+
+        if (dbName.contains("Choose database...")) {
+            textAreaOutput.setText("You have to select a database name from list");
+        }else if( tableName.contains("Choose table...")){
+            textAreaOutput.setText("You have to select a table name from list");
+        }else{
+            Table table = new TableImpl();
+            String result = table.deleteTable(dbName, tableName);
+            textAreaOutput.setText(result);
+        }
     }//GEN-LAST:event_buttonExecuteCommandActionPerformed
+
+    private void itemStateChangeActionPerformed(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_itemStateChangeActionPerformed
+        String dbName = (String) comboBoxDatabaseNames.getSelectedItem();
+        if(!dbName.equals("Choose database...")){
+            comboBoxTableNames.setModel(new DefaultComboBoxModel<>(getAllTableNamesForDb(dbName)));
+        }else{
+           comboBoxTableNames.setModel(new DefaultComboBoxModel<>(new String[]{})); 
+        }
+    }//GEN-LAST:event_itemStateChangeActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -135,4 +176,38 @@ public class DeleteTablePanel extends javax.swing.JPanel {
     private javax.swing.JLabel labelSelectTableName1;
     private javax.swing.JTextArea textAreaOutput;
     // End of variables declaration//GEN-END:variables
+
+    private String[] getAllDatabaseNames() {
+        Database database = new DatabaseImpl();
+        List<String> dbNames;
+        try {
+            dbNames = database.getAllDabaseNames();
+            if (dbNames.get(0).equals(".DS_Store")) {
+                dbNames.remove(0);
+            }
+            dbNames.add(0, "Choose database...");
+        } catch (Exception e) {
+            dbNames = new ArrayList<String>();
+            dbNames.add(0, "Choose database...");
+        }
+        String[] temp = dbNames.toArray(new String[dbNames.size()]);
+        return temp;
+    }
+
+    public String[] getAllTableNamesForDb(String dbName) {
+        Database database = new DatabaseImpl();
+        List<String> tableNames = new ArrayList<String>();
+        try {
+            tableNames = database.getAllTableNamesForDb(dbName);
+            if (tableNames.get(0).equals(".DS_Store")) {
+                tableNames.remove(0);
+            }
+            tableNames.add(0, "Choose table...");
+        } catch (Exception ex) {
+            tableNames = new ArrayList<String>();
+            tableNames.add(0, "Choose table...");
+        }
+        String[] temp = tableNames.toArray(new String[tableNames.size()]);
+        return temp;
+    }
 }
