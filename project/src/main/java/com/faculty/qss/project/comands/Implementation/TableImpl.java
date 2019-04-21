@@ -34,6 +34,10 @@ public class TableImpl implements Table {
     private final String DELETE_ERROR = "Could not delete entryes";
     private final String SUCCESSFULLY_UPDATED = "[number] entryes modified";
     private final String INVALID_FIELD = "Field [field] does not exist in the database";
+    private final String SUCCESSFULLY_DOWNLOADED = "Table was successfully downloaded";
+    private final String UNSUPPORTED_FILE_FORMAT = "Unsupported file format : [format]";
+    private final String SEPARATOR = " : ";
+    private final String APOSTROPHE = "\"";
 
     @Override
     public List<String> getTableSchemaForDbAndTable(String dbName, String tableName) {
@@ -302,5 +306,101 @@ public class TableImpl implements Table {
         return result;
     }
 
+    @Override
+    public String downloadTable(String databaseName, String tableName, String fileFormat, String destinationPath) {
+        if (fileFormat.toLowerCase().equals("xml")) {
+            File source = new File(projectPath + databaseName + "/" + tableName + ".xml");
+            File dest = new File(destinationPath + "/" + tableName + ".xml");
+            try {
+                Files.copy(source.toPath(), dest.toPath());
+            } catch (IOException e) {
+                e.printStackTrace();
+                return tableNotFound;
+            }
+            return SUCCESSFULLY_DOWNLOADED;
+        } else if (fileFormat.toLowerCase().equals("json")) {
+            try {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(
+                        new FileInputStream(projectPath + databaseName + "/" + tableName + ".xml"), "utf-8"));
 
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(destinationPath + "/" + tableName + "." + fileFormat), "utf-8"));
+                String line;
+                int numberOfBlankCharacters = 0;
+                writer.write("{");
+                writer.newLine();
+                reader.readLine();
+                while ((line = reader.readLine()) != null) {
+                    int count = 0;
+                    for (int i = 0; i < line.length(); i++) {
+                        char c = line.charAt(i);
+                        if (c == '<')
+                            count++;
+                    }
+                    StringBuilder lineToBeWritten = new StringBuilder();
+                    if (count == 1) {
+                        if (!line.contains("</")) {
+                            String id = null;
+                            if (line.contains("id")) {
+                                String[] splitById = line.split("id=");
+                                id = splitById[1].replace(">", "");
+                                line = splitById[0];
+                            }
+                            line = line.replace("<", "").replace(">", "").replace(" ", "");
+                            for (int i = 0; i < numberOfBlankCharacters; i++)
+                                lineToBeWritten.append(" ");
+                            numberOfBlankCharacters += 4;
+                            lineToBeWritten.append(APOSTROPHE + line + APOSTROPHE + SEPARATOR);
+                            if (line.toLowerCase().equals("entryes")) {
+                                lineToBeWritten.append("[");
+                            } else {
+                                lineToBeWritten.append("{");
+                            }
+                            writer.write(lineToBeWritten.toString());
+                            writer.newLine();
+                            if (id != null) {
+                                lineToBeWritten = new StringBuilder();
+                                for (int i = 0; i < numberOfBlankCharacters; i++)
+                                    lineToBeWritten.append(" ");
+                                lineToBeWritten.append("\"id\" : " + id);
+                                writer.write(lineToBeWritten.toString());
+                                writer.newLine();
+                            }
+                        } else {
+                            for (int i = 0; i < numberOfBlankCharacters; i++)
+                                lineToBeWritten.append(" ");
+                            if (line.toLowerCase().contains("entryes"))
+                                lineToBeWritten.append("]");
+                            else {
+                                lineToBeWritten.append("}");
+                                if (!line.toLowerCase().contains("tableinfo"))
+                                    lineToBeWritten.append(",");
+                            }
+                            writer.write(lineToBeWritten.toString());
+                            writer.newLine();
+                            numberOfBlankCharacters -= 4;
+                        }
+                    } else {
+                        Pattern patternForValue = Pattern.compile(">(.+?)<", Pattern.DOTALL);
+                        Matcher matcherValue = patternForValue.matcher(line);
+                        matcherValue.find();
+                        Pattern patternForTag = Pattern.compile("<(.+?)>", Pattern.DOTALL);
+                        Matcher matcherTag = patternForTag.matcher(line);
+                        matcherTag.find();
+                        for (int i = 0; i < numberOfBlankCharacters; i++)
+                            lineToBeWritten.append(" ");
+                        lineToBeWritten.append(APOSTROPHE + matcherTag.group(1) + APOSTROPHE + SEPARATOR + APOSTROPHE + matcherValue.group(1).replace(" ", "") + APOSTROPHE + ",");
+                        writer.write(lineToBeWritten.toString());
+                        writer.newLine();
+                    }
+                }
+                writer.write("}");
+                writer.close();
+                return SUCCESSFULLY_DOWNLOADED;
+            } catch (IOException e) {
+                e.printStackTrace();
+                return tableNotFound;
+            }
+        }
+        return UNSUPPORTED_FILE_FORMAT.replace("[format]", fileFormat);
+    }
 }
