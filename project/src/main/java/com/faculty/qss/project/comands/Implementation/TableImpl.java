@@ -34,6 +34,10 @@ public class TableImpl implements Table {
     private final String DELETE_ERROR = "Could not delete entries";
     private final String SUCCESSFULLY_UPDATED = "[number] entries modified";
     private final String INVALID_FIELD = "Field [field] does not exist in the database";
+    private final String SUCCESSFULLY_DOWNLOADED = "Table was successfully downloaded";
+    private final String UNSUPPORTED_FILE_FORMAT = "Unsupported file format : [format]";
+    private final String SEPARATOR = " : ";
+    private final String APOSTROPHE = "\"";
 
     @Override
     public List<String> getTableSchemaForDbAndTable(String dbName, String tableName) {
@@ -302,5 +306,21 @@ public class TableImpl implements Table {
         return result;
     }
 
+    @Override
+    public String downloadTable(String databaseName, String tableName, String fileFormat, String destinationPath) {
+        if (fileFormat.toLowerCase().equals("xml")) {
+            File source = new File(projectPath + databaseName + "/" + tableName + ".xml");
+            File dest = new File(destinationPath + "/" + tableName + ".xml");
+            try {
+                Files.copy(source.toPath(), dest.toPath());
+            } catch (IOException e) {
+                e.printStackTrace();
+                return tableNotFound;
+            }
+            return SUCCESSFULLY_DOWNLOADED;
+        } else if (fileFormat.toLowerCase().equals("json")) {
+            try {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(
+                        new FileInputStream(projectPath + databaseName + "/" + tableName + ".xml"), "utf-8"));
 
 }

@@ -13,8 +13,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class TableWithoutLibrary {
+    private final String separator = " : ";
+    private final String apostrophe ="\"";
     class Condition {
         String field;
         String value;
@@ -37,6 +41,77 @@ public class TableWithoutLibrary {
     }
 
     private String projectPath = Paths.get("").toAbsolutePath().toString() + "\\src\\resources\\";
+
+    public boolean downloadTable(String databaseName, String tableName, String fileFormat, String destinationPath){
+        if(fileFormat.equals("xml")){
+            File source = new File(projectPath + databaseName + "/" + tableName + ".xml");
+            File dest = new File(destinationPath + "/" + tableName + ".xml");
+            try {
+                Files.copy(source.toPath(),dest.toPath());
+            } catch (IOException e) {
+                e.printStackTrace();
+                return false;
+            }
+            return true;
+        }
+        else if(fileFormat.equals("json")){
+            try {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(
+                        new FileInputStream(projectPath + databaseName + "/" + tableName + ".xml"), "utf-8"));
+
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter( new FileOutputStream(destinationPath+ "/" + tableName + "."+fileFormat), "utf-8"));
+                String line;
+                writer.write("{");
+                writer.newLine();
+                while((line = reader.readLine()) != null) {
+                    int count = 0;
+                    for (int i = 0; i < line.length(); i++){
+                        char c = line.charAt(i);
+                        if(c=='<')
+                            count++;
+                    }
+                    StringBuilder lineToBeWritten = new StringBuilder();
+                    if(count==1){
+                        if(!line.contains("</")) {
+                            line = line.replace("<", "").replace(">", "");
+                            lineToBeWritten.append(apostrophe + line + apostrophe + separator);
+                            if (line.toLowerCase().equals("entryes")) {
+                                lineToBeWritten.append("[");
+                            } else {
+                                lineToBeWritten.append("{");
+                            }
+                            writer.write(lineToBeWritten.toString());
+                            writer.newLine();
+                        }
+                        else{
+                            if(line.toLowerCase().contains("entryes"))
+                                writer.write("]");
+                            else{
+                                writer.write("]");
+                            }
+                            writer.newLine();
+                        }
+                    }
+                    else{
+                        Pattern patternForValue = Pattern.compile(">(.+?)<", Pattern.DOTALL);
+                        Matcher matcherValue = patternForValue.matcher(line);
+                        matcherValue.find();
+                        Pattern patternForTag = Pattern.compile(">(.+?)<", Pattern.DOTALL);
+                        Matcher matcherTag = patternForValue.matcher(line);
+                        matcherTag.find();
+                        lineToBeWritten.append(apostrophe+matcherTag.group(1)+apostrophe+separator+apostrophe+matcherValue+apostrophe+",");
+                        writer.newLine();
+                    }
+                }
+                return true;
+            } catch (IOException e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
+        return false;
+
+    }
 
     public boolean createTable(String databaseName, String tableName, HashMap<String, String> fields) {
         try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(
@@ -291,7 +366,6 @@ public class TableWithoutLibrary {
         try {
             BufferedReader reader = new BufferedReader(new InputStreamReader(
                     new FileInputStream(projectPath + databaseName + "/" + tableName + ".xml"), "utf-8"));
-
             while (!reader.readLine().contains("Fields")) {
                 line++;
             }
@@ -344,6 +418,11 @@ public class TableWithoutLibrary {
         }
         return entryesToBeDeletedOrUpdated;
     }
+    List<String> getTableSchemaForDbAndTable(String dbName, String tableName){
+        List<String> result = new ArrayList<>();
+        return result;
+    }
+
 }
 
 

@@ -14,10 +14,7 @@ import javax.xml.transform.stream.StreamResult;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
+import java.util.*;
 
 public class Table {
     private String projectPath = Paths.get("").toAbsolutePath().toString() + "\\src\\resources\\";
@@ -99,4 +96,5 @@ public class Table {
             e.printStackTrace();
         }
     }
+
 }

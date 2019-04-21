@@ -46,10 +46,19 @@ public class DatabaseImpl implements Database {
                     .map(Path::toFile)
                     .forEach(File::delete);
         } catch (IOException e) {
-            e.printStackTrace();
             return dropDatabaseError;
         }
         return databaseSuccessFullyDeleted;
+    }
+
+    @Override
+    public Boolean checkIfDatabaseExists(String dbName) {
+        try {
+             getDatabasesOrTables(projectPath + dbName);
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
     }
 
     private List<String> getDatabasesOrTables(String path) throws Exception {
