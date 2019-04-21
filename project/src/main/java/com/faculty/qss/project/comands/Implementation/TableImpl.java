@@ -18,7 +18,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class TableImpl implements Table {
-    private String projectPath = Paths.get("").toAbsolutePath().toString() + "\\src\\resources\\";
+    private String projectPath = Paths.get("").toAbsolutePath().toString() + "/src/main/resources/";
     private final String tableSuccessfullyCreated = "Table successfully created";
     private final String createTableError = "Could not create table";
     private final String tableAlreadyExists = "Table already exists";

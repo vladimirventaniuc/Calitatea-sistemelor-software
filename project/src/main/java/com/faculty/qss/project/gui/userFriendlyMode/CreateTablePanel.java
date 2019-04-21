@@ -5,11 +5,24 @@
  */
 package com.faculty.qss.project.gui.userFriendlyMode;
 
+import com.faculty.qss.project.comands.Implementation.DatabaseImpl;
+import com.faculty.qss.project.comands.Implementation.TableImpl;
+import com.faculty.qss.project.comands.Interfaces.Database;
+import com.faculty.qss.project.comands.Interfaces.Table;
+import java.awt.Component;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import javax.swing.JComboBox;
+import javax.swing.JTextField;
+
 /**
  *
  * @author echilaboc
  */
 public class CreateTablePanel extends javax.swing.JPanel {
+
+    private final String[] columnTypes = new String[]{"String", "Integer", "Long", "Double"};
 
     /**
      * Creates new form CreateTablePanel
@@ -32,9 +45,9 @@ public class CreateTablePanel extends javax.swing.JPanel {
         textAreaOutput = new javax.swing.JTextArea();
         comboBoxDatabaseNames = new javax.swing.JComboBox<>();
         labelSelectDatabaseName1 = new javax.swing.JLabel();
-        textFieldDatabaseName = new javax.swing.JTextField();
+        textFieldTableName = new javax.swing.JTextField();
         labelEnterColumnNamesAndTypes = new javax.swing.JLabel();
-        buttonClearData1 = new javax.swing.JButton();
+        buttonClearData = new javax.swing.JButton();
         buttonExecuteCommand = new javax.swing.JButton();
         scrollPaneColumns = new javax.swing.JScrollPane();
         panelColumns = new javax.swing.JPanel();
@@ -46,6 +59,18 @@ public class CreateTablePanel extends javax.swing.JPanel {
         comboBoxColumnType2 = new javax.swing.JComboBox<>();
         textFieldColumnName3 = new javax.swing.JTextField();
         comboBoxColumnType3 = new javax.swing.JComboBox<>();
+        textFieldColumnName4 = new javax.swing.JTextField();
+        comboBoxColumnType4 = new javax.swing.JComboBox<>();
+        textFieldColumnName5 = new javax.swing.JTextField();
+        comboBoxColumnType5 = new javax.swing.JComboBox<>();
+        textFieldColumnName6 = new javax.swing.JTextField();
+        comboBoxColumnType6 = new javax.swing.JComboBox<>();
+        textFieldColumnName7 = new javax.swing.JTextField();
+        comboBoxColumnType7 = new javax.swing.JComboBox<>();
+        textFieldColumnName8 = new javax.swing.JTextField();
+        comboBoxColumnType8 = new javax.swing.JComboBox<>();
+        textFieldColumnName9 = new javax.swing.JTextField();
+        comboBoxColumnType9 = new javax.swing.JComboBox<>();
 
         setMinimumSize(new java.awt.Dimension(469, 369));
         setPreferredSize(new java.awt.Dimension(469, 369));
@@ -53,24 +78,25 @@ public class CreateTablePanel extends javax.swing.JPanel {
 
         labelEnterTableName.setText("<html>Enter table name</html>");
 
+        textAreaOutput.setEditable(false);
         textAreaOutput.setColumns(20);
         textAreaOutput.setRows(5);
         jScrollPane1.setViewportView(textAreaOutput);
 
-        comboBoxDatabaseNames.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboBoxDatabaseNames.setModel(new javax.swing.DefaultComboBoxModel<>(getAllDatabaseNames()));
 
         labelSelectDatabaseName1.setText("<html>Select the database</html>");
 
         labelEnterColumnNamesAndTypes.setText("<html>Enter column names <br>and types</html>");
 
-        buttonClearData1.setForeground(new java.awt.Color(153, 153, 0));
-        buttonClearData1.setText("Clear");
-        buttonClearData1.setMaximumSize(new java.awt.Dimension(68, 27));
-        buttonClearData1.setMinimumSize(new java.awt.Dimension(68, 27));
-        buttonClearData1.setPreferredSize(new java.awt.Dimension(68, 27));
-        buttonClearData1.addActionListener(new java.awt.event.ActionListener() {
+        buttonClearData.setForeground(new java.awt.Color(153, 153, 0));
+        buttonClearData.setText("Clear");
+        buttonClearData.setMaximumSize(new java.awt.Dimension(68, 27));
+        buttonClearData.setMinimumSize(new java.awt.Dimension(68, 27));
+        buttonClearData.setPreferredSize(new java.awt.Dimension(68, 27));
+        buttonClearData.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonClearData1ActionPerformed(evt);
+                buttonClearDataActionPerformed(evt);
             }
         });
 
@@ -85,62 +111,56 @@ public class CreateTablePanel extends javax.swing.JPanel {
 
         scrollPaneColumns.setHorizontalScrollBar(null);
 
-        textFieldColumnName.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                textFieldColumnNameActionPerformed(evt);
-            }
-        });
+        comboBoxColumnType.setModel(new javax.swing.DefaultComboBoxModel<>(columnTypes));
 
-        comboBoxColumnType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboBoxColumnType1.setModel(new javax.swing.DefaultComboBoxModel<>(columnTypes));
 
-        textFieldColumnName1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                textFieldColumnName1ActionPerformed(evt);
-            }
-        });
+        comboBoxColumnType2.setModel(new javax.swing.DefaultComboBoxModel<>(columnTypes));
 
-        comboBoxColumnType1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboBoxColumnType3.setModel(new javax.swing.DefaultComboBoxModel<>(columnTypes));
 
-        textFieldColumnName2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                textFieldColumnName2ActionPerformed(evt);
-            }
-        });
+        comboBoxColumnType4.setModel(new javax.swing.DefaultComboBoxModel<>(columnTypes));
 
-        comboBoxColumnType2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboBoxColumnType5.setModel(new javax.swing.DefaultComboBoxModel<>(columnTypes));
 
-        textFieldColumnName3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                textFieldColumnName3ActionPerformed(evt);
-            }
-        });
+        comboBoxColumnType6.setModel(new javax.swing.DefaultComboBoxModel<>(columnTypes));
 
-        comboBoxColumnType3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboBoxColumnType7.setModel(new javax.swing.DefaultComboBoxModel<>(columnTypes));
+
+        comboBoxColumnType8.setModel(new javax.swing.DefaultComboBoxModel<>(columnTypes));
+
+        comboBoxColumnType9.setModel(new javax.swing.DefaultComboBoxModel<>(columnTypes));
 
         javax.swing.GroupLayout panelColumnsLayout = new javax.swing.GroupLayout(panelColumns);
         panelColumns.setLayout(panelColumnsLayout);
         panelColumnsLayout.setHorizontalGroup(
             panelColumnsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelColumnsLayout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(3, 3, 3)
                 .addGroup(panelColumnsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelColumnsLayout.createSequentialGroup()
-                        .addComponent(textFieldColumnName)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(comboBoxColumnType, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(panelColumnsLayout.createSequentialGroup()
-                        .addComponent(textFieldColumnName1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(comboBoxColumnType1, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(panelColumnsLayout.createSequentialGroup()
-                        .addComponent(textFieldColumnName2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(comboBoxColumnType2, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(panelColumnsLayout.createSequentialGroup()
-                        .addComponent(textFieldColumnName3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(comboBoxColumnType3, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                    .addComponent(textFieldColumnName, javax.swing.GroupLayout.DEFAULT_SIZE, 149, Short.MAX_VALUE)
+                    .addComponent(textFieldColumnName1)
+                    .addComponent(textFieldColumnName2)
+                    .addComponent(textFieldColumnName3)
+                    .addComponent(textFieldColumnName4)
+                    .addComponent(textFieldColumnName5)
+                    .addComponent(textFieldColumnName6)
+                    .addComponent(textFieldColumnName7)
+                    .addComponent(textFieldColumnName8)
+                    .addComponent(textFieldColumnName9))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelColumnsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(comboBoxColumnType, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(comboBoxColumnType1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(comboBoxColumnType2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(comboBoxColumnType3, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(comboBoxColumnType4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(comboBoxColumnType5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(comboBoxColumnType6, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(comboBoxColumnType7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(comboBoxColumnType8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(comboBoxColumnType9, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(12, 12, 12))
         );
         panelColumnsLayout.setVerticalGroup(
             panelColumnsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -161,7 +181,31 @@ public class CreateTablePanel extends javax.swing.JPanel {
                 .addGroup(panelColumnsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(textFieldColumnName3)
                     .addComponent(comboBoxColumnType3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelColumnsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(textFieldColumnName4)
+                    .addComponent(comboBoxColumnType4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelColumnsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(textFieldColumnName5)
+                    .addComponent(comboBoxColumnType5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelColumnsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(textFieldColumnName6)
+                    .addComponent(comboBoxColumnType6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelColumnsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(textFieldColumnName7)
+                    .addComponent(comboBoxColumnType7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelColumnsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(textFieldColumnName8)
+                    .addComponent(comboBoxColumnType8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelColumnsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(textFieldColumnName9)
+                    .addComponent(comboBoxColumnType9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(8, 8, 8))
         );
 
         scrollPaneColumns.setViewportView(panelColumns);
@@ -174,7 +218,7 @@ public class CreateTablePanel extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(buttonClearData1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(buttonClearData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(buttonExecuteCommand))
                     .addGroup(layout.createSequentialGroup()
@@ -182,77 +226,121 @@ public class CreateTablePanel extends javax.swing.JPanel {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jScrollPane1)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(labelEnterColumnNamesAndTypes, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
-                                .addComponent(scrollPaneColumns, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(labelEnterTableName, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(textFieldDatabaseName))
-                            .addGroup(layout.createSequentialGroup()
                                 .addComponent(labelSelectDatabaseName1, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(comboBoxDatabaseNames, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                                .addComponent(comboBoxDatabaseNames, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(labelEnterTableName, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(labelEnterColumnNamesAndTypes, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addGap(6, 6, 6)
+                                        .addComponent(scrollPaneColumns))
+                                    .addComponent(textFieldTableName))))))
                 .addGap(25, 25, 25))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(22, 22, 22)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(labelSelectDatabaseName1)
+                    .addComponent(comboBoxDatabaseNames))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(textFieldTableName, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(labelEnterTableName, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(8, 8, 8)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(comboBoxDatabaseNames, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(labelSelectDatabaseName1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(labelEnterColumnNamesAndTypes, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 89, Short.MAX_VALUE))
+                    .addComponent(scrollPaneColumns, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(textFieldDatabaseName, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(labelEnterTableName, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(labelEnterColumnNamesAndTypes, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(scrollPaneColumns, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(buttonClearData1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(buttonClearData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(buttonExecuteCommand))
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void textFieldColumnNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textFieldColumnNameActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_textFieldColumnNameActionPerformed
-
-    private void textFieldColumnName1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textFieldColumnName1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_textFieldColumnName1ActionPerformed
-
-    private void textFieldColumnName2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textFieldColumnName2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_textFieldColumnName2ActionPerformed
-
-    private void textFieldColumnName3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textFieldColumnName3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_textFieldColumnName3ActionPerformed
-
-    private void buttonClearData1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonClearData1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_buttonClearData1ActionPerformed
+    private void buttonClearDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonClearDataActionPerformed
+        textAreaOutput.setText("");
+        comboBoxDatabaseNames.setSelectedIndex(0);
+        
+        textFieldTableName.setText("");
+        
+        Component[] panelColumnComponents = panelColumns.getComponents();
+                for (int i = 0; i < panelColumnComponents.length; i++) {
+                    if (panelColumnComponents[i] instanceof JTextField) {
+                        ((JTextField) panelColumnComponents[i]).setText("");
+                    } else if (panelColumnComponents[i] instanceof JComboBox) {
+                        ((JComboBox) panelColumnComponents[i]).setSelectedIndex(0);
+                    }
+                }
+    }//GEN-LAST:event_buttonClearDataActionPerformed
 
     private void buttonExecuteCommandActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonExecuteCommandActionPerformed
-        // TODO add your handling code here:
+        String dbName = comboBoxDatabaseNames.getSelectedItem().toString().trim();
+        String tableName = textFieldTableName.getText();
+
+        if (dbName.contains("Choose database...")) {
+            textAreaOutput.setText("You have to select a database name from list");
+        } else {
+            if (tableName.length() == 0 || tableName.contains(" ")) {
+                textAreaOutput.setText("Table name can\'t be empty or to contain spaces.");
+            } else {
+                List<JTextField> columnTextFields = new ArrayList<JTextField>();
+                List<JComboBox> columnsComboBoxes = new ArrayList<JComboBox>();
+
+                Component[] panelColumnComponents = panelColumns.getComponents();
+                for (int i = 0; i < panelColumnComponents.length; i++) {
+                    if (panelColumnComponents[i] instanceof JTextField) {
+                        columnTextFields.add((JTextField) panelColumnComponents[i]);
+                    } else if (panelColumnComponents[i] instanceof JComboBox) {
+                        columnsComboBoxes.add((JComboBox) panelColumnComponents[i]);
+                    }
+                }
+                HashMap<String, String> columnsNamesAndTypes = new HashMap<String, String>();
+                int completedColumnsNumber = 0;
+                for (int i = 0; i < columnTextFields.size(); i++) {
+                    String columnName = columnTextFields.get(i).getText().trim();
+                    String columnType = ((String) columnsComboBoxes.get(i).getSelectedItem()).trim();
+                    if (columnName.length() != 0) {
+                        completedColumnsNumber++;
+                        columnsNamesAndTypes.put(columnName, columnType);
+                    }
+                }
+
+                if (completedColumnsNumber == 0) {
+                    textAreaOutput.setText("You need to have at least a column created");
+                } else {
+                    Table table = new TableImpl();
+                    String result = table.createTable(dbName, tableName, columnsNamesAndTypes);
+                    textAreaOutput.setText(result);
+                }
+            }
+        }
     }//GEN-LAST:event_buttonExecuteCommandActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonClearData;
-    private javax.swing.JButton buttonClearData1;
     private javax.swing.JButton buttonExecuteCommand;
     private javax.swing.JComboBox<String> comboBoxColumnType;
     private javax.swing.JComboBox<String> comboBoxColumnType1;
     private javax.swing.JComboBox<String> comboBoxColumnType2;
     private javax.swing.JComboBox<String> comboBoxColumnType3;
+    private javax.swing.JComboBox<String> comboBoxColumnType4;
+    private javax.swing.JComboBox<String> comboBoxColumnType5;
+    private javax.swing.JComboBox<String> comboBoxColumnType6;
+    private javax.swing.JComboBox<String> comboBoxColumnType7;
+    private javax.swing.JComboBox<String> comboBoxColumnType8;
+    private javax.swing.JComboBox<String> comboBoxColumnType9;
     private javax.swing.JComboBox<String> comboBoxDatabaseNames;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel labelEnterColumnNamesAndTypes;
@@ -265,6 +353,28 @@ public class CreateTablePanel extends javax.swing.JPanel {
     private javax.swing.JTextField textFieldColumnName1;
     private javax.swing.JTextField textFieldColumnName2;
     private javax.swing.JTextField textFieldColumnName3;
-    private javax.swing.JTextField textFieldDatabaseName;
+    private javax.swing.JTextField textFieldColumnName4;
+    private javax.swing.JTextField textFieldColumnName5;
+    private javax.swing.JTextField textFieldColumnName6;
+    private javax.swing.JTextField textFieldColumnName7;
+    private javax.swing.JTextField textFieldColumnName8;
+    private javax.swing.JTextField textFieldColumnName9;
+    private javax.swing.JTextField textFieldTableName;
     // End of variables declaration//GEN-END:variables
+
+    private String[] getAllDatabaseNames() {
+        Database database = new DatabaseImpl();
+        List<String> dbNames;
+        try {
+            dbNames = database.getAllDabaseNames();
+            if (dbNames.get(0).equals(".DS_Store")) {
+                dbNames.remove(0);
+            }
+            dbNames.add(0, "Choose database...");
+        } catch (Exception e) {
+            dbNames = new ArrayList<String>();
+        }
+        String[] temp = dbNames.toArray(new String[dbNames.size()]);
+        return temp;
+    }
 }

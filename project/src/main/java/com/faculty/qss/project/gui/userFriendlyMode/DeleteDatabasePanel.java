@@ -5,6 +5,13 @@
  */
 package com.faculty.qss.project.gui.userFriendlyMode;
 
+import com.faculty.qss.project.comands.Implementation.DatabaseImpl;
+import com.faculty.qss.project.comands.Interfaces.Database;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author echilaboc
@@ -39,8 +46,9 @@ public class DeleteDatabasePanel extends javax.swing.JPanel {
 
         labelSelectDatabaseName.setText("<html>Select database name <br>you want to be deleted</html>");
 
-        comboBoxDatabaseNames.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboBoxDatabaseNames.setModel(new javax.swing.DefaultComboBoxModel<>(getAllDatabaseNames()));
 
+        textAreaOutput.setEditable(false);
         textAreaOutput.setColumns(20);
         textAreaOutput.setRows(5);
         jScrollPane1.setViewportView(textAreaOutput);
@@ -104,11 +112,20 @@ public class DeleteDatabasePanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void buttonClearDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonClearDataActionPerformed
-        // TODO add your handling code here:
+        textAreaOutput.setText("");
+        comboBoxDatabaseNames.setModel(new javax.swing.DefaultComboBoxModel<>(getAllDatabaseNames()));
     }//GEN-LAST:event_buttonClearDataActionPerformed
 
     private void buttonExecuteCommandActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonExecuteCommandActionPerformed
-        // TODO add your handling code here:
+        String dbName = comboBoxDatabaseNames.getSelectedItem().toString().trim();
+        if (dbName.contains("Choose database...")) {
+            textAreaOutput.setText("You have to select a database name from list");
+        } else {
+            Database database = new DatabaseImpl();
+            String returnMessage = database.deleteDatabase(dbName);
+            textAreaOutput.setText(returnMessage);
+            database = null;
+        }
     }//GEN-LAST:event_buttonExecuteCommandActionPerformed
 
 
@@ -120,4 +137,20 @@ public class DeleteDatabasePanel extends javax.swing.JPanel {
     private javax.swing.JLabel labelSelectDatabaseName;
     private javax.swing.JTextArea textAreaOutput;
     // End of variables declaration//GEN-END:variables
+
+    private String[] getAllDatabaseNames() {
+        Database database = new DatabaseImpl();
+        List<String> dbNames;
+        try {
+            dbNames = database.getAllDabaseNames();
+            if (dbNames.get(0).equals(".DS_Store")) {
+                dbNames.remove(0);
+            }
+            dbNames.add(0, "Choose database...");
+        } catch (Exception e) {
+            dbNames = new ArrayList<String>();
+        }
+        String[] temp = dbNames.toArray(new String[dbNames.size()]);
+        return temp;
+    }
 }

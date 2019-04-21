@@ -5,6 +5,9 @@
  */
 package com.faculty.qss.project.gui.userFriendlyMode;
 
+import com.faculty.qss.project.comands.Implementation.DatabaseImpl;
+import com.faculty.qss.project.comands.Interfaces.Database;
+
 /**
  *
  * @author echilaboc
@@ -39,6 +42,7 @@ public class CreateDatabasePanel extends javax.swing.JPanel {
 
         labelEnterDatabaseName.setText("<html>Enter the name <br>of the new database</html>");
 
+        textAreaOutput.setEditable(false);
         textAreaOutput.setColumns(20);
         textAreaOutput.setRows(5);
         jScrollPane1.setViewportView(textAreaOutput);
@@ -103,10 +107,23 @@ public class CreateDatabasePanel extends javax.swing.JPanel {
 
     private void buttonClearDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonClearDataActionPerformed
         // TODO add your handling code here:
+        textFieldDatabaseName.setText("");
+        textAreaOutput.setText("");
     }//GEN-LAST:event_buttonClearDataActionPerformed
 
     private void buttonExecuteCommandActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonExecuteCommandActionPerformed
         // TODO add your handling code here:
+        String dbName = textFieldDatabaseName.getText();
+        if( dbName.length() == 0){
+            textAreaOutput.setText("The database name can\'t be empty.");
+        }else if(dbName.contains(" ")){
+            textAreaOutput.setText("The database name can\'t contain spaces.");
+        }else{
+            Database database = new DatabaseImpl();
+            String returnMessage = database.createDatabase(dbName);
+            textAreaOutput.setText(returnMessage);
+            database = null;
+        }
     }//GEN-LAST:event_buttonExecuteCommandActionPerformed
 
 
