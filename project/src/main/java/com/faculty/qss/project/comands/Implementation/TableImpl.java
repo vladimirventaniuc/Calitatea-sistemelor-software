@@ -36,6 +36,7 @@ public class TableImpl implements Table {
     private final String INVALID_FIELD = "Field [field] does not exist in the database";
     private final String SUCCESSFULLY_DOWNLOADED = "Table was successfully downloaded";
     private final String UNSUPPORTED_FILE_FORMAT = "Unsupported file format : [format]";
+    private final String SUCCESSFULLY_ALTERED = "Table successfully altered";
     private final String SEPARATOR = " : ";
     private final String APOSTROPHE = "\"";
 
@@ -323,4 +324,144 @@ public class TableImpl implements Table {
                 BufferedReader reader = new BufferedReader(new InputStreamReader(
                         new FileInputStream(projectPath + databaseName + "/" + tableName + ".xml"), "utf-8"));
 
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(destinationPath + "/" + tableName + "." + fileFormat), "utf-8"));
+                String line;
+                int numberOfBlankCharacters = 0;
+                writer.write("{");
+                writer.newLine();
+                reader.readLine();
+                while ((line = reader.readLine()) != null) {
+                    int count = 0;
+                    for (int i = 0; i < line.length(); i++) {
+                        char c = line.charAt(i);
+                        if (c == '<')
+                            count++;
+                    }
+                    StringBuilder lineToBeWritten = new StringBuilder();
+                    if (count == 1) {
+                        if (!line.contains("</")) {
+                            String id = null;
+                            if (line.contains("id")) {
+                                String[] splitById = line.split("id=");
+                                id = splitById[1].replace(">", "");
+                                line = splitById[0];
+                            }
+                            line = line.replace("<", "").replace(">", "").replace(" ", "");
+                            for (int i = 0; i < numberOfBlankCharacters; i++)
+                                lineToBeWritten.append(" ");
+                            numberOfBlankCharacters += 4;
+                            lineToBeWritten.append(APOSTROPHE + line + APOSTROPHE + SEPARATOR);
+                            if (line.toLowerCase().equals("entryes")) {
+                                lineToBeWritten.append("[");
+                            } else {
+                                lineToBeWritten.append("{");
+                            }
+                            writer.write(lineToBeWritten.toString());
+                            writer.newLine();
+                            if (id != null) {
+                                lineToBeWritten = new StringBuilder();
+                                for (int i = 0; i < numberOfBlankCharacters; i++)
+                                    lineToBeWritten.append(" ");
+                                lineToBeWritten.append("\"id\" : " + id);
+                                writer.write(lineToBeWritten.toString());
+                                writer.newLine();
+                            }
+                        } else {
+                            for (int i = 0; i < numberOfBlankCharacters; i++)
+                                lineToBeWritten.append(" ");
+                            if (line.toLowerCase().contains("entryes"))
+                                lineToBeWritten.append("]");
+                            else {
+                                lineToBeWritten.append("}");
+                                if (!line.toLowerCase().contains("tableinfo"))
+                                    lineToBeWritten.append(",");
+                            }
+                            writer.write(lineToBeWritten.toString());
+                            writer.newLine();
+                            numberOfBlankCharacters -= 4;
+                        }
+                    } else {
+                        Pattern patternForValue = Pattern.compile(">(.+?)<", Pattern.DOTALL);
+                        Matcher matcherValue = patternForValue.matcher(line);
+                        matcherValue.find();
+                        Pattern patternForTag = Pattern.compile("<(.+?)>", Pattern.DOTALL);
+                        Matcher matcherTag = patternForTag.matcher(line);
+                        matcherTag.find();
+                        for (int i = 0; i < numberOfBlankCharacters; i++)
+                            lineToBeWritten.append(" ");
+                        lineToBeWritten.append(APOSTROPHE + matcherTag.group(1) + APOSTROPHE + SEPARATOR + APOSTROPHE + matcherValue.group(1).replace(" ", "") + APOSTROPHE + ",");
+                        writer.write(lineToBeWritten.toString());
+                        writer.newLine();
+                    }
+                }
+                writer.write("}");
+                writer.close();
+                return SUCCESSFULLY_DOWNLOADED;
+            } catch (IOException e) {
+                e.printStackTrace();
+                return tableNotFound;
+            }
+        }
+        return UNSUPPORTED_FILE_FORMAT.replace("[format]", fileFormat);
+    }
+
+    @Override
+    public String addNewColumns(String dbName, String tableName, HashMap<String, String> newColumns) {
+        Path path = Paths.get(projectPath + dbName + "/" + tableName + ".xml");
+        List<String> lines = null;
+        try {
+            lines = Files.readAllLines(path, StandardCharsets.UTF_8);
+            List<String> newLines = new ArrayList<>(lines);
+            int counter = 0;
+            for (String line : lines) {
+                if (line.contains("</Fields>")) {
+                    for (Map.Entry<String, String> entry : newColumns.entrySet()) {
+                        newLines.add(counter, prepareStringForInsert("        ", entry.getKey(), entry.getValue()));
+                    }
+                    counter += newColumns.size();
+                }
+                if (line.contains("</Entry>")) {
+                    for (Map.Entry<String, String> entry : newColumns.entrySet()) {
+                        newLines.add(counter, prepareStringForInsert("            ", entry.getKey(), ""));
+                    }
+                    counter += newColumns.size();
+                }
+                counter++;
+
+            }
+            Files.write(path, newLines, StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return SUCCESSFULLY_ALTERED;
+    }
+
+    @Override
+    public String deleteColumns(String dbName, String tableName, String columnToBeDeleted) {
+        Path path = Paths.get(projectPath + dbName + "/" + tableName + ".xml");
+        List<String> lines = null;
+        try {
+            lines = Files.readAllLines(path, StandardCharsets.UTF_8);
+            List<String> newLines = new ArrayList<>(lines);
+            int counter = 0;
+            for (String line : lines) {
+                if (line.contains(columnToBeDeleted)) {
+                    newLines.remove(counter);
+                    counter--;
+                }
+                counter++;
+            }
+            Files.write(path, newLines, StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+    public String prepareStringForInsert(String spaces, String key, String value) {
+        StringBuilder newColumn = new StringBuilder();
+        newColumn.append(spaces);
+        newColumn.append("<" + key + "> " + value + " </" + key + ">");
+        return newColumn.toString();
+    }
 }

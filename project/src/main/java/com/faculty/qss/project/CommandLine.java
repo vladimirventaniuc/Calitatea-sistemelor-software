@@ -92,11 +92,14 @@ public class CommandLine extends Thread {
             String fieldsToBeDisplayed = query.split("select")[1].split("from")[0].replace(" ", "");
             displayTable(table.selectRecords(currentDatabaseName, tableName, fieldsToBeDisplayed, whereClause));
         } else if (splittedQuery.length == 6 && splittedQuery[0].equals("download") && splittedQuery[2].equals("as") && splittedQuery[4].equals("to")) {
-            String tableName = splittedQuery[1];
-            String type = splittedQuery[3];
             System.out.println(table.downloadTable(currentDatabaseName, splittedQuery[1], splittedQuery[3], splittedQuery[5]));
         }
-        else{
+        else if (splittedQuery.length > 4 && splittedQuery[0].equals("alter") && splittedQuery[1].equals("table") && splittedQuery[3].equals("add")) {
+            String newColums = query.split("add ")[1];
+            System.out.println(table.addNewColumns(currentDatabaseName, splittedQuery[2], createMapFromString(newColums, " ")));
+        } else if (splittedQuery.length == 6 && splittedQuery[0].equals("alter") && splittedQuery[1].equals("table") && splittedQuery[3].equals("drop") && splittedQuery[4].equals("column")) {
+            System.out.println(table.deleteColumns(currentDatabaseName, splittedQuery[2], splittedQuery[5]));
+        } else {
             System.out.println("Invalid command");
         }
     }
