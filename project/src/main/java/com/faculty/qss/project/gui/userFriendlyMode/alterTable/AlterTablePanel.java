@@ -32,9 +32,10 @@ public class AlterTablePanel extends javax.swing.JPanel {
         radioButtonDeleteColumn = new javax.swing.JRadioButton();
         radioButtonAddColumn = new javax.swing.JRadioButton();
         radioButtonChangeColumnName = new javax.swing.JRadioButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        textAreaOutput = new javax.swing.JTextArea();
         panelAlterTableOperation = new javax.swing.JPanel();
+
+        setPreferredSize(new java.awt.Dimension(469, 369));
+        setSize(new java.awt.Dimension(469, 369));
 
         buttonGroupAlterTable.add(radioButtonChangeTableName);
         radioButtonChangeTableName.setText("Change table name");
@@ -46,18 +47,31 @@ public class AlterTablePanel extends javax.swing.JPanel {
 
         buttonGroupAlterTable.add(radioButtonDeleteColumn);
         radioButtonDeleteColumn.setText("Delete column");
+        radioButtonDeleteColumn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radioButtonDeleteColumnActionPerformed(evt);
+            }
+        });
 
         buttonGroupAlterTable.add(radioButtonAddColumn);
         radioButtonAddColumn.setText("Add new column");
+        radioButtonAddColumn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radioButtonAddColumnActionPerformed(evt);
+            }
+        });
 
         buttonGroupAlterTable.add(radioButtonChangeColumnName);
         radioButtonChangeColumnName.setText("Change column name");
-
-        textAreaOutput.setColumns(20);
-        textAreaOutput.setRows(5);
-        jScrollPane1.setViewportView(textAreaOutput);
+        radioButtonChangeColumnName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radioButtonChangeColumnNameActionPerformed(evt);
+            }
+        });
 
         panelAlterTableOperation.setBackground(new java.awt.Color(255, 255, 225));
+        panelAlterTableOperation.setPreferredSize(new java.awt.Dimension(462, 293));
+        panelAlterTableOperation.setSize(new java.awt.Dimension(462, 293));
 
         javax.swing.GroupLayout panelAlterTableOperationLayout = new javax.swing.GroupLayout(panelAlterTableOperation);
         panelAlterTableOperation.setLayout(panelAlterTableOperationLayout);
@@ -67,7 +81,7 @@ public class AlterTablePanel extends javax.swing.JPanel {
         );
         panelAlterTableOperationLayout.setVerticalGroup(
             panelAlterTableOperationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 153, Short.MAX_VALUE)
+            .addGap(0, 293, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -90,10 +104,6 @@ public class AlterTablePanel extends javax.swing.JPanel {
                 .addGap(80, 80, 80))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1)
-                .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addComponent(panelAlterTableOperation, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
@@ -109,25 +119,65 @@ public class AlterTablePanel extends javax.swing.JPanel {
                     .addComponent(radioButtonDeleteColumn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(radioButtonAddColumn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(panelAlterTableOperation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(panelAlterTableOperation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void radioButtonChangeTableNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioButtonChangeTableNameActionPerformed
         // TODO add your handling code here:
+        panelAlterTableOperation.removeAll();
+        panelAlterTableOperation.revalidate();
+        panelAlterTableOperation.repaint();
+
+        ChangeTableNamePanel changeTableNamePanel = new ChangeTableNamePanel();
+        panelAlterTableOperation.add(changeTableNamePanel);
+
+        panelAlterTableOperation.setVisible(true);
     }//GEN-LAST:event_radioButtonChangeTableNameActionPerformed
+
+    private void radioButtonChangeColumnNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioButtonChangeColumnNameActionPerformed
+        // TODO add your handling code here:
+        panelAlterTableOperation.removeAll();
+        panelAlterTableOperation.revalidate();
+        panelAlterTableOperation.repaint();
+
+        ChangeColumnNamePanel changeColumnNamePanel = new ChangeColumnNamePanel();
+        panelAlterTableOperation.add(changeColumnNamePanel);
+
+        panelAlterTableOperation.setVisible(true);
+    }//GEN-LAST:event_radioButtonChangeColumnNameActionPerformed
+
+    private void radioButtonDeleteColumnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioButtonDeleteColumnActionPerformed
+        // TODO add your handling code here:
+        panelAlterTableOperation.removeAll();
+        panelAlterTableOperation.revalidate();
+        panelAlterTableOperation.repaint();
+
+        DeleteColumnPanel deleteColumnPanel = new DeleteColumnPanel();
+        panelAlterTableOperation.add(deleteColumnPanel);
+
+        panelAlterTableOperation.setVisible(true);
+    }//GEN-LAST:event_radioButtonDeleteColumnActionPerformed
+
+    private void radioButtonAddColumnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioButtonAddColumnActionPerformed
+        // TODO add your handling code here:
+        panelAlterTableOperation.removeAll();
+        panelAlterTableOperation.revalidate();
+        panelAlterTableOperation.repaint();
+
+        AddNewColumnPanel addNewColumnPanel = new AddNewColumnPanel();
+        panelAlterTableOperation.add(addNewColumnPanel);
+
+        panelAlterTableOperation.setVisible(true);
+    }//GEN-LAST:event_radioButtonAddColumnActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroupAlterTable;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel panelAlterTableOperation;
     private javax.swing.JRadioButton radioButtonAddColumn;
     private javax.swing.JRadioButton radioButtonChangeColumnName;
     private javax.swing.JRadioButton radioButtonChangeTableName;
     private javax.swing.JRadioButton radioButtonDeleteColumn;
-    private javax.swing.JTextArea textAreaOutput;
     // End of variables declaration//GEN-END:variables
 }

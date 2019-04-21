@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<TableInfo>
+    <Name> cati2-table </Name>
+    <NumberOfFields> 3 </NumberOfFields>
+    <Fields> 
+        <name> String </name>
+        <id> String </id>
+        <age> String </age>
+    </Fields>
+    <Entryes>
+    </Entryes>
+</TableInfo>

@@ -1,7 +1,4 @@
-package com.faculty.qss.project.comands.Implementation;
-
-import com.faculty.qss.project.comands.Interfaces.Database;
-
+package com.faculty.qss.project.commands.Implementation;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,13 +9,14 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+import com.faculty.qss.project.commands.Interfaces.Database;
+
 public class DatabaseImpl implements Database {
-    private String projectPath = Paths.get("").toAbsolutePath().toString() + "/src/main/resources/";
-    private final String databaseSuccessfullyCreated = "Database successfully created";
-    private final String databaseAlreadyExists = "Database already exists";
+    private String projectPath = Paths.get("").toAbsolutePath().toString() + "\\src\\resources\\";
+    private final String databaseSuccessfullyCreated="Database successfully created";
+    private final String databaseAlreadyExists="Database already exists";
     private final String databaseSuccessFullyDeleted = "Database has been successfully deleted";
     private final String dropDatabaseError = "Database not found";
-
     @Override
     public List<String> getAllDabaseNames() throws Exception {
         return getDatabasesOrTables(projectPath);
@@ -46,19 +44,10 @@ public class DatabaseImpl implements Database {
                     .map(Path::toFile)
                     .forEach(File::delete);
         } catch (IOException e) {
-            return dropDatabaseError;
+            e.printStackTrace();
+            return databaseSuccessFullyDeleted;
         }
-        return databaseSuccessFullyDeleted;
-    }
-
-    @Override
-    public Boolean checkIfDatabaseExists(String dbName) {
-        try {
-             getDatabasesOrTables(projectPath + dbName);
-        } catch (Exception e) {
-            return false;
-        }
-        return true;
+        return dropDatabaseError;
     }
 
     private List<String> getDatabasesOrTables(String path) throws Exception {
