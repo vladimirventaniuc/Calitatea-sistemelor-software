@@ -7,7 +7,11 @@ import java.util.HashMap;
 public class WhereClauseValidator {
     public ArrayList<Entry> entryesToBeDeletedOrUpdated(String projectPath, String databaseName, String tableName, String whereClause) {
         int line = 0;
-        ArrayList<ArrayList<Condition>> conditions = resolveConditions(whereClause);
+        ArrayList<ArrayList<Condition>> conditions;
+        if (!whereClause.isEmpty())
+            conditions = resolveConditions(whereClause);
+        else
+            conditions = new ArrayList<>();
         ArrayList<Entry> entryesToBeDeletedOrUpdated = new ArrayList<>();
         HashMap<String, String> fields = new HashMap<>();
 
@@ -50,7 +54,7 @@ public class WhereClauseValidator {
                         String value = splited[1].split("<")[0].replace(" ", "");
                         fieldsAndValues.put(fieldName, value);
                     }
-                    if (checkEntityAgainsConditions(fieldsAndValues, conditions)) {
+                    if (whereClause.isEmpty() || checkEntityAgainsConditions(fieldsAndValues, conditions)) {
                         Entry entry = new Entry(fieldsAndValues, firstLine);
                         entryesToBeDeletedOrUpdated.add(entry);
                     }
