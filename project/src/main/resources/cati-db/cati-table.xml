@@ -6,28 +6,34 @@
         <name> String </name>
         <id> String </id>
         <age> String </age>
+        <city> String </city>
     </Fields>
     <Entryes>
         <Entry id="1">
             <name> Cati </name>
             <id> 1 </id>
             <age> 23 </age>
+            <city>  </city>
         </Entry>
         <Entry id="2">
             <name> florin </name>
             <id> 2 </id>
             <age> 31 </age>
+            <city>  </city>
         </Entry>
+            <city>  </city>
         </Entry>
         <Entry id="4">
             <name> simona </name>
             <id> 4 </id>
             <age> 23 </age>
+            <city>  </city>
         </Entry>
         <Entry id="5">
             <name> ioana </name>
             <id> 5 </id>
             <age> 30 </age>
+            <city>  </city>
         </Entry>
     </Entryes>
 </TableInfo>
