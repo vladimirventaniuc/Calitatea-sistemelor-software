@@ -167,7 +167,7 @@ public class UserFriendlyModePanel extends javax.swing.JPanel {
 
         buttonUpdateRecord.setBackground(new java.awt.Color(204, 255, 204));
         buttonUpdateRecord.setForeground(new java.awt.Color(19, 3, 248));
-        buttonUpdateRecord.setText("<html>Update<br> record</html>");
+        buttonUpdateRecord.setText("<html>Update<br> record(s)</html>");
         buttonUpdateRecord.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         buttonUpdateRecord.setContentAreaFilled(false);
         buttonUpdateRecord.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);

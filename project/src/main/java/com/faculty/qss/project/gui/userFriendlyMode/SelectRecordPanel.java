@@ -287,6 +287,15 @@ public class SelectRecordPanel extends javax.swing.JPanel {
         textFieldValue1.setText("");
         textFieldValue2.setText("");
         textAreaOutput.setText("");
+
+        panelColumnsSelected.removeAll();
+        panelColumnsSelected.setLayout(new GridLayout(0, 2, 10, 10));
+        panelColumnsSelected.revalidate();
+        panelColumnsSelected.repaint();
+        scrollPanelColumnsSelected.setViewportView(panelColumnsSelected);
+
+        columnNames = null;
+        columnNames = new ArrayList<String>();
     }//GEN-LAST:event_buttonClearDataActionPerformed
 
     private void buttonExecuteCommandActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonExecuteCommandActionPerformed
@@ -338,18 +347,19 @@ public class SelectRecordPanel extends javax.swing.JPanel {
                     bigWhereCondition = whereCondition2;
                 }
                 String selectedColumns = "";
-                Component components[] =  panelColumnsSelected.getComponents();
-                for(int i  =0; i < components.length; i++){
-                    if( components[i] instanceof JCheckBox){
+                Component components[] = panelColumnsSelected.getComponents();
+                for (int i = 0; i < components.length; i++) {
+                    if (components[i] instanceof JCheckBox) {
                         JCheckBox checkBox = (JCheckBox) components[i];
-                        if( checkBox.isSelected())
-                        selectedColumns += checkBox.getText() + ",";
+                        if (checkBox.isSelected()) {
+                            selectedColumns += checkBox.getText() + ",";
+                        }
                     }
                 }
-                
-                if(selectedColumns.length() == 0 ){
+
+                if (selectedColumns.length() == 0) {
                     selectedColumns = "*";
-                }else{
+                } else {
                     selectedColumns = selectedColumns.substring(0, selectedColumns.length() - 1);
                 }
                 Table table = new TableImpl();
@@ -413,12 +423,30 @@ public class SelectRecordPanel extends javax.swing.JPanel {
         String dbName = (String) comboBoxDatabaseNames.getSelectedItem();
         if (!dbName.equals("Choose database...")) {
             comboBoxTableNames.setModel(new DefaultComboBoxModel<>(getAllTableNamesForDb(dbName)));
+
+            panelColumnsSelected.removeAll();
+            panelColumnsSelected.setLayout(new GridLayout(0, 2, 10, 10));
+            panelColumnsSelected.revalidate();
+            panelColumnsSelected.repaint();
+            scrollPanelColumnsSelected.setViewportView(panelColumnsSelected);
+
+            columnNames = null;
+            columnNames = new ArrayList<String>();
         } else {
             comboBoxTableNames.setModel(new DefaultComboBoxModel<>(new String[]{}));
             comboBoxColumn1.setModel(new DefaultComboBoxModel<>(new String[]{}));
             comboBoxColumn2.setModel(new DefaultComboBoxModel<>(new String[]{}));
             textFieldValue1.setText("");
             textFieldValue2.setText("");
+
+            panelColumnsSelected.removeAll();
+            panelColumnsSelected.setLayout(new GridLayout(0, 2, 10, 10));
+            panelColumnsSelected.revalidate();
+            panelColumnsSelected.repaint();
+            scrollPanelColumnsSelected.setViewportView(panelColumnsSelected);
+
+            columnNames = null;
+            columnNames = new ArrayList<String>();
         }
     }//GEN-LAST:event_comboBoxDatabaseNamesitemStateChangeActionPerformedForDatabase
 
