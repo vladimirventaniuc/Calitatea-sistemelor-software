@@ -26,7 +26,7 @@ public class DatabaseTest {
     private final String dropDatabaseError = "Database not found";
 
     @Before
-    public void setUpStreams() {
+    public void init() {
         this.table = new TableImpl();
         this.database = new DatabaseImpl();
     }
