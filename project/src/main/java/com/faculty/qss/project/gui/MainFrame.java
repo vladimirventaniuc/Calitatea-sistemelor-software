@@ -12,7 +12,7 @@ import com.faculty.qss.project.CommandLine;
  * @author admin
  */
 public class MainFrame extends javax.swing.JFrame {
-
+	
     /**
      * Creates new form MainFrame
      */
@@ -84,7 +84,6 @@ public class MainFrame extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 MainFrame mainFrame = new MainFrame();
-                WelcomePanel welcomePanel = new WelcomePanel();
 
                 mainFrame.add(welcomePanel);
                 mainFrame.pack();
@@ -93,6 +92,17 @@ public class MainFrame extends javax.swing.JFrame {
         });
     }
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
+	public static WelcomePanel getWelcomePanel() {
+		return welcomePanel;
+	}
+
+    public static void setWelcomePanel(WelcomePanel welcomePanel) {
+		MainFrame.welcomePanel = welcomePanel;
+	}
+
+
+
+	// Variables declaration - do not modify//GEN-BEGIN:variables
+	private static WelcomePanel welcomePanel = new WelcomePanel();
     // End of variables declaration//GEN-END:variables
 }

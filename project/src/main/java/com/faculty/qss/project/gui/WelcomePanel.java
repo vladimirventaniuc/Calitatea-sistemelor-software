@@ -135,18 +135,18 @@ public class WelcomePanel extends javax.swing.JPanel {
         if( isCommandLineModeSelected){
             this.setVisible(false);
             
-            JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+            setTopFrame((JFrame) SwingUtilities.getWindowAncestor(this));
             
-            CommandLineModePanel commandLinePanel = new CommandLineModePanel();
-            topFrame.add(commandLinePanel);
-            topFrame.pack();
-            topFrame.setVisible(true);
+            commandLinePanel = new CommandLineModePanel();
+            getTopFrame().add(commandLinePanel);
+            getTopFrame().pack();
+            getTopFrame().setVisible(true);
         }else if(isFriendlyModeSelected){
             this.setVisible(false);
             
             JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
             
-            UserFriendlyModePanel userfriendlyPanel = new UserFriendlyModePanel();
+            userfriendlyPanel = new UserFriendlyModePanel();
             topFrame.add(userfriendlyPanel);
             topFrame.pack();
             topFrame.setVisible(true);
@@ -161,5 +161,61 @@ public class WelcomePanel extends javax.swing.JPanel {
     private javax.swing.JLabel labelnteractionMode;
     private javax.swing.JRadioButton radioButtonCommandLineMode;
     private javax.swing.JRadioButton radioButtonUserFriendlyMode;
+    
+    private CommandLineModePanel commandLinePanel = null;
+    private UserFriendlyModePanel userfriendlyPanel = null;
+    private JFrame topFrame;
     // End of variables declaration//GEN-END:variables
+
+	public javax.swing.JButton getButtonNextInteractionMode() {
+		return buttonNextInteractionMode;
+	}
+
+	public javax.swing.JRadioButton getRadioButtonCommandLineMode() {
+		return radioButtonCommandLineMode;
+	}
+
+	public void setRadioButtonCommandLineMode(javax.swing.JRadioButton radioButtonCommandLineMode) {
+		this.radioButtonCommandLineMode = radioButtonCommandLineMode;
+	}
+
+	public javax.swing.JRadioButton getRadioButtonUserFriendlyMode() {
+		return radioButtonUserFriendlyMode;
+	}
+
+	public void setRadioButtonUserFriendlyMode(javax.swing.JRadioButton radioButtonUserFriendlyMode) {
+		this.radioButtonUserFriendlyMode = radioButtonUserFriendlyMode;
+	}
+
+	public boolean isCommandLineModeSelected() {
+		return isCommandLineModeSelected;
+	}
+
+	public boolean isFriendlyModeSelected() {
+		return isFriendlyModeSelected;
+	}
+
+	public CommandLineModePanel getCommandLinePanel() {
+		return commandLinePanel;
+	}
+
+	public UserFriendlyModePanel getUserfriendlyPanel() {
+		return userfriendlyPanel;
+	}
+
+	public void setCommandLineModeSelected(boolean isCommandLineModeSelected) {
+		this.isCommandLineModeSelected = isCommandLineModeSelected;
+	}
+
+	public void setFriendlyModeSelected(boolean isFriendlyModeSelected) {
+		this.isFriendlyModeSelected = isFriendlyModeSelected;
+	}
+
+	public JFrame getTopFrame() {
+		return topFrame;
+	}
+
+	public void setTopFrame(JFrame topFrame) {
+		this.topFrame = topFrame;
+	}
 }
