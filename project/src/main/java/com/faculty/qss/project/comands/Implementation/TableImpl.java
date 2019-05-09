@@ -60,7 +60,7 @@ public class TableImpl implements Table {
                 Matcher matcherTag = patternForTag.matcher(field);
                 matcherTag.find();
                 result.add(matcherTag.group(0).replace("<", "").replace(">", "")
-                        + " = " + matcherValue.group(0).replace("<", "").replace(">", ""));
+                        + " = " + matcherValue.group(0).replace("<", "").replace(">", "").replace(" ",""));
             }
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
