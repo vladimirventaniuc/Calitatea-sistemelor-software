@@ -118,7 +118,6 @@ public class TableImpl implements Table {
     @Override
     public String deleteTable(String dbName, String tableNameToDel) {
         File file = new File(projectPath + dbName + "/" + tableNameToDel + ".xml");
-
         if (file.delete()) {
             return tableSuccessfullyDeleted;
         } else {
@@ -312,6 +311,10 @@ public class TableImpl implements Table {
         if (fileFormat.toLowerCase().equals("xml")) {
             File source = new File(projectPath + databaseName + "/" + tableName + ".xml");
             File dest = new File(destinationPath + "/" + tableName + ".xml");
+            while(dest.exists()){
+                tableName = tableName +"0";
+                dest=new File(destinationPath + "/" + tableName + ".xml");
+            }
             try {
                 Files.copy(source.toPath(), dest.toPath());
             } catch (IOException e) {

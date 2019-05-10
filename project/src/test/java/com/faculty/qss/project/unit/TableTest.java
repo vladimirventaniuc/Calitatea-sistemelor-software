@@ -51,6 +51,7 @@ public class TableTest {
     private final String DATABASE_NAME = "table_test_db";
     private final String INVALID_DATABASE_NAME = "table_test_db2";
     private final String TABLE_NAME = "table_for_insert";
+    private String downloadPath = Paths.get("").toAbsolutePath().toString() + "/src/test/downloadFolder/";
     @Before
     public void _init() {
         this.table = new TableImpl();
@@ -61,6 +62,7 @@ public class TableTest {
         columnAndType.put("lastName", "String");
         columnAndType.put("age", "integer");
         table.createTable(DATABASE_NAME,TABLE_NAME,columnAndType);
+//        new File(Paths.get("").toAbsolutePath().toString() + "/src/test/").mkdirs();
     }
 
     @Test
@@ -340,6 +342,29 @@ public class TableTest {
         assertEquals(UNSUPPORTED_FILE_FORMAT.replace("[format]", fileFormat), output);
     }
 
+    @Test
+    public void b8_downloadInvalidTable(){
+        String fileFormat = "xml";
+        String output = this.table.downloadTable(DATABASE_NAME,"invalid_table",fileFormat,".");
+        assertEquals(tableNotFound, output);
+    }
+
+    @Test
+    public void b9_downloadTableAsXML(){
+        String fileFormat = "xml";
+        String output = this.table.downloadTable(DATABASE_NAME,TABLE_NAME,fileFormat,downloadPath);
+        assertEquals(SUCCESSFULLY_DOWNLOADED, output);
+        File createdFile = new File(projectPath + DATABASE_NAME + "/" + TABLE_NAME +"."+ fileFormat);
+        assertTrue(createdFile.exists());
+    }
+    @Test
+    public void c0_downloadTableAsJSON(){
+        String fileFormat = "json";
+        String output = this.table.downloadTable(DATABASE_NAME,TABLE_NAME,fileFormat,downloadPath);
+        assertEquals(SUCCESSFULLY_DOWNLOADED, output);
+        File createdFile = new File(projectPath + DATABASE_NAME + "/" + TABLE_NAME +"."+ fileFormat);
+        assertTrue(createdFile.exists());
+    }
 
 
 //    @After
