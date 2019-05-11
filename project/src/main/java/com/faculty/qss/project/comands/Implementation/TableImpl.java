@@ -292,7 +292,7 @@ public class TableImpl implements Table {
         } else {
             for (Entry entry : entryesToBeUpdated) {
                 StringBuilder ent = new StringBuilder();
-                String[] fields = fieldsToBeDisplayed.toLowerCase().split(",");
+                String[] fields = fieldsToBeDisplayed.split(",");
                 for (String field : fields) {
                     if (!entry.fieldsAndValues.containsKey(field)) {
 //                        return INVALID_FIELD.replace("[field]", field);

@@ -21,6 +21,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import static org.junit.matchers.JUnitMatchers.*;
 
 import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
@@ -52,6 +53,7 @@ public class TableTest {
     private final String INVALID_DATABASE_NAME = "table_test_db2";
     private final String TABLE_NAME = "table_for_insert";
     private String downloadPath = Paths.get("").toAbsolutePath().toString() + "/src/test/downloadFolder/";
+
     @Before
     public void _init() {
         this.table = new TableImpl();
@@ -61,7 +63,7 @@ public class TableTest {
         columnAndType.put("firstName", "String");
         columnAndType.put("lastName", "String");
         columnAndType.put("age", "integer");
-        table.createTable(DATABASE_NAME,TABLE_NAME,columnAndType);
+        table.createTable(DATABASE_NAME, TABLE_NAME, columnAndType);
 //        new File(Paths.get("").toAbsolutePath().toString() + "/src/test/").mkdirs();
     }
 
@@ -123,8 +125,8 @@ public class TableTest {
         expectedOutput.add("age = integer");
         List<String> actualOutput = this.table.getTableSchemaForDbAndTable(DATABASE_NAME, tableName);
         assertEquals(expectedOutput.size(), actualOutput.size());
-        for(int i=0;i<expectedOutput.size();i++)
-            assertEquals(expectedOutput.get(i),actualOutput.get(i));
+        for (int i = 0; i < expectedOutput.size(); i++)
+            assertEquals(expectedOutput.get(i), actualOutput.get(i));
     }
 
     @Test
@@ -141,30 +143,33 @@ public class TableTest {
         File file = new File(projectPath + DATABASE_NAME + "/" + tableName + ".xml");
         assertFalse(file.exists());
     }
-//    changeTableName(String dbName, String oldTableName, String newTableName)
+
+    //    changeTableName(String dbName, String oldTableName, String newTableName)
     @Test
-    public void a7_changeTableNameWithSuccess(){
+    public void a7_changeTableNameWithSuccess() {
         String currentTableName = "testtable";
         String newTableName = "testtable_v2";
         String output = this.table.changeTableName(DATABASE_NAME, currentTableName, newTableName);
         assertEquals(this.tableNameSuccessfullyChanged, output);
     }
-//    insertRecords(String dbName, String tableName, List<String> values);
+
+    //    insertRecords(String dbName, String tableName, List<String> values);
     @Test
-    public void a8_insertRecordsWrongNumberOfParameters(){
+    public void a8_insertRecordsWrongNumberOfParameters() {
         List<String> valuesToBeInserted = new ArrayList<>();
         valuesToBeInserted.add("ana");
         valuesToBeInserted.add("craciun");
-        String output = this.table.insertRecords(DATABASE_NAME,TABLE_NAME, valuesToBeInserted);
+        String output = this.table.insertRecords(DATABASE_NAME, TABLE_NAME, valuesToBeInserted);
         assertEquals(this.numberOfParametersIsNotEqual, output);
     }
+
     @Test
-    public void a9_insertRecords(){
+    public void a9_insertRecords() {
         List<String> valuesToBeInserted = new ArrayList<>();
         valuesToBeInserted.add("ana");
         valuesToBeInserted.add("craciun");
         valuesToBeInserted.add("20");
-        String output = this.table.insertRecords(DATABASE_NAME,TABLE_NAME, valuesToBeInserted);
+        String output = this.table.insertRecords(DATABASE_NAME, TABLE_NAME, valuesToBeInserted);
         assertEquals(this.ENTRYES_SUCCESSFULLY_INSERTED, output);
         File file = new File(projectPath + DATABASE_NAME + "/" + TABLE_NAME + ".xml");
         DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory
@@ -184,33 +189,33 @@ public class TableTest {
             e.printStackTrace();
         }
         List valuesToBeCompared = new ArrayList<>();
-        valuesToBeCompared.add(document.getElementsByTagName("firstName").item(1).getTextContent().replace(" ",""));
-        valuesToBeCompared.add(document.getElementsByTagName("lastName").item(1).getTextContent().replace(" ",""));
-        valuesToBeCompared.add(document.getElementsByTagName("age").item(1).getTextContent().replace(" ",""));
+        valuesToBeCompared.add(document.getElementsByTagName("firstName").item(1).getTextContent().replace(" ", ""));
+        valuesToBeCompared.add(document.getElementsByTagName("lastName").item(1).getTextContent().replace(" ", ""));
+        valuesToBeCompared.add(document.getElementsByTagName("age").item(1).getTextContent().replace(" ", ""));
 
-        for(int i=0; i<valuesToBeInserted.size();i++){
+        for (int i = 0; i < valuesToBeInserted.size(); i++) {
             assertEquals(valuesToBeInserted.get(i), valuesToBeCompared.get(i));
         }
     }
 //    deleteRecords(String dbName, String tableName, String whereClause)
 
     @Test
-    public void b1_deleteRecordsInvalidTable(){
+    public void b1_deleteRecordsInvalidTable() {
         String whereClause = "id=1";
-        String output = this.table.deleteRecords(DATABASE_NAME,"invalid_table",whereClause);
+        String output = this.table.deleteRecords(DATABASE_NAME, "invalid_table", whereClause);
         assertEquals(this.DELETE_ERROR, output);
     }
 
     @Test
-    public void b2_deleteRecords(){
+    public void b2_deleteRecords() {
         List<String> values = new ArrayList<>();
         values.add("ana");
         values.add("craciun");
         values.add("20");
-        this.table.insertRecords(DATABASE_NAME,TABLE_NAME,values);
+        this.table.insertRecords(DATABASE_NAME, TABLE_NAME, values);
         String whereClause = "id=1";
-        String output = this.table.deleteRecords(DATABASE_NAME,TABLE_NAME,whereClause);
-        String expectedOutput = DELETE_SUCCESFULLY.replace("[number]","1");
+        String output = this.table.deleteRecords(DATABASE_NAME, TABLE_NAME, whereClause);
+        String expectedOutput = DELETE_SUCCESFULLY.replace("[number]", "1");
 
         assertEquals(expectedOutput, output);
 
@@ -240,19 +245,19 @@ public class TableTest {
     //String updateRecords(String dbName, String tableName, String whereClause, HashMap<String, String> values);
     //SUCCESSFULLY_UPDATED.replace("[number]", Integer.toString(entryesToBeUpdated.size()))
     @Test
-    public void b3_updateRecords(){
+    public void b3_updateRecords() {
         List<String> values = new ArrayList<>();
         values.add("ana");
         values.add("craciun");
         values.add("20");
-        this.table.insertRecords(DATABASE_NAME,TABLE_NAME,values);
+        this.table.insertRecords(DATABASE_NAME, TABLE_NAME, values);
         String whereClause = "id=1";
         String expectedOutput = SUCCESSFULLY_UPDATED.replace("[number]", Integer.toString(1));
         HashMap<String, String> valuesToUpdate = new HashMap<>();
         valuesToUpdate.put("firstName", "ana2");
-        valuesToUpdate.put("lastName","craciun2");
-        valuesToUpdate.put("age","40");
-        String output = this.table.updateRecords(DATABASE_NAME, TABLE_NAME,whereClause, valuesToUpdate);
+        valuesToUpdate.put("lastName", "craciun2");
+        valuesToUpdate.put("age", "40");
+        String output = this.table.updateRecords(DATABASE_NAME, TABLE_NAME, whereClause, valuesToUpdate);
         assertEquals(expectedOutput, output);
 
         File file = new File(projectPath + DATABASE_NAME + "/" + TABLE_NAME + ".xml");
@@ -273,30 +278,31 @@ public class TableTest {
             e.printStackTrace();
         }
 
-        assertEquals("ana2",document.getElementsByTagName("firstName").item(1).getTextContent().replace(" ",""));
-        assertEquals("craciun2",document.getElementsByTagName("lastName").item(1).getTextContent().replace(" ",""));
-        assertEquals("40",document.getElementsByTagName("age").item(1).getTextContent().replace(" ",""));
+        assertEquals("ana2", document.getElementsByTagName("firstName").item(1).getTextContent().replace(" ", ""));
+        assertEquals("craciun2", document.getElementsByTagName("lastName").item(1).getTextContent().replace(" ", ""));
+        assertEquals("40", document.getElementsByTagName("age").item(1).getTextContent().replace(" ", ""));
     }
 
     @Test
-    public void b4_updateRecordsInvalidField(){
+    public void b4_updateRecordsInvalidField() {
         List<String> values = new ArrayList<>();
         values.add("ana");
         values.add("craciun");
         values.add("20");
-        this.table.insertRecords(DATABASE_NAME,TABLE_NAME,values);
+        this.table.insertRecords(DATABASE_NAME, TABLE_NAME, values);
         String whereClause = "id=1";
         String expectedOutput = SUCCESSFULLY_UPDATED.replace("[number]", Integer.toString(1));
         HashMap<String, String> valuesToUpdate = new HashMap<>();
         valuesToUpdate.put("invalidField", "ana2");
-        valuesToUpdate.put("lastName","craciun2");
-        valuesToUpdate.put("age","40");
-        String output = this.table.updateRecords(DATABASE_NAME, TABLE_NAME,whereClause, valuesToUpdate);
+        valuesToUpdate.put("lastName", "craciun2");
+        valuesToUpdate.put("age", "40");
+        String output = this.table.updateRecords(DATABASE_NAME, TABLE_NAME, whereClause, valuesToUpdate);
         assertEquals("Invalid field invalidField", output);
     }
-//    selectRecords(String dbName, String tableName, String fieldsToBeDisplayed, String whereClause)
+
+    //    selectRecords(String dbName, String tableName, String fieldsToBeDisplayed, String whereClause)
     @Test
-    public void b5_selectRecords(){
+    public void b5_selectRecords() {
         List<String> keys = new ArrayList<>();
         keys.add("firstName");
         keys.add("lastName");
@@ -309,61 +315,75 @@ public class TableTest {
         values2.add("ana");
         values2.add("craciun2");
         values2.add("202");
-        this.table.insertRecords(DATABASE_NAME,TABLE_NAME,values1);
-        this.table.insertRecords(DATABASE_NAME,TABLE_NAME,values2);
+        this.table.insertRecords(DATABASE_NAME, TABLE_NAME, values1);
+        this.table.insertRecords(DATABASE_NAME, TABLE_NAME, values2);
         String whereClause = "firstName=ana";
-        List<String> output = this.table.selectRecords(DATABASE_NAME, TABLE_NAME,"firstName,lastName,age",whereClause);
+        List<String> output = this.table.selectRecords(DATABASE_NAME, TABLE_NAME, "firstName,lastName,age", whereClause);
         List<String> expectedOutput = new ArrayList<>();
         StringBuilder sb1 = new StringBuilder();
         StringBuilder sb2 = new StringBuilder();
 //        ent.append("<<" + values.getKey() + " = " + values.getValue() + ">>");
-        for(int i=0; i<values1.size();i++){
+        for (int i = 0; i < values1.size(); i++) {
             sb1.append("<<" + keys.get(i) + " = " + values1.get(i) + ">>");
             sb2.append("<<" + keys.get(i) + " = " + values2.get(i) + ">>");
         }
         expectedOutput.add(sb1.toString());
         expectedOutput.add(sb2.toString());
-        assertEquals(expectedOutput.size(),output.size());
-        for(int i=0;i<expectedOutput.size();i++){
-            assertEquals(expectedOutput.get(i),output.get(i));
+        assertEquals(expectedOutput.size(), output.size());
+        for (int i = 0; i < expectedOutput.size(); i++) {
+            assertEquals(expectedOutput.get(i), output.get(i));
         }
     }
-//    String downloadTable(String databaseName, String tableName, String fileFormat, String destinationPath)
+
+    //    String downloadTable(String databaseName, String tableName, String fileFormat, String destinationPath)
     @Test
-    public void b6_downloadTableInvalidName(){
-        String output = this.table.downloadTable(DATABASE_NAME,"Invalid_table","xml",".");
+    public void b6_downloadTableInvalidName() {
+        String output = this.table.downloadTable(DATABASE_NAME, "Invalid_table", "xml", ".");
         assertEquals(tableNotFound, output);
     }
 
     @Test
-    public void b7_downloadTableUnsupported(){
+    public void b7_downloadTableUnsupported() {
         String fileFormat = "csv";
-        String output = this.table.downloadTable(DATABASE_NAME,TABLE_NAME,fileFormat,".");
+        String output = this.table.downloadTable(DATABASE_NAME, TABLE_NAME, fileFormat, ".");
         assertEquals(UNSUPPORTED_FILE_FORMAT.replace("[format]", fileFormat), output);
     }
 
     @Test
-    public void b8_downloadInvalidTable(){
+    public void b8_downloadInvalidTable() {
         String fileFormat = "xml";
-        String output = this.table.downloadTable(DATABASE_NAME,"invalid_table",fileFormat,".");
+        String output = this.table.downloadTable(DATABASE_NAME, "invalid_table", fileFormat, ".");
         assertEquals(tableNotFound, output);
     }
 
     @Test
-    public void b9_downloadTableAsXML(){
+    public void b9_downloadTableAsXML() {
         String fileFormat = "xml";
-        String output = this.table.downloadTable(DATABASE_NAME,TABLE_NAME,fileFormat,downloadPath);
+        String output = this.table.downloadTable(DATABASE_NAME, TABLE_NAME, fileFormat, downloadPath);
         assertEquals(SUCCESSFULLY_DOWNLOADED, output);
-        File createdFile = new File(projectPath + DATABASE_NAME + "/" + TABLE_NAME +"."+ fileFormat);
+        File createdFile = new File(downloadPath + "/" + TABLE_NAME + "." + fileFormat);
         assertTrue(createdFile.exists());
     }
+
     @Test
-    public void c0_downloadTableAsJSON(){
+    public void c0_downloadTableAsJSON() {
         String fileFormat = "json";
-        String output = this.table.downloadTable(DATABASE_NAME,TABLE_NAME,fileFormat,downloadPath);
+        String output = this.table.downloadTable(DATABASE_NAME, TABLE_NAME, fileFormat, downloadPath);
         assertEquals(SUCCESSFULLY_DOWNLOADED, output);
-        File createdFile = new File(projectPath + DATABASE_NAME + "/" + TABLE_NAME +"."+ fileFormat);
+        File createdFile = new File(downloadPath + "/" + TABLE_NAME + "." + fileFormat);
         assertTrue(createdFile.exists());
+    }
+
+    //    addNewColumns(String dbName, String tableName, HashMap<String, String> newColumns)
+    @Test
+    public void c1_addNewColumns() {
+        HashMap<String, String> newColumns = new HashMap<>();
+        newColumns.put("newCol1", "String");
+        newColumns.put("newCol2", "String");
+        String output = this.table.addNewColumns(DATABASE_NAME, TABLE_NAME, newColumns);
+        assertEquals(this.SUCCESSFULLY_ALTERED, output);
+        List<String> actualOutput = this.table.getTableSchemaForDbAndTable(DATABASE_NAME, TABLE_NAME);
+        //assertThat(actualOutput,contains("newCol1","newCol1"));
     }
 
 
