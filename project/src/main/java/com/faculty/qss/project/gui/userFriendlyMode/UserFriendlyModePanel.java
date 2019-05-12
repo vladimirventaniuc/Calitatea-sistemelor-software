@@ -347,10 +347,10 @@ public class UserFriendlyModePanel extends javax.swing.JPanel {
     private void buttonBackToWelcomePageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonBackToWelcomePageActionPerformed
         this.setVisible(false);
 
+        JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        
         welcomePanel = new WelcomePanel();
         
-        JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
-        System.out.println("AICI: " + topFrame.toString());
         topFrame.add(welcomePanel);
         topFrame.pack();
         topFrame.setVisible(true);
