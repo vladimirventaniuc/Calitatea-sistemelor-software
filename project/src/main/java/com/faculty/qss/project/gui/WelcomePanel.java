@@ -140,12 +140,12 @@ public class WelcomePanel extends javax.swing.JPanel {
         if( isCommandLineModeSelected){
             this.setVisible(false);
             
-            setTopFrame((JFrame) SwingUtilities.getWindowAncestor(this));
+            JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
             
             commandLinePanel = new CommandLineModePanel();
-            getTopFrame().add(commandLinePanel);
-            getTopFrame().pack();
-            getTopFrame().setVisible(true);
+            topFrame.add(commandLinePanel);
+            topFrame.pack();
+            topFrame.setVisible(true);
         }else if(isFriendlyModeSelected){
             this.setVisible(false);
             
@@ -169,7 +169,6 @@ public class WelcomePanel extends javax.swing.JPanel {
     
     private CommandLineModePanel commandLinePanel = null;
     private UserFriendlyModePanel userfriendlyPanel = null;
-    private JFrame topFrame;
     // End of variables declaration//GEN-END:variables
 
 	public javax.swing.JButton getButtonNextInteractionMode() {
@@ -214,13 +213,5 @@ public class WelcomePanel extends javax.swing.JPanel {
 
 	public void setFriendlyModeSelected(boolean isFriendlyModeSelected) {
 		this.isFriendlyModeSelected = isFriendlyModeSelected;
-	}
-
-	public JFrame getTopFrame() {
-		return topFrame;
-	}
-
-	public void setTopFrame(JFrame topFrame) {
-		this.topFrame = topFrame;
 	}
 }

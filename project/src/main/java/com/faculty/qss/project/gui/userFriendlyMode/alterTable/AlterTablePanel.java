@@ -114,7 +114,7 @@ public class AlterTablePanel extends javax.swing.JPanel {
         panelAlterTableOperation.revalidate();
         panelAlterTableOperation.repaint();
 
-        ChangeTableNamePanel changeTableNamePanel = new ChangeTableNamePanel();
+        changeTableNamePanel = new ChangeTableNamePanel();
         panelAlterTableOperation.add(changeTableNamePanel);
 
         panelAlterTableOperation.setVisible(true);
@@ -126,7 +126,7 @@ public class AlterTablePanel extends javax.swing.JPanel {
         panelAlterTableOperation.revalidate();
         panelAlterTableOperation.repaint();
 
-        DeleteColumnPanel deleteColumnPanel = new DeleteColumnPanel();
+        deleteColumnPanel = new DeleteColumnPanel();
         panelAlterTableOperation.add(deleteColumnPanel);
 
         panelAlterTableOperation.setVisible(true);
@@ -138,7 +138,7 @@ public class AlterTablePanel extends javax.swing.JPanel {
         panelAlterTableOperation.revalidate();
         panelAlterTableOperation.repaint();
 
-        AddNewColumnPanel addNewColumnPanel = new AddNewColumnPanel();
+        addNewColumnPanel = new AddNewColumnPanel();
         panelAlterTableOperation.add(addNewColumnPanel);
 
         panelAlterTableOperation.setVisible(true);
@@ -151,5 +151,44 @@ public class AlterTablePanel extends javax.swing.JPanel {
     private javax.swing.JRadioButton radioButtonAddColumn;
     private javax.swing.JRadioButton radioButtonChangeTableName;
     private javax.swing.JRadioButton radioButtonDeleteColumn;
+    
+    private ChangeTableNamePanel changeTableNamePanel;
+    private DeleteColumnPanel deleteColumnPanel;
+    private AddNewColumnPanel addNewColumnPanel;
     // End of variables declaration//GEN-END:variables
+	public javax.swing.JRadioButton getRadioButtonAddColumn() {
+		return radioButtonAddColumn;
+	}
+
+	public javax.swing.JRadioButton getRadioButtonChangeTableName() {
+		return radioButtonChangeTableName;
+	}
+
+	public javax.swing.JRadioButton getRadioButtonDeleteColumn() {
+		return radioButtonDeleteColumn;
+	}
+
+	public ChangeTableNamePanel getChangeTableNamePanel() {
+		return changeTableNamePanel;
+	}
+
+	public DeleteColumnPanel getDeleteColumnPanel() {
+		return deleteColumnPanel;
+	}
+
+	public AddNewColumnPanel getAddNewColumnPanel() {
+		return addNewColumnPanel;
+	}
+
+	public void setRadioButtonAddColumn(javax.swing.JRadioButton radioButtonAddColumn) {
+		this.radioButtonAddColumn = radioButtonAddColumn;
+	}
+
+	public void setRadioButtonChangeTableName(javax.swing.JRadioButton radioButtonChangeTableName) {
+		this.radioButtonChangeTableName = radioButtonChangeTableName;
+	}
+
+	public void setRadioButtonDeleteColumn(javax.swing.JRadioButton radioButtonDeleteColumn) {
+		this.radioButtonDeleteColumn = radioButtonDeleteColumn;
+	}
 }
