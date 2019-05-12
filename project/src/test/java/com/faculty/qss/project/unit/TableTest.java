@@ -10,6 +10,9 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -18,9 +21,9 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
+
 import static org.junit.matchers.JUnitMatchers.*;
 
 import static org.junit.Assert.*;
@@ -380,10 +383,31 @@ public class TableTest {
         HashMap<String, String> newColumns = new HashMap<>();
         newColumns.put("newCol1", "String");
         newColumns.put("newCol2", "String");
+        List<String> expectedOutput = new ArrayList<>();
+        for (Map.Entry<String, String> entry : newColumns.entrySet()) {
+            expectedOutput.add(entry.getKey() + " = " + entry.getValue());
+        }
         String output = this.table.addNewColumns(DATABASE_NAME, TABLE_NAME, newColumns);
         assertEquals(this.SUCCESSFULLY_ALTERED, output);
-        List<String> actualOutput = this.table.getTableSchemaForDbAndTable(DATABASE_NAME, TABLE_NAME);
-        //assertThat(actualOutput,contains("newCol1","newCol1"));
+        Set<String> actualOutput = this.table.getTableSchemaForDbAndTable(DATABASE_NAME, TABLE_NAME).stream().collect(Collectors.toSet());
+        for (String expected : expectedOutput) {
+            assertTrue(actualOutput.contains(expected));
+        }
+    }
+
+    //    deleteColumns(String dbName, String tableName, String columnToBeDeleted)
+    @Test
+    public void c2_deleteColumns() {
+        String columns = "firstName";
+        String output = this.table.deleteColumns(DATABASE_NAME, TABLE_NAME, columns);
+        assertEquals(SUCCESSFULLY_ALTERED, output);
+        List<String> tableSchema = this.table.getTableSchemaForDbAndTable(DATABASE_NAME, TABLE_NAME);
+
+        Set<String> actualOutput = this.table.getTableSchemaForDbAndTable(DATABASE_NAME, TABLE_NAME).stream().collect(Collectors.toSet());
+        for(String str : actualOutput){
+            assertFalse(str.contains("firstName"));
+        }
+
     }
 
 

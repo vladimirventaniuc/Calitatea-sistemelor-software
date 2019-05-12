@@ -458,7 +458,7 @@ public class TableImpl implements Table {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return "";
+        return SUCCESSFULLY_ALTERED;
     }
 
     public String prepareStringForInsert(String spaces, String key, String value) {
