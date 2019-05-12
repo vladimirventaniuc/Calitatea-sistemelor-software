@@ -2,17 +2,12 @@ package com.faculty.qss.project.unit.gui;
 
 import static org.junit.Assert.*;
 
-import javax.swing.JButton;
 import javax.swing.JRadioButton;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
 
-import com.faculty.qss.project.gui.MainFrame;
 import com.faculty.qss.project.gui.WelcomePanel;
-import com.faculty.qss.project.gui.commandLineMode.CommandLineModePanel;
-import com.faculty.qss.project.gui.userFriendlyMode.UserFriendlyModePanel;
 
 public class WelcomePanelTest {
 

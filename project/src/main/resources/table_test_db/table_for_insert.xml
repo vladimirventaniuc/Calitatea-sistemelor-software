@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<TableInfo>
+    <Name> table_for_insert </Name>
+    <NumberOfFields> 3 </NumberOfFields>
+    <Fields> 
+        <lastName> String </lastName>
+        <age> integer </age>
+    </Fields>
+    <Entryes>
+    </Entryes>
+</TableInfo>

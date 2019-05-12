@@ -14,6 +14,13 @@ import com.faculty.qss.project.CommandLine;
 public class MainFrame extends javax.swing.JFrame {
 	
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -1027443176816117499L;
+
+
+
+	/**
      * Creates new form MainFrame
      */
     public MainFrame() {
