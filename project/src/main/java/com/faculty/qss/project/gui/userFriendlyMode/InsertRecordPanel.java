@@ -222,7 +222,7 @@ public class InsertRecordPanel extends javax.swing.JPanel {
             String[] columnNames = getTableSchemaForDbAndTable(dbName, tableName);
 
             String result = "";
-            Table table = new TableImpl();
+            table = getTable();
             TableModel tableRecs = tableInsert.getModel();
             for (int row = 0; row < 20; row++) {
                 List<String> values = new ArrayList<String>();
@@ -239,6 +239,7 @@ public class InsertRecordPanel extends javax.swing.JPanel {
                 }
             }
             textAreaOutput.setText(result);
+            table = null;
         }
     }//GEN-LAST:event_buttonExecuteCommandActionPerformed
 
@@ -356,6 +357,8 @@ public class InsertRecordPanel extends javax.swing.JPanel {
     private javax.swing.JLabel labelSelectTableName1;
     private javax.swing.JTable tableInsert;
     private javax.swing.JTextArea textAreaOutput;
+    
+    private Table table;
     // End of variables declaration//GEN-END:variables
 
     private String[] getAllDatabaseNames() {
@@ -402,4 +405,40 @@ public class InsertRecordPanel extends javax.swing.JPanel {
         String[] temp = columnNames.toArray(new String[columnNames.size()]);
         return temp;
     }
+    
+    public Table getTable() {
+		if (table == null) {
+			return new TableImpl();
+		} else {
+			return table;
+		}
+	}
+
+	public void setTable(Table tbl) {
+		table = tbl;
+	}
+
+	public javax.swing.JButton getButtonClearData() {
+		return buttonClearData;
+	}
+
+	public javax.swing.JButton getButtonExecuteCommand() {
+		return buttonExecuteCommand;
+	}
+
+	public javax.swing.JComboBox<String> getComboBoxDatabaseNames() {
+		return comboBoxDatabaseNames;
+	}
+
+	public javax.swing.JComboBox<String> getComboBoxTableNames() {
+		return comboBoxTableNames;
+	}
+
+	public javax.swing.JTable getTableInsert() {
+		return tableInsert;
+	}
+
+	public javax.swing.JTextArea getTextAreaOutput() {
+		return textAreaOutput;
+	}
 }

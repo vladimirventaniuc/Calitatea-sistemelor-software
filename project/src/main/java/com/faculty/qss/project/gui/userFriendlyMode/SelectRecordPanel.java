@@ -362,12 +362,13 @@ public class SelectRecordPanel extends javax.swing.JPanel {
                 } else {
                     selectedColumns = selectedColumns.substring(0, selectedColumns.length() - 1);
                 }
-                Table table = new TableImpl();
+                table = getTable();
                 List<String> result = table.selectRecords(dbName, tableName, selectedColumns, bigWhereCondition);
                 textAreaOutput.setText("");
                 for (String res : result) {
                     textAreaOutput.append(res + "\n");
                 }
+                table = null;
             }
         }
     }//GEN-LAST:event_buttonExecuteCommandActionPerformed
@@ -482,6 +483,8 @@ public class SelectRecordPanel extends javax.swing.JPanel {
     private javax.swing.JTextArea textAreaOutput;
     private javax.swing.JTextField textFieldValue1;
     private javax.swing.JTextField textFieldValue2;
+    
+    private Table table;
     // End of variables declaration//GEN-END:variables
 
     List<String> columnNames = new ArrayList<String>();
@@ -536,14 +539,78 @@ public class SelectRecordPanel extends javax.swing.JPanel {
         return temp;
     }
 
-    private String[] getTableSchemaForDbAndTableWithoutChoose(String dbName, String tableName) {
-        Table table = new TableImpl();
-        List<String> columnNames = table.getTableSchemaForDbAndTable(dbName, tableName);
-        List<String> tempCols = new ArrayList<String>();
-        for (String column : columnNames) {
-            tempCols.add(column.split("=")[0].trim());
-        }
-        String[] temp = tempCols.toArray(new String[tempCols.size()]);
-        return temp;
-    }
+//    private String[] getTableSchemaForDbAndTableWithoutChoose(String dbName, String tableName) {
+//        Table table = new TableImpl();
+//        List<String> columnNames = table.getTableSchemaForDbAndTable(dbName, tableName);
+//        List<String> tempCols = new ArrayList<String>();
+//        for (String column : columnNames) {
+//            tempCols.add(column.split("=")[0].trim());
+//        }
+//        String[] temp = tempCols.toArray(new String[tempCols.size()]);
+//        return temp;
+//    }
+    
+    public Table getTable() {
+		if (table == null) {
+			return new TableImpl();
+		} else {
+			return table;
+		}
+	}
+
+	public void setTable(Table tbl) {
+		table = tbl;
+	}
+
+	public javax.swing.JButton getButtonClearData() {
+		return buttonClearData;
+	}
+
+	public javax.swing.JButton getButtonExecuteCommand() {
+		return buttonExecuteCommand;
+	}
+
+	public javax.swing.JComboBox<String> getComboBoxColumn1() {
+		return comboBoxColumn1;
+	}
+
+	public javax.swing.JComboBox<String> getComboBoxColumn2() {
+		return comboBoxColumn2;
+	}
+
+	public javax.swing.JComboBox<String> getComboBoxDatabaseNames() {
+		return comboBoxDatabaseNames;
+	}
+
+	public javax.swing.JComboBox<String> getComboBoxLogicalOperator() {
+		return comboBoxLogicalOperator;
+	}
+
+	public javax.swing.JComboBox<String> getComboBoxOperator1() {
+		return comboBoxOperator1;
+	}
+
+	public javax.swing.JComboBox<String> getComboBoxOperator2() {
+		return comboBoxOperator2;
+	}
+
+	public javax.swing.JComboBox<String> getComboBoxTableNames() {
+		return comboBoxTableNames;
+	}
+
+	public javax.swing.JPanel getPanelColumnsSelected() {
+		return panelColumnsSelected;
+	}
+
+	public javax.swing.JTextArea getTextAreaOutput() {
+		return textAreaOutput;
+	}
+
+	public javax.swing.JTextField getTextFieldValue1() {
+		return textFieldValue1;
+	}
+
+	public javax.swing.JTextField getTextFieldValue2() {
+		return textFieldValue2;
+	}
 }
