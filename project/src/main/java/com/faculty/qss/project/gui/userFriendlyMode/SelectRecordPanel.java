@@ -487,38 +487,42 @@ public class SelectRecordPanel extends javax.swing.JPanel {
     List<String> columnNames = new ArrayList<String>();
 
     private String[] getAllDatabaseNames() {
-        Database database = new DatabaseImpl();
-        List<String> dbNames;
-        try {
-            dbNames = database.getAllDabaseNames();
-            if (dbNames.get(0).equals(".DS_Store")) {
-                dbNames.remove(0);
-            }
-            dbNames.add(0, "Choose database...");
-        } catch (Exception e) {
-            dbNames = new ArrayList<String>();
-            dbNames.add(0, "Choose database...");
-        }
-        String[] temp = dbNames.toArray(new String[dbNames.size()]);
-        return temp;
-    }
+		Database database = new DatabaseImpl();
+		List<String> dbNames;
+		try {
+			dbNames = database.getAllDabaseNames();
+			for (int i = 0; i < dbNames.size(); i++) {
+				if (dbNames.get(i).equals(".DS_Store")) {
+					dbNames.remove(i);
+				}
+			}
+			dbNames.add(0, "Choose database...");
+		} catch (Exception e) {
+			dbNames = new ArrayList<String>();
+			dbNames.add(0, "Choose database...");
+		}
+		String[] temp = dbNames.toArray(new String[dbNames.size()]);
+		return temp;
+	}
 
-    public String[] getAllTableNamesForDb(String dbName) {
-        Database database = new DatabaseImpl();
-        List<String> tableNames = new ArrayList<String>();
-        try {
-            tableNames = database.getAllTableNamesForDb(dbName);
-            if (tableNames.get(0).equals(".DS_Store")) {
-                tableNames.remove(0);
-            }
-            tableNames.add(0, "Choose table...");
-        } catch (Exception ex) {
-            tableNames = new ArrayList<String>();
-            tableNames.add(0, "Choose table...");
-        }
-        String[] temp = tableNames.toArray(new String[tableNames.size()]);
-        return temp;
-    }
+	public String[] getAllTableNamesForDb(String dbName) {
+		Database database = new DatabaseImpl();
+		List<String> tableNames = new ArrayList<String>();
+		try {
+			tableNames = database.getAllTableNamesForDb(dbName);
+			for (int i = 0; i < tableNames.size(); i++) {
+				if (tableNames.get(i).equals(".DS_Store")) {
+					tableNames.remove(i);
+				}
+			}
+			tableNames.add(0, "Choose table...");
+		} catch (Exception ex) {
+			tableNames = new ArrayList<String>();
+			tableNames.add(0, "Choose table...");
+		}
+		String[] temp = tableNames.toArray(new String[tableNames.size()]);
+		return temp;
+	}
 
     private String[] getTableSchemaForDbAndTable(String dbName, String tableName) {
         Table table = new TableImpl();

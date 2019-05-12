@@ -141,21 +141,23 @@ public class DeleteDatabasePanel extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
     private String[] getAllDatabaseNames() {
-        Database database = new DatabaseImpl();
-        List<String> dbNames;
-        try {
-            dbNames = database.getAllDabaseNames();
-            if (dbNames.get(0).equals(".DS_Store")) {
-                dbNames.remove(0);
-            }
-            dbNames.add(0, "Choose database...");
-        } catch (Exception e) {
-            dbNames = new ArrayList<String>();
-            dbNames.add(0, "Choose database...");
-        }
-        String[] temp = dbNames.toArray(new String[dbNames.size()]);
-        return temp;
-    }
+		Database database = new DatabaseImpl();
+		List<String> dbNames;
+		try {
+			dbNames = database.getAllDabaseNames();
+			for (int i = 0; i < dbNames.size(); i++) {
+				if (dbNames.get(i).equals(".DS_Store")) {
+					dbNames.remove(i);
+				}
+			}
+			dbNames.add(0, "Choose database...");
+		} catch (Exception e) {
+			dbNames = new ArrayList<String>();
+			dbNames.add(0, "Choose database...");
+		}
+		String[] temp = dbNames.toArray(new String[dbNames.size()]);
+		return temp;
+	}
     
     public Database getDatabase() {
 		if( database == null) {

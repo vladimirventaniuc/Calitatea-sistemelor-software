@@ -111,7 +111,7 @@ public class CreateTablePanelTest {
 	}
 	
 	@Test
-	public void checkIfPressExecuteButton_ChecksThatHasToBeSelectedADatabaseToBeRemoved() {
+	public void checkIfPressExecuteButton_ChecksThatHasToBeSelectedADatabase() {
 		JComboBox<String> databaseNamesComboBox = createTablePanel.getComboBoxDatabaseNames();
 		databaseNamesComboBox.setSelectedIndex(0);
 
