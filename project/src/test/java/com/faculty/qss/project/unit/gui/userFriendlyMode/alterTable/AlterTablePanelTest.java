@@ -48,7 +48,7 @@ public class AlterTablePanelTest {
 
 		JButton alterTableButton = userFriendlyModePanel.getButtonAlterTable();
 
-		// Click on delete table option
+		// Click on alter table option
 		alterTableButton.doClick();
 
 		alterTablePanel = userFriendlyModePanel.getAlterTablePanel();

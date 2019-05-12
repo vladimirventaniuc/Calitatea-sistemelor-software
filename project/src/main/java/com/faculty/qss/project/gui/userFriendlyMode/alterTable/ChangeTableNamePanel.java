@@ -162,15 +162,16 @@ public class ChangeTableNamePanel extends javax.swing.JPanel {
         }else{
             String tableName = comboBoxTableNames.getSelectedItem().toString().trim();
             if (tableName.equals("Choose table...")){
-                textAreaOutput.setText("\nChoose a table from list");
+                textAreaOutput.setText("Choose a table from list");
             }else{
                 String newTableName = textFieldNewTableName.getText();
                 if((newTableName.trim()).length() == 0){
-                    textAreaOutput.setText("\nType the new table name before executing");
+                    textAreaOutput.setText("Type the new table name before executing");
                 }else{
-                    Table table = new TableImpl();
+                    table = getTable();
                     String result = table.changeTableName(dbName, tableName, newTableName);
                     textAreaOutput.setText(result);
+                    table = null;
                 }
             }
         }
@@ -202,6 +203,8 @@ public class ChangeTableNamePanel extends javax.swing.JPanel {
     private javax.swing.JLabel labelSelectTableName1;
     private javax.swing.JTextArea textAreaOutput;
     private javax.swing.JTextField textFieldNewTableName;
+    
+    private Table table;
     // End of variables declaration//GEN-END:variables
 
     private String[] getAllDatabaseNames() {
@@ -264,4 +267,40 @@ public class ChangeTableNamePanel extends javax.swing.JPanel {
         String[] temp = tempCols.toArray(new String[tempCols.size()]);
         return temp;
     }
+    
+    public Table getTable() {
+		if (table == null) {
+			return new TableImpl();
+		} else {
+			return table;
+		}
+	}
+
+	public void setTable(Table tbl) {
+		table = tbl;
+	}
+
+	public javax.swing.JButton getButtonClearData() {
+		return buttonClearData;
+	}
+
+	public javax.swing.JButton getButtonExecuteCommand() {
+		return buttonExecuteCommand;
+	}
+
+	public javax.swing.JComboBox<String> getComboBoxDatabaseNames() {
+		return comboBoxDatabaseNames;
+	}
+
+	public javax.swing.JComboBox<String> getComboBoxTableNames() {
+		return comboBoxTableNames;
+	}
+
+	public javax.swing.JTextArea getTextAreaOutput() {
+		return textAreaOutput;
+	}
+
+	public javax.swing.JTextField getTextFieldNewTableName() {
+		return textFieldNewTableName;
+	}
 }

@@ -348,7 +348,7 @@ public class CreateTablePanel extends javax.swing.JPanel {
 				if (completedColumnsNumber == 0) {
 					textAreaOutput.setText("You need to have at least a column created");
 				} else {
-					Table table = getTable();
+					table = getTable();
 					String result = table.createTable(dbName, tableName, columnsNamesAndTypes);
 					textAreaOutput.setText(result);
 					table = null;

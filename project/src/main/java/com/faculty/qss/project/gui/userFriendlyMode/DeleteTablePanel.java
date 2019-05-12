@@ -156,7 +156,7 @@ public class DeleteTablePanel extends javax.swing.JPanel {
 		} else if (tableName.contains("Choose table...")) {
 			textAreaOutput.setText("You have to select a table name from list");
 		} else {
-			Table table = getTable();
+			table = getTable();
 			String result = table.deleteTable(dbName, tableName);
 			textAreaOutput.setText(result);
 			table = null;
