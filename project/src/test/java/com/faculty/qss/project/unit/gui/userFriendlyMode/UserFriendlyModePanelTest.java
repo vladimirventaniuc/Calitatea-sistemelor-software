@@ -3,19 +3,42 @@ package com.faculty.qss.project.unit.gui.userFriendlyMode;
 import static org.junit.Assert.*;
 
 import javax.swing.JButton;
+import javax.swing.JRadioButton;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import com.faculty.qss.project.gui.MainFrame;
+import com.faculty.qss.project.gui.WelcomePanel;
 import com.faculty.qss.project.gui.userFriendlyMode.UserFriendlyModePanel;
 
-public class UserFriendlyModePanelTest{
+public class UserFriendlyModePanelTest {
+
+	private MainFrame mainFrame;
 
 	private UserFriendlyModePanel userFriendlyModePanel;
 
 	@Before
 	public void setUp() {
-		userFriendlyModePanel = new UserFriendlyModePanel();
+		mainFrame = new MainFrame();
+
+		WelcomePanel welcomePanel = new WelcomePanel();
+
+		mainFrame.add(welcomePanel);
+		mainFrame.pack();
+		mainFrame.setVisible(true);
+
+		JRadioButton userFriendlyModeRadioButton = welcomePanel.getRadioButtonUserFriendlyMode();
+
+		// Click on user-friendly mode radio button
+		userFriendlyModeRadioButton.doClick();
+
+		JButton buttonNextInteractionMode = welcomePanel.getButtonNextInteractionMode();
+
+		// Click on next button
+		buttonNextInteractionMode.doClick();
+
+		userFriendlyModePanel = welcomePanel.getUserfriendlyPanel();
 	}
 
 	@Test
@@ -65,7 +88,7 @@ public class UserFriendlyModePanelTest{
 		assertNull(userFriendlyModePanel.getSelectRecordPanel());
 		assertNull(userFriendlyModePanel.getUpdateRecordPanel());
 	}
-	
+
 	@Test
 	public void checkIfClickCreateTableButton_ItCreatesPanelForCreateTableAndNotOthers() {
 		JButton createTableButton = userFriendlyModePanel.getButtonCreateTable();
@@ -89,7 +112,7 @@ public class UserFriendlyModePanelTest{
 		assertNull(userFriendlyModePanel.getSelectRecordPanel());
 		assertNull(userFriendlyModePanel.getUpdateRecordPanel());
 	}
-	
+
 	@Test
 	public void checkIfClickDeleteTableButton_ItCreatesPanelForDeleteTableAndNotOthers() {
 		JButton deleteTableButton = userFriendlyModePanel.getButtonDeleteTable();
@@ -113,7 +136,7 @@ public class UserFriendlyModePanelTest{
 		assertNull(userFriendlyModePanel.getSelectRecordPanel());
 		assertNull(userFriendlyModePanel.getUpdateRecordPanel());
 	}
-	
+
 	@Test
 	public void checkIfClickAlterTableButton_ItCreatesPanelForAlterTableAndNotOthers() {
 		JButton alterTableButton = userFriendlyModePanel.getButtonAlterTable();
@@ -137,7 +160,7 @@ public class UserFriendlyModePanelTest{
 		assertNull(userFriendlyModePanel.getSelectRecordPanel());
 		assertNull(userFriendlyModePanel.getUpdateRecordPanel());
 	}
-	
+
 	@Test
 	public void checkIfClickInsertRecordButton_ItCreatesPanelForInsertRecordAndNotOthers() {
 		JButton insertRecordButton = userFriendlyModePanel.getButtonInsertRecord();
@@ -161,7 +184,7 @@ public class UserFriendlyModePanelTest{
 		assertNull(userFriendlyModePanel.getSelectRecordPanel());
 		assertNull(userFriendlyModePanel.getUpdateRecordPanel());
 	}
-	
+
 	@Test
 	public void checkIfClickUpdateRecordButton_ItCreatesPanelForUpdateRecordAndNotOthers() {
 		JButton updateRecordButton = userFriendlyModePanel.getButtonUpdateRecord();
@@ -185,7 +208,7 @@ public class UserFriendlyModePanelTest{
 		assertNull(userFriendlyModePanel.getInsertRecordPanel());
 		assertNull(userFriendlyModePanel.getSelectRecordPanel());
 	}
-	
+
 	@Test
 	public void checkIfClickDeleteRecordButton_ItCreatesPanelForDeleteRecordAndNotOthers() {
 		JButton updateRecordButton = userFriendlyModePanel.getButtonDeleteRecord();
@@ -209,7 +232,7 @@ public class UserFriendlyModePanelTest{
 		assertNull(userFriendlyModePanel.getSelectRecordPanel());
 		assertNull(userFriendlyModePanel.getUpdateRecordPanel());
 	}
-	
+
 	@Test
 	public void checkIfClickSelectRecordsButton_ItCreatesPanelForSelectRecordsAndNotOthers() {
 		JButton selectRecordButton = userFriendlyModePanel.getButtonSelectRecords();
@@ -233,16 +256,16 @@ public class UserFriendlyModePanelTest{
 		assertNull(userFriendlyModePanel.getInsertRecordPanel());
 		assertNull(userFriendlyModePanel.getUpdateRecordPanel());
 	}
-	
-//	@Test
-//	public void checkIfPressBackButton_SetCurrentToBeInvisibleAndBringsInFrontWelcomePanel() {
-//		JButton backButton = userFriendlyModePanel.getButtonBackToWelcomePage();
-//		
-//		assertNull(userFriendlyModePanel.getWelcomePanel());
-//
-//		backButton.doClick();
-//		
-//		assertEquals(false, userFriendlyModePanel.isVisible());
-//		assertNotNull(userFriendlyModePanel.getWelcomePanel());		
-//	}
+
+	@Test
+	public void checkIfPressBackButton_SetCurrentToBeInvisibleAndBringsInFrontWelcomePanel() {
+		JButton backButton = userFriendlyModePanel.getButtonBackToWelcomePage();
+		
+		assertNull(userFriendlyModePanel.getWelcomePanel());
+
+		backButton.doClick();
+		
+		assertEquals(false, userFriendlyModePanel.isVisible());
+		assertNotNull(userFriendlyModePanel.getWelcomePanel());		
+	}
 }
