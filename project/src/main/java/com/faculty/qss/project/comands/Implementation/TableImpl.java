@@ -118,7 +118,6 @@ public class TableImpl implements Table {
     @Override
     public String deleteTable(String dbName, String tableNameToDel) {
         File file = new File(projectPath + dbName + "/" + tableNameToDel + ".xml");
-
         if (file.delete()) {
             return tableSuccessfullyDeleted;
         } else {
@@ -293,7 +292,7 @@ public class TableImpl implements Table {
         } else {
             for (Entry entry : entryesToBeUpdated) {
                 StringBuilder ent = new StringBuilder();
-                String[] fields = fieldsToBeDisplayed.toLowerCase().split(",");
+                String[] fields = fieldsToBeDisplayed.split(",");
                 for (String field : fields) {
                     if (!entry.fieldsAndValues.containsKey(field)) {
 //                        return INVALID_FIELD.replace("[field]", field);
@@ -312,6 +311,10 @@ public class TableImpl implements Table {
         if (fileFormat.toLowerCase().equals("xml")) {
             File source = new File(projectPath + databaseName + "/" + tableName + ".xml");
             File dest = new File(destinationPath + "/" + tableName + ".xml");
+            while(dest.exists()){
+                tableName = tableName +"0";
+                dest=new File(destinationPath + "/" + tableName + ".xml");
+            }
             try {
                 Files.copy(source.toPath(), dest.toPath());
             } catch (IOException e) {
@@ -455,7 +458,7 @@ public class TableImpl implements Table {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return "";
+        return SUCCESSFULLY_ALTERED;
     }
 
     public String prepareStringForInsert(String spaces, String key, String value) {
