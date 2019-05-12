@@ -123,7 +123,7 @@ public class CreateDatabasePanel extends javax.swing.JPanel {
         }else if(dbName.contains(" ")){
             textAreaOutput.setText("The database name can\'t contain spaces.");
         }else{
-            Database database = new DatabaseImpl();
+            database = getDatabase();
             String returnMessage = database.createDatabase(dbName);
             textAreaOutput.setText(returnMessage);
             database = null;
@@ -138,6 +138,9 @@ public class CreateDatabasePanel extends javax.swing.JPanel {
     private javax.swing.JLabel labelEnterDatabaseName;
     private javax.swing.JTextArea textAreaOutput;
     private javax.swing.JTextField textFieldDatabaseName;
+    
+    private Database database;
+    
     // End of variables declaration//GEN-END:variables
 	public javax.swing.JButton getButtonClearData() {
 		return buttonClearData;
@@ -147,19 +150,23 @@ public class CreateDatabasePanel extends javax.swing.JPanel {
 		return buttonExecuteCommand;
 	}
 
-	public javax.swing.JScrollPane getjScrollPane1() {
-		return jScrollPane1;
-	}
-
-	public javax.swing.JLabel getLabelEnterDatabaseName() {
-		return labelEnterDatabaseName;
-	}
-
 	public javax.swing.JTextArea getTextAreaOutput() {
 		return textAreaOutput;
 	}
 
 	public javax.swing.JTextField getTextFieldDatabaseName() {
 		return textFieldDatabaseName;
+	}
+	
+	public Database getDatabase() {
+		if( database == null) {
+			return new DatabaseImpl();
+		}else {
+			return database;
+		}		
+	}
+	
+	public void setDatabase(Database db) {
+		database = db;
 	}
 }

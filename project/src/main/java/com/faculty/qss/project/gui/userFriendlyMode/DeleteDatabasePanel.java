@@ -121,7 +121,7 @@ public class DeleteDatabasePanel extends javax.swing.JPanel {
         if (dbName.contains("Choose database...")) {
             textAreaOutput.setText("You have to select a database name from list");
         } else {
-            Database database = new DatabaseImpl();
+            Database database = getDatabase();
             String returnMessage = database.deleteDatabase(dbName);
             textAreaOutput.setText(returnMessage);
             database = null;
@@ -136,6 +136,8 @@ public class DeleteDatabasePanel extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel labelSelectDatabaseName;
     private javax.swing.JTextArea textAreaOutput;
+    
+    private Database database;
     // End of variables declaration//GEN-END:variables
 
     private String[] getAllDatabaseNames() {
@@ -154,4 +156,32 @@ public class DeleteDatabasePanel extends javax.swing.JPanel {
         String[] temp = dbNames.toArray(new String[dbNames.size()]);
         return temp;
     }
+    
+    public Database getDatabase() {
+		if( database == null) {
+			return new DatabaseImpl();
+		}else {
+			return database;
+		}		
+	}
+	
+	public void setDatabase(Database db) {
+		database = db;
+	}
+
+	public javax.swing.JButton getButtonClearData() {
+		return buttonClearData;
+	}
+
+	public javax.swing.JButton getButtonExecuteCommand() {
+		return buttonExecuteCommand;
+	}
+
+	public javax.swing.JComboBox<String> getComboBoxDatabaseNames() {
+		return comboBoxDatabaseNames;
+	}
+
+	public javax.swing.JTextArea getTextAreaOutput() {
+		return textAreaOutput;
+	}
 }
