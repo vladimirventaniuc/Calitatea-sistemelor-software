@@ -244,29 +244,6 @@ public class ChangeTableNamePanel extends javax.swing.JPanel {
 		String[] temp = tableNames.toArray(new String[tableNames.size()]);
 		return temp;
 	}
-
-    private String[] getTableSchemaForDbAndTable(String dbName, String tableName) {
-        Table table = new TableImpl();
-        List<String> columnNames = table.getTableSchemaForDbAndTable(dbName, tableName);
-        List<String> tempCols = new ArrayList<String>();
-        for (String column : columnNames) {
-            tempCols.add(column.split("=")[0].trim());
-        }
-        tempCols.add(0, "Choose...");
-        String[] temp = tempCols.toArray(new String[tempCols.size()]);
-        return temp;
-    }
-    
-    private String[] getTableSchemaForDbAndTableWithoutChoose(String dbName, String tableName) {
-        Table table = new TableImpl();
-        List<String> columnNames = table.getTableSchemaForDbAndTable(dbName, tableName);
-        List<String> tempCols = new ArrayList<String>();
-        for (String column : columnNames) {
-            tempCols.add(column.split("=")[0].trim());
-        }
-        String[] temp = tempCols.toArray(new String[tempCols.size()]);
-        return temp;
-    }
     
     public Table getTable() {
 		if (table == null) {
