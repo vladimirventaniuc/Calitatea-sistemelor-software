@@ -26,11 +26,18 @@ public class DatabaseImpl implements Database {
 
     @Override
     public List<String> getAllTableNamesForDb(String dbName) throws Exception {
+        assert dbName.equals("") != true : "Database name should not be the empty string";
+        assert dbName != null : "Database name key should not be null";
+
+        assert new File(projectPath + dbName).exists() == true : "Table was not found";
         return getDatabasesOrTables(projectPath + dbName);
     }
 
     @Override
     public String createDatabase(String newDbName) {
+        assert newDbName.equals("") != true : "Database name should not be the empty string";
+        assert newDbName != null : "Database name key should not be null";
+
         if (!new File(projectPath + newDbName).exists()) {
             new File(projectPath + newDbName).mkdir();
             return databaseSuccessfullyCreated;
@@ -40,6 +47,9 @@ public class DatabaseImpl implements Database {
 
     @Override
     public String deleteDatabase(String dbNameToDel) {
+        assert dbNameToDel.equals("") != true : "Database name should not be the empty string";
+        assert dbNameToDel != null : "Database name key should not be null";
+
         try {
             Files.walk(Paths.get(projectPath + dbNameToDel))
                     .sorted(Comparator.reverseOrder())
@@ -48,16 +58,22 @@ public class DatabaseImpl implements Database {
         } catch (IOException e) {
             return dropDatabaseError;
         }
+        assert new File(projectPath + dbNameToDel).exists() != true : "Database still exists";
         return databaseSuccessFullyDeleted;
     }
 
     @Override
     public Boolean checkIfDatabaseExists(String dbName) {
+        assert dbName.equals("") != true : "Database name should not be the empty string";
+        assert dbName != null : "Database name key should not be null";
+
         try {
-             getDatabasesOrTables(projectPath + dbName);
+            getDatabasesOrTables(projectPath + dbName);
         } catch (Exception e) {
+            assert new File(projectPath + dbName).exists() != false : "Invalid result on checkIfDatabaseExists method";
             return false;
         }
+        assert new File(projectPath + dbName).exists() != false : "Invalid result on checkIfDatabaseExists method";
         return true;
     }
 
