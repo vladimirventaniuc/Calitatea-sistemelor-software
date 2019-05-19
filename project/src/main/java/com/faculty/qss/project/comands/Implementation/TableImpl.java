@@ -42,6 +42,10 @@ public class TableImpl implements Table {
 
     @Override
     public List<String> getTableSchemaForDbAndTable(String dbName, String tableName) {
+        assert dbName.equals("") != true : "Database name should not be the empty string";
+        assert dbName != null : "Database name should not be null";
+        assert tableName.equals("") != true : "Table name should not be the empty string";
+        assert tableName != null : "Table name should not be null";
         List<String> result = new ArrayList<>();
         HashMap<String, String> fields = new HashMap<>();
         try {
@@ -60,7 +64,7 @@ public class TableImpl implements Table {
                 Matcher matcherTag = patternForTag.matcher(field);
                 matcherTag.find();
                 result.add(matcherTag.group(0).replace("<", "").replace(">", "")
-                        + " = " + matcherValue.group(0).replace("<", "").replace(">", "").replace(" ",""));
+                        + " = " + matcherValue.group(0).replace("<", "").replace(">", "").replace(" ", ""));
             }
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
@@ -74,6 +78,11 @@ public class TableImpl implements Table {
 
     @Override
     public String createTable(String dbName, String newTableName, HashMap<String, String> columnAndType) {
+        assert columnAndType.size() != 0 : "Table can'y be created without specifying columns";
+        assert dbName.equals("") != true : "Database name should not be the empty string";
+        assert dbName != null : "Database name should not be null";
+        assert newTableName.equals("") != true : "Table name should not be the empty string";
+        assert newTableName != null : "Table name should not be null";
         try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(
                 new FileOutputStream(projectPath + dbName + "/" + newTableName + ".xml"), "utf-8"))) {
             String spaces = "                         ";
@@ -112,21 +121,36 @@ public class TableImpl implements Table {
             e.printStackTrace();
             return createTableError;
         }
+        assert new File(projectPath + dbName + "/" + newTableName + ".xml").exists() != false : "Table is not created after successfully execution of createTable method";
         return tableSuccessfullyCreated;
     }
 
     @Override
     public String deleteTable(String dbName, String tableNameToDel) {
+        assert dbName.equals("") != true : "Database name should not be the empty string";
+        assert dbName != null : "Database name should not be null";
+        assert tableNameToDel.equals("") != true : "Table name should not be the empty string";
+        assert tableNameToDel != null : "Table name should not be null";
+
         File file = new File(projectPath + dbName + "/" + tableNameToDel + ".xml");
         if (file.delete()) {
+            assert file.exists() != true : "Table should be deleted after successfully execution of deleteTable method";
             return tableSuccessfullyDeleted;
         } else {
+            assert file.exists() != false : "Table should exist if deleteTable method fails to delete the file";
             return deleteTableError;
         }
     }
 
     @Override
     public String changeTableName(String dbName, String oldTableName, String newTableName) {
+        assert dbName.equals("") != true : "Database name should not be the empty string";
+        assert dbName != null : "Database name should not be null";
+        assert oldTableName.equals("") != true : "Table name should not be the empty string";
+        assert oldTableName != null : "Table name should not be null";
+        assert newTableName.equals("") != true : "New table name should not be the empty string";
+        assert newTableName != null : "New table name should not be null";
+
         File file = new File(projectPath + dbName + "/" + oldTableName + ".xml");
         File file2 = new File(projectPath + dbName + "/" + newTableName + ".xml");
 
@@ -137,12 +161,19 @@ public class TableImpl implements Table {
         if (!success) {
             return changeTableNameError;
         }
+        assert file2.exists() != false : "Table name should be " + newTableName;
         return tableNameSuccessfullyChanged;
 
     }
 
     @Override
     public String insertRecords(String dbName, String tableName, List<String> values) {
+        assert dbName.equals("") != true : "Database name should not be the empty string";
+        assert dbName != null : "Database name should not be null";
+        assert tableName.equals("") != true : "Table name should not be the empty string";
+        assert tableName != null : "Table name should not be null";
+        assert values.size() != 0 : "At least one record should be provided";
+
         HashMap<String, String> fields = new HashMap<>();
         int line = 0;
         int id = 1;
@@ -195,8 +226,10 @@ public class TableImpl implements Table {
 
         Path path = Paths.get(projectPath + dbName + "/" + tableName + ".xml");
         List<String> lines = null;
+        int numberOFLinesBeforeInsert = 0;
         try {
             lines = Files.readAllLines(path, StandardCharsets.UTF_8);
+            numberOFLinesBeforeInsert = lines.size();
             StringBuilder sb = new StringBuilder("");
             for (int i = 0; i < numberOfSpaces; i++) {
                 sb.append(" ");
@@ -211,6 +244,7 @@ public class TableImpl implements Table {
             }
             lines.add(line, sb.toString() + "</Entry>");
             Files.write(path, lines, StandardCharsets.UTF_8);
+            assert numberOFLinesBeforeInsert < lines.size() : "File should contain more lines after inserting new values";
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -220,12 +254,18 @@ public class TableImpl implements Table {
 
     @Override
     public String deleteRecords(String dbName, String tableName, String whereClause) {
+        assert dbName.equals("") != true : "Database name should not be the empty string";
+        assert dbName != null : "Database name should not be null";
+        assert tableName.equals("") != true : "Table name should not be the empty string";
+        assert tableName != null : "Table name should not be null";
+
         WhereClauseValidator whereClauseValidator = new WhereClauseValidator();
         ArrayList<Entry> entryesToBeDeleted = whereClauseValidator.entryesToBeDeletedOrUpdated(projectPath, dbName, tableName, whereClause);
         Path path = Paths.get(projectPath + dbName + "/" + tableName + ".xml");
-
+        int numberOfFilesBeforeDeletion = 0;
         try {
             List<String> lines = Files.readAllLines(path, StandardCharsets.UTF_8);
+            numberOfFilesBeforeDeletion = lines.size();
             int deletedLines = 0;
             for (Entry entry : entryesToBeDeleted) {
                 for (int i = 0; i < entry.size; i++) {
@@ -234,7 +274,7 @@ public class TableImpl implements Table {
                 deletedLines += entry.size;
             }
             Files.write(path, lines, StandardCharsets.UTF_8);
-
+            assert numberOfFilesBeforeDeletion >= lines.size() : "File should contain less lines after deletion";
         } catch (IOException e) {
             e.printStackTrace();
             return DELETE_ERROR;
@@ -245,6 +285,12 @@ public class TableImpl implements Table {
 
     @Override
     public String updateRecords(String dbName, String tableName, String whereClause, HashMap<String, String> values) {
+        assert dbName.equals("") != true : "Database name should not be the empty string";
+        assert dbName != null : "Database name should not be null";
+        assert tableName.equals("") != true : "Table name should not be the empty string";
+        assert tableName != null : "Table name should not be null";
+        assert values.size() != 0 : "Columns should be provided";
+
         WhereClauseValidator whereClauseValidator = new WhereClauseValidator();
         ArrayList<Entry> entryesToBeUpdated = whereClauseValidator.entryesToBeDeletedOrUpdated(projectPath, dbName, tableName, whereClause);
         ArrayList<Entry> newEntryes = null;
@@ -277,6 +323,13 @@ public class TableImpl implements Table {
 
     @Override
     public List<String> selectRecords(String dbName, String tableName, String fieldsToBeDisplayed, String whereClause) {
+        assert dbName.equals("") != true : "Database name should not be the empty string";
+        assert dbName != null : "Database name should not be null";
+        assert tableName.equals("") != true : "Table name should not be the empty string";
+        assert tableName != null : "Table name should not be null";
+        assert fieldsToBeDisplayed.equals("") != true : "Fields to be displayed should not be the empty string";
+        assert fieldsToBeDisplayed != null : "Fields to be displayed should not be null";
+
         WhereClauseValidator whereClauseValidator = new WhereClauseValidator();
         ArrayList<Entry> entryesToBeUpdated = whereClauseValidator.entryesToBeDeletedOrUpdated(projectPath, dbName, tableName, whereClause);
         ArrayList<String> result = new ArrayList<>();
@@ -308,12 +361,21 @@ public class TableImpl implements Table {
 
     @Override
     public String downloadTable(String databaseName, String tableName, String fileFormat, String destinationPath) {
+        assert databaseName.equals("") != true : "Database name should not be the empty string";
+        assert databaseName != null : "Database name should not be null";
+        assert tableName.equals("") != true : "Table name should not be the empty string";
+        assert tableName != null : "Table name should not be null";
+        assert fileFormat.equals("") != true : "File format should not be the empty string";
+        assert fileFormat != null : "File format should not be null";
+        assert destinationPath.equals("") != true : "Destination path should not be the empty string";
+        assert destinationPath != null : "Destination path should not be null";
+
         if (fileFormat.toLowerCase().equals("xml")) {
             File source = new File(projectPath + databaseName + "/" + tableName + ".xml");
             File dest = new File(destinationPath + "/" + tableName + ".xml");
-            while(dest.exists()){
-                tableName = tableName +"0";
-                dest=new File(destinationPath + "/" + tableName + ".xml");
+            while (dest.exists()) {
+                tableName = tableName + "0";
+                dest = new File(destinationPath + "/" + tableName + ".xml");
             }
             try {
                 Files.copy(source.toPath(), dest.toPath());
@@ -399,6 +461,7 @@ public class TableImpl implements Table {
                 }
                 writer.write("}");
                 writer.close();
+                assert new File(destinationPath + "/" + tableName + ".xml").exists() != false : "Table " + tableName + " should exist on " + destinationPath;
                 return SUCCESSFULLY_DOWNLOADED;
             } catch (IOException e) {
                 e.printStackTrace();
@@ -410,10 +473,17 @@ public class TableImpl implements Table {
 
     @Override
     public String addNewColumns(String dbName, String tableName, HashMap<String, String> newColumns) {
+        assert dbName.equals("") != true : "Database name should not be the empty string";
+        assert dbName != null : "Database name should not be null";
+        assert tableName.equals("") != true : "Table name should not be the empty string";
+        assert tableName != null : "Table name should not be null";
+        assert newColumns.size() != 0 : "At least one column should be provided";
+
         Path path = Paths.get(projectPath + dbName + "/" + tableName + ".xml");
         List<String> lines = null;
         try {
             lines = Files.readAllLines(path, StandardCharsets.UTF_8);
+            int numberOfLines = lines.size();
             List<String> newLines = new ArrayList<>(lines);
             int counter = 0;
             for (String line : lines) {
@@ -433,6 +503,7 @@ public class TableImpl implements Table {
 
             }
             Files.write(path, newLines, StandardCharsets.UTF_8);
+            assert numberOfLines >= newLines.size() : "File should contain more lines after alter table operation";
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -441,10 +512,18 @@ public class TableImpl implements Table {
 
     @Override
     public String deleteColumns(String dbName, String tableName, String columnToBeDeleted) {
+        assert dbName.equals("") != true : "Database name should not be the empty string";
+        assert dbName != null : "Database name should not be null";
+        assert tableName.equals("") != true : "Table name should not be the empty string";
+        assert tableName != null : "Table name should not be null";
+        assert columnToBeDeleted.equals("") != true : "String that contains columns to be deleted should not be the empty string";
+        assert columnToBeDeleted != null : "String that contains columns to be deleted should not be null";
+
         Path path = Paths.get(projectPath + dbName + "/" + tableName + ".xml");
         List<String> lines = null;
         try {
             lines = Files.readAllLines(path, StandardCharsets.UTF_8);
+            int numberOfLines = lines.size();
             List<String> newLines = new ArrayList<>(lines);
             int counter = 0;
             for (String line : lines) {
@@ -455,6 +534,7 @@ public class TableImpl implements Table {
                 counter++;
             }
             Files.write(path, newLines, StandardCharsets.UTF_8);
+            assert numberOfLines < newLines.size() : "File should contain less lines after alter table operation";
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -462,6 +542,12 @@ public class TableImpl implements Table {
     }
 
     public String prepareStringForInsert(String spaces, String key, String value) {
+        assert key.equals("") != true : "Hash map key should not be the empty string";
+        assert key != null : "Hash map key should not be null";
+        assert value.equals("") != true : "Hash values key should not be the empty string";
+        assert value != null : "Hash values key should not be null";
+        assert spaces != null : "Spaces to be inserted should not be null";
+
         StringBuilder newColumn = new StringBuilder();
         newColumn.append(spaces);
         newColumn.append("<" + key + "> " + value + " </" + key + ">");
