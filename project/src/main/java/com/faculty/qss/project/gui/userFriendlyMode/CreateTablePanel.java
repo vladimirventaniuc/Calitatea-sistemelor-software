@@ -316,6 +316,9 @@ public class CreateTablePanel extends javax.swing.JPanel {
 	private void buttonExecuteCommandActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_buttonExecuteCommandActionPerformed
 		String dbName = comboBoxDatabaseNames.getSelectedItem().toString().trim();
 		String tableName = textFieldTableName.getText();
+		
+		assert (!dbName.contains("Choose database...")): "You have to select a database name from list";
+		assert(!(tableName.length() == 0 || tableName.contains(" "))): "Table name can\'t be empty or to contain spaces.";
 
 		if (dbName.contains("Choose database...")) {
 			textAreaOutput.setText("You have to select a database name from list");
@@ -344,6 +347,8 @@ public class CreateTablePanel extends javax.swing.JPanel {
 						columnsNamesAndTypes.put(columnName, columnType);
 					}
 				}
+				
+				assert(!(completedColumnsNumber == 0)): "You need to have at least a column created";
 
 				if (completedColumnsNumber == 0) {
 					textAreaOutput.setText("You need to have at least a column created");

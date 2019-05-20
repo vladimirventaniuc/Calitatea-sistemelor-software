@@ -110,14 +110,16 @@ public class CreateDatabasePanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void buttonClearDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonClearDataActionPerformed
-        // TODO add your handling code here:
         textFieldDatabaseName.setText("");
         textAreaOutput.setText("");
     }//GEN-LAST:event_buttonClearDataActionPerformed
 
     private void buttonExecuteCommandActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonExecuteCommandActionPerformed
-        // TODO add your handling code here:
         String dbName = textFieldDatabaseName.getText();
+        
+        assert (!dbName.equals("")): "The database name can\'t be empty.";
+    	assert (!dbName.contains(" ")): "The database name can\'t contain spaces.";
+    	
         if( dbName.length() == 0){
             textAreaOutput.setText("The database name can\'t be empty.");
         }else if(dbName.contains(" ")){

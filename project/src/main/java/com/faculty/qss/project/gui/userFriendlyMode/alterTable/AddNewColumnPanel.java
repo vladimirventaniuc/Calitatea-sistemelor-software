@@ -243,10 +243,15 @@ public class AddNewColumnPanel extends javax.swing.JPanel {
     private void buttonExecuteCommandActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonExecuteCommandActionPerformed
         String dbName = comboBoxDatabaseNames.getSelectedItem().toString().trim();
         
+        assert (!dbName.contains("Choose database...")): "You have to select a database name from list";
+        
         if(dbName.equals("Choose database...")){
             textAreaOutput.setText("Choose a database from list");
         }else{
             String tableName = comboBoxTableNames.getSelectedItem().toString().trim();
+            
+            assert (!tableName.contains("Choose table...")): "You have to select a table name from list";
+            
             if (tableName.equals("Choose table...")){
                 textAreaOutput.setText("Choose a table from list");
             }else{

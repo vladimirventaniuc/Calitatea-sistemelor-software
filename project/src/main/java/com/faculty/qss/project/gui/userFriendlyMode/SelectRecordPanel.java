@@ -300,12 +300,17 @@ public class SelectRecordPanel extends javax.swing.JPanel {
 
     private void buttonExecuteCommandActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonExecuteCommandActionPerformed
         String dbName = comboBoxDatabaseNames.getSelectedItem().toString().trim();
+        
+        assert (!dbName.contains("Choose database...")): "You have to select a database name from list";
+        
         String tableName;
         try {
             tableName = comboBoxTableNames.getSelectedItem().toString().trim();
         } catch (Exception e) {
             tableName = "";
         }
+        
+        assert (!tableName.contains("Choose table...")): "You have to select a table name from list";
 
         if (dbName.contains("Choose database...")) {
             textAreaOutput.setText("You have to select a database name from list");

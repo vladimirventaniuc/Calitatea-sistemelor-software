@@ -118,6 +118,8 @@ public class DeleteDatabasePanel extends javax.swing.JPanel {
 
     private void buttonExecuteCommandActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonExecuteCommandActionPerformed
         String dbName = comboBoxDatabaseNames.getSelectedItem().toString().trim();
+        assert (!dbName.contains("Choose database...")): "You have to select a database name from list";
+        
         if (dbName.contains("Choose database...")) {
             textAreaOutput.setText("You have to select a database name from list");
         } else {
